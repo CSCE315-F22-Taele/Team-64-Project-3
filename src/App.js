@@ -8,8 +8,9 @@ const App = () => {
     return (
     <div>
       <BackgroundIMG />
-      <div className='container'> </div>
-
+      <div className='container'> 
+        <div>Hello</div>
+      </div>
     </div>
     )
 }

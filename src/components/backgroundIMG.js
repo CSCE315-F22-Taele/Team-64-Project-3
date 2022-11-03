@@ -14,25 +14,25 @@ export default function BackgroundIMG() {
     z: '-2'
   }
 
-  // const glassPane = {
-  //   position: 'relative',
-  //   margin: '5vh auto',
-  //   top: '0',
-  //   right: '0',
-  //   bottom: '0',
-  //   left:'0',
-  //   backgroundColor: 'rgba(90, 90, 90, .8)',   
-  //   backdropFilter: 'blur(10px)',
-  //   height: '90vh',
-  //   width: '90vw',
-  //   overflow: 'hidden', 
-  // }
+  const glassPane = {
+    position: 'relative',
+    margin: '5vh auto',
+    top: '0',
+    right: '0',
+    bottom: '0',
+    left:'0',
+    backgroundColor: 'rgba(90, 90, 90, .8)',   
+    backdropFilter: 'blur(10px)',
+    height: '90vh',
+    width: '90vw',
+    overflow: 'hidden', 
+  }
   
   
   return (
     <div>
         <img src={picture} style={myStyle} alt='Kyle Field'/> 
-        
+        <div style={glassPane}></div>
     </div>
   )
 }
