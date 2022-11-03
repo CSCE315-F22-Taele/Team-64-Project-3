@@ -6,7 +6,11 @@ import BackgroundIMG from './components/backgroundIMG.js'
 const App = () => {
     
     return (
-    <BackgroundIMG />
+    <div>
+      <BackgroundIMG />
+      <div className='container'> </div>
+
+    </div>
     )
 }
       
