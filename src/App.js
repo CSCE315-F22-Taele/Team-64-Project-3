@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import  Button  from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css'
 const picture = new URL("./Resources/KyleField.jpg", import.meta.url)
 
 
@@ -47,9 +48,9 @@ const App = () => {
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field'/>
       <div style={glassPane}>
-        <button onClick={navigateToManager}>Manager</button>
-        <button onClick={navigateToServer}>Server</button>
-        <button onClick={navigateToCustomer}>Customer</button>
+        <Button variant='primary' onClick={navigateToManager}>Manager</Button>
+        <Button onClick={navigateToServer}>Server</Button>
+        <Button onClick={navigateToCustomer}>Customer</Button>
       </div>
     </div>
     )

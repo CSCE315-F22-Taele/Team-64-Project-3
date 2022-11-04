@@ -1,3 +1,6 @@
+// import  Button  from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Card } from 'react-bootstrap';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 const myStyle = {
@@ -29,7 +32,30 @@ const Manager = () => {
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field'/>
         <div style={glassPane}>
-          Change this on manager.js in the Pages folder
+          <Card style={{color: '#000'}}>
+            <Card.Body>
+              <Card.Title>
+                Menu Items
+              </Card.Title>
+            </Card.Body>
+          </Card>
+          
+          <Card style={{color: '#000'}}>
+            <Card.Body>
+              <Card.Title>
+                Reports
+              </Card.Title>
+            </Card.Body>
+          </Card>
+          
+          <Card style={{color: '#000'}}>
+            <Card.Body>
+              <Card.Title>
+                Inventory Items
+              </Card.Title>
+            </Card.Body>
+          </Card>
+
         </div>
     </div>
     )
