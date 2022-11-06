@@ -44,12 +44,9 @@ const menuItemsStyle = {
   height: '100%',
 }
 const reportStyle = {
+  position: 'relative',
   width: '100%',
-  height: '100%',
-  
-  display: 'grid',
-  gridTemplateColumns: 'repeat(1, 1fr)',
-  gap: '2vw',
+  height: '100%', 
 }
 const inventoryItemsStyle = {
   width: '100%',
@@ -57,17 +54,10 @@ const inventoryItemsStyle = {
   gridColumn: '1/3',
 }
 
-//Report Containers
-const reportContainersStyle = {
+const reportCardInfo = {
   width: '100%',
-  height: '30%',
-  gridColumn: '1',
-}
-
-//Button Style
-const buttonStyle = {
-  width: '100%',
-  height: '100%',
+  height: '70%', 
+  backgroundColor: 'rgba(90, 90, 90, .8)', 
 }
 
 const Manager = () => {
@@ -86,18 +76,37 @@ const Manager = () => {
           
           <Card style={reportStyle}>
             <Card.Body>
-              <Card.Title style={{textAlign:'center'}}>
+            <Card.Title style={{textAlign:'center'}}>
                 Reports
               </Card.Title>
-              <Card style={reportContainersStyle}>
-                <Button style={buttonStyle}>This is a button</Button>
-              </Card>
-              <Card style={reportContainersStyle}>
-                <Button style={buttonStyle}>This is a button</Button>
-              </Card>
-              <Card style={reportContainersStyle}>
-                
-              </Card>
+            <select class="form-control form-control-lg">
+              <option>Sales Report</option>
+              <option>Restock Report</option>
+              <option>Excess Report</option>
+              <option>Combo Report</option>
+            </select>
+            <form>
+              <div class="row">
+                <div class="col">
+                <label for="exampleInputEmail1">Start Time</label>
+                  <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
+                </div>
+                <div class="col">
+                  <label for="exampleInputEmail1">End Time</label>
+                  <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
+                </div>
+                <div class="col">
+                <Card.Body>
+                  <Card.Title style={{textAlign:'center'}}>
+                      <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>Genereate Report</Button>
+                  </Card.Title>
+                </Card.Body>
+                </div>
+              </div>
+            </form>
+            <Card style={reportCardInfo}>
+
+            </Card>
             </Card.Body>
           </Card>
           
