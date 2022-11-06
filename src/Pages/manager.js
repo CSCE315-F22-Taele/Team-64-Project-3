@@ -1,6 +1,6 @@
 // import  Button  from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -46,11 +46,28 @@ const menuItemsStyle = {
 const reportStyle = {
   width: '100%',
   height: '100%',
+  
+  display: 'grid',
+  gridTemplateColumns: 'repeat(1, 1fr)',
+  gap: '2vw',
 }
 const inventoryItemsStyle = {
   width: '100%',
   height: '100%',
   gridColumn: '1/3',
+}
+
+//Report Containers
+const reportContainersStyle = {
+  width: '100%',
+  height: '30%',
+  gridColumn: '1',
+}
+
+//Button Style
+const buttonStyle = {
+  width: '100%',
+  height: '100%',
 }
 
 const Manager = () => {
@@ -72,6 +89,15 @@ const Manager = () => {
               <Card.Title style={{textAlign:'center'}}>
                 Reports
               </Card.Title>
+              <Card style={reportContainersStyle}>
+                <Button style={buttonStyle}>This is a button</Button>
+              </Card>
+              <Card style={reportContainersStyle}>
+                <Button style={buttonStyle}>This is a button</Button>
+              </Card>
+              <Card style={reportContainersStyle}>
+                
+              </Card>
             </Card.Body>
           </Card>
           
