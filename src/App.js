@@ -49,7 +49,7 @@ const App = () => {
       <img src={picture} style={myStyle} alt='Kyle Field'/>
       <div style={glassPane}>
         <Button variant='primary' onClick={navigateToManager}>Manager</Button>
-        <Button onClick={navigateToServer}>Server</Button>
+        <Button variant='primary' onClick={navigateToServer}>Server</Button>
         <Button onClick={navigateToCustomer}>Customer</Button>
       </div>
     </div>
