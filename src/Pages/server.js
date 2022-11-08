@@ -24,8 +24,6 @@ const glassPane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden',
-  backgroundColor: 'rgba(90, 90, 90, .8)',
-  backdropFilter: 'blur(10px)',
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   gap: '2vw',
@@ -33,28 +31,31 @@ const glassPane = {
 }
 
 
-//Containers
-const Inventory1Style = {
+//----Invent Styles Begin----
+const inventoryContainerStyle = {
   width: '100%',
   height: '100%',
-}
-const CheckoutStyle = {
-  position: 'relative',
-  backgroundColor: '#6C2DC7',
-  width: '100%',
-  height: '100%',
-}
-const Inventory2Style = {
-  width: '100%',
-  height: '100%',
-  gridColumn: '1/3',
 }
 
-const box = {
-  float: 'left',
-  backgroundColor: '#FF0000',
-  width: '15%',
-  height: '15%',
+const gridContainer = {
+  height:'97%',
+
+  //Grid layout
+  display: 'grid',
+  gridTemplateColumns: 'repeat(8, 1fr)',
+  gridTemplateRows: 'repeat(8, 1fr)',
+  gap: '2vw',
+  padding: '2%',
+}
+
+
+//--Inventory Styles End----
+
+//Checkout 
+const checkoutStyle = {
+  position: 'relative',
+  width: '100%',
+  height: '100%',
 }
 
 
@@ -67,183 +68,53 @@ const Server = () => {
       <img src={picture} style={myStyle} alt='Kyle Field' />
       <div style={glassPane}>
 
-        <Card style={Inventory1Style}>
+        <Card style={inventoryContainerStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' }}>
               Menu Items
             </Card.Title>
 
-            <p></p>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  1
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  2
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  3
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  4
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  5
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  6
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  7
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  8
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  9
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  10
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  11
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  12
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  13
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  14
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  15
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  16
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  17
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  18
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  19
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
-            <Card style={box}>
-              <Card.Body>
-                <Card.Title style={{ textAlign: 'center' }}>
-                  20
-                </Card.Title>
-              </Card.Body>
-            </Card>
-
+            <div style={gridContainer}>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>1</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>2</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>3</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>4</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>5</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>6</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>7</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>8</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>9</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>10</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>11</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>12</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>13</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>14</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>15</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>16</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>17</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>18</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>19</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>20</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>21</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>22</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>23</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>24</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>25</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>26</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>27</Button>
+              <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>28</Button>
+            </div>
+          
           </Card.Body>
         </Card>
 
-        <Card style={CheckoutStyle}>
+        <Card style={checkoutStyle}>
           <Card.Body>
-            <Card.Title style={{ textAlign: 'center', color: 'white' }}>
-              Order Total &nbsp;
-              <Button style={{backgroundColor: 'maroon'}}>Checkout</Button>
+            <Card.Title style={{ textAlign: 'center'}}>
+              Current Order 
             </Card.Title>
+            <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}}>Checkout</Button>
+
           </Card.Body>
         </Card>
 

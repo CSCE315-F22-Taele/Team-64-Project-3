@@ -62,12 +62,10 @@ const inventoryItemsStyle = {
 const formStyle = {
   position: 'relative',
   width: '100%',
-  bottom: '-5%'
-}
-
-const buttonClick = {
   
 }
+
+
 
 
 const Manager = () => {
@@ -91,7 +89,7 @@ const Manager = () => {
             <Card.Title style={{textAlign:'center'}}>
                 Reports
             </Card.Title>
-            <Card style={{height:'70%', width: '150%', left:'-25%'}}>
+            <Card style={{height:'70%', width: '100%'}}>
               <Card.Body>
 
               </Card.Body>
@@ -101,12 +99,12 @@ const Manager = () => {
               <Form>
                 <Row className="align-items-center">
                   <Col xs="100%">
-                    <select class="form-control form-control-lg" value={selects} onChange={e=>setSelects(e.target.value)}>
-                      <option>Sales Report</option>
-                      <option>Restock Report</option>
-                      <option>Excess Report</option>
-                      <option>Combo Report</option>
-                    </select>
+                      <select class="form-control form-control-lg" value={selects} onChange={e=>setSelects(e.target.value)}>
+                        <option>Sales Report</option>
+                        <option>Restock Report</option>
+                        <option>Excess Report</option>
+                        <option>Combo Report</option>
+                      </select>
                     </Col>
                 </Row>
                 <Row className="align-items-center">
@@ -156,30 +154,3 @@ const Manager = () => {
 export default Manager;
 
 
-
-// <form>
-{/* <select class="form-control form-control-lg" value={selects} onChange={e=>setSelects(e.target.value)}>
-<option>Sales Report</option>
-<option>Restock Report</option>
-<option>Excess Report</option>
-<option>Combo Report</option>
-</select>
-<div class="row">
-  <div class="col">
-  <label for="exampleInputEmail1">Start Time</label>
-    <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
-  </div>
-  <div class="col">
-    <label for="exampleInputEmail1">End Time</label>
-    <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
-  </div>
-  <div class="col">
-  <Card.Body>
-    <Card.Title style={{textAlign:'center'}}>
-        <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}} onClick={buttonClick}>Genereate Report</Button>
-    </Card.Title>
-  </Card.Body>
-  </div>
-</div>
-</form> */}
-// 
