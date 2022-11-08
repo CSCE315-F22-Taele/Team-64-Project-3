@@ -26,6 +26,12 @@ const glassPane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden', 
+  
+  display: 'grid',
+  gridTemplateColumns: 'repeat(1, 1fr)',
+  gap: '10%',
+  // gridAutoRows: 'minmax(500px, auto)',
+  padding: '2%',
 }
 
 
@@ -48,9 +54,9 @@ const App = () => {
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field'/>
       <div style={glassPane}>
-        <Button variant='primary' onClick={navigateToManager}>Manager</Button>
-        <Button variant='primary' onClick={navigateToServer}>Server</Button>
-        <Button onClick={navigateToCustomer}>Customer</Button>
+        <Button variant='primary' onClick={navigateToManager} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Manager</Button>
+        <Button variant='primary' onClick={navigateToServer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Server</Button>
+        <Button variant='primary' onClick={navigateToCustomer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Customer</Button>
       </div>
     </div>
     )
