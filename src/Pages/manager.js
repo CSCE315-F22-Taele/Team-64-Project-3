@@ -1,6 +1,11 @@
 // import  Button  from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card } from 'react-bootstrap';
+import React, {useState} from "react";
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/Row';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -47,24 +52,31 @@ const reportStyle = {
   position: 'relative',
   width: '100%',
   height: '100%', 
+  alignItems: 'center',
 }
 const inventoryItemsStyle = {
   width: '100%',
   height: '100%',
   gridColumn: '1/3',
 }
-
-const reportCardInfo = {
+const formStyle = {
+  position: 'relative',
   width: '100%',
-  height: '70%', 
-  backgroundColor: 'rgba(90, 90, 90, .8)', 
+  bottom: '-5%'
 }
 
+const buttonClick = {
+  
+}
+
+
 const Manager = () => {
-    return (
+  const [selects, setSelects] = useState();
+  return (
     <div>
       <img src={picture} style={backgroundStyle} alt='Kyle Field'/>
         <div style={glassPane}>
+          
           
           <Card style={menuItemsStyle}>
             <Card.Body>
@@ -78,35 +90,53 @@ const Manager = () => {
             <Card.Body>
             <Card.Title style={{textAlign:'center'}}>
                 Reports
-              </Card.Title>
-            <select class="form-control form-control-lg">
-              <option>Sales Report</option>
-              <option>Restock Report</option>
-              <option>Excess Report</option>
-              <option>Combo Report</option>
-            </select>
-            <form>
-              <div class="row">
-                <div class="col">
-                <label for="exampleInputEmail1">Start Time</label>
-                  <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
-                </div>
-                <div class="col">
-                  <label for="exampleInputEmail1">End Time</label>
-                  <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
-                </div>
-                <div class="col">
-                <Card.Body>
-                  <Card.Title style={{textAlign:'center'}}>
-                      <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>Genereate Report</Button>
-                  </Card.Title>
-                </Card.Body>
-                </div>
-              </div>
-            </form>
-            <Card style={reportCardInfo}>
+            </Card.Title>
+            <Card style={{height:'70%', width: '150%', left:'-25%'}}>
+              <Card.Body>
 
+              </Card.Body>
             </Card>
+            
+            <div style={formStyle}>
+              <Form>
+                <Row className="align-items-center">
+                  <Col xs="100%">
+                    <select class="form-control form-control-lg" value={selects} onChange={e=>setSelects(e.target.value)}>
+                      <option>Sales Report</option>
+                      <option>Restock Report</option>
+                      <option>Excess Report</option>
+                      <option>Combo Report</option>
+                    </select>
+                    </Col>
+                </Row>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <Form.Label htmlFor="inlineFormInput" visuallyHidden>
+                      Name
+                    </Form.Label>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text>Start:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" />
+                    </InputGroup>
+                  </Col>
+                  <Col xs="auto">
+                    <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
+                      Username
+                    </Form.Label>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text>End:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" />
+                    </InputGroup>
+                  </Col>
+                  <Col xs="auto">
+                    <Button type="submit" className="mb-2">
+                      Submit
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </div>
+            
             </Card.Body>
           </Card>
           
@@ -124,3 +154,32 @@ const Manager = () => {
 }
 
 export default Manager;
+
+
+
+// <form>
+{/* <select class="form-control form-control-lg" value={selects} onChange={e=>setSelects(e.target.value)}>
+<option>Sales Report</option>
+<option>Restock Report</option>
+<option>Excess Report</option>
+<option>Combo Report</option>
+</select>
+<div class="row">
+  <div class="col">
+  <label for="exampleInputEmail1">Start Time</label>
+    <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
+  </div>
+  <div class="col">
+    <label for="exampleInputEmail1">End Time</label>
+    <input type="text" class="form-control" placeholder="MM/DD/YYY"/>
+  </div>
+  <div class="col">
+  <Card.Body>
+    <Card.Title style={{textAlign:'center'}}>
+        <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}} onClick={buttonClick}>Genereate Report</Button>
+    </Card.Title>
+  </Card.Body>
+  </div>
+</div>
+</form> */}
+// 
