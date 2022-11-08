@@ -3,8 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from ManagerApp.models import Inventory, Menu
-from ManagerApp.serializers import inventorySerializer, menuSerializer
+from ManagerApp.models import Inventory, Menu, Lowinventory
+from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer
 
 # Create your views here.
 
@@ -66,6 +66,23 @@ def menuApi(request, id=0):
         menu.delete()
         return JsonResponse("Delete Successfull!", safe=False)
 
+@csrf_exempt
+def lowInventoryApi(request, id=0):
+    if request.method == 'GET':
+        lowInv = Lowinventory.objects.order_by('priority_id').all()
+        lowInv_serializer = lowInvSerializer(lowInv, many=True)
+        return JsonResponse(lowInv_serializer.data, safe=False)
+    elif request.method == 'POST':
+        lowInv_data = JSONParser().parse(request)
+        lowInv_serializer = lowInvSerializer(data=lowInv_data)
+        if lowInv_serializer.is_valid():
+            lowInv_serializer.save()
+            return JsonResponse("Added Successfully!", safe=False)
+        return JsonResponse("Failed to add.", safe=False)
+    elif request.method == 'DELETE':
+        lowInv = Lowinventory.objects.get(priority_id=id)
+        lowInv.delete()
+        return JsonResponse("Delete Successfull!", safe=False)
 
 @csrf_exempt
 def inventoryCountApi(request, count=0):

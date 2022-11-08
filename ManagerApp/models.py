@@ -22,3 +22,11 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
+
+class Lowinventory(models.Model):
+    priority_id = models.AutoField(primary_key=True)
+    item_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'lowinventory'
