@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -81,6 +82,37 @@ const Manager = () => {
               <Card.Title style={{textAlign:'center'}}>
                 Menu Items
               </Card.Title>
+              <Card style={{height: '85%'}}>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Food ID</th>
+                      <th>Item Name</th>
+                      <th>Price</th>
+                      <th>Ingredients</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Larry the Bird</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Card>
             </Card.Body>
           </Card>
           
@@ -143,6 +175,8 @@ const Manager = () => {
               <Card.Title style={{textAlign:'center'}}>
                 Inventory Items
               </Card.Title>
+              <Card style={{height: '85%'}}>
+              </Card>
             </Card.Body>
           </Card>
 
