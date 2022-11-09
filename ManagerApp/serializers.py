@@ -15,3 +15,7 @@ class lowInvSerializer(serializers.ModelSerializer):
     class Meta:
         model=Lowinventory
         fields=('priority_id', 'item_id')
+
+class comboItemSerializer(serializers.Serializer):
+    combo=serializers.CharField(max_length=200)
+    count=serializers.IntegerField(max_value=100)

@@ -4,7 +4,7 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
 from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
-from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer
+from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer, comboItemSerializer
 
 # Create your views here.
 
@@ -94,16 +94,38 @@ def comboReportApi(request):
         menuquery = "SELECT * FROM menu ORDER BY food_id"
         orderHistory = Orderhistory.objects.raw(ohquery)
         menuItems = Menu.objects.raw(menuquery)
+        map = {}
+        class ComboItem:
+            def __init__(self, combo, count):
+                self.combo = combo
+                self.count = count
+            def __str__(self):
+                return self.combo + ", " + str(self.count)
+            def __repr__(self):
+                return self.__str__()
         for p in orderHistory:
             # print(p.order_id, p.time_stamp)
             id = p.order_id
             odquery = "SELECT * FROM orderdetails WHERE order_id = " + str(id)
             odItems = Orderdetails.objects.raw(odquery)
-            print('order ' + str(id))
-            for n in odItems:
-                #print(n.order_id, n.food_id)
-                print("hello")
-        return JsonResponse("Test sent.", safe=False)
+            ids = [x.food_id for x in odItems]
+            ids.sort()
+            for i in range(len(ids)):
+                for j in range(i+1, len(ids)):
+                    key = str(ids[i]) + " " + str(ids[j])
+                    if key in map:
+                        # map -> <key, (str, int)>
+                        # map[key] = (map[key][0], map[key][1]+1)
+                        map[key] = ComboItem(map[key].combo, map[key].count+1)
+                    else:
+                        newKey = menuItems[ids[i]].menuitem + " and " + menuItems[ids[j]].menuitem
+                        map[key] = ComboItem(newKey, 1)
+        pairs = [map[x] for x in map]
+        pairs.sort(key=lambda x: -x.count)
+        print(pairs)
+        pairs_serializer = comboItemSerializer(pairs, many=True)
+        return JsonResponse(pairs_serializer.data, safe=False)
+        #return JsonResponse("test", safe=False)
 
 @csrf_exempt
 def inventoryCountApi(request, count=0):

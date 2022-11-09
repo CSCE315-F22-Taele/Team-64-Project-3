@@ -43,8 +43,8 @@ class Orderhistory(models.Model):
 class Orderdetails(models.Model):
     # id = models.AutoField(primary_key=True)
     id = models.AutoField(primary_key=True)
-    order_id = models.ForeignKey('Orderhistory', models.DO_NOTHING, blank=True, null=True)
-    food_id = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
+    order_id = models.IntegerField(blank=True, null=True)
+    food_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
