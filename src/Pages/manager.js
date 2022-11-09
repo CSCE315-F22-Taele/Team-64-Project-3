@@ -180,29 +180,34 @@ const Manager = () => {
               <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>Food ID</th>
+                      <th>Item ID</th>
                       <th>Item Name</th>
-                      <th>Price</th>
-                      <th>Ingredients</th>
+                      <th>Item Count</th>
+                      <th>Item Capacity</th>
+                      <th>Item Code</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td>Burger</td>
-                      <td>8.99</td>
-                      <td>Lettuce, Bacon</td>
+                      <td>Buns</td>
+                      <td>200</td>
+                      <td>3000</td>
+                      <td>5299</td>
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
+                      <td>Lettuce</td>
+                      <td>34</td>
+                      <td>3500</td>
+                      <td>34569</td>
                     </tr>
                     <tr>
                       <td>3</td>
-                      <td>Larry the Bird</td>
-                      <td>@twitter</td>
+                      <td>Onion</td>
+                      <td>54</td>
+                      <td>2500</td>
+                      <td>23123</td>
                     </tr>
                   </tbody>
                 </Table>
