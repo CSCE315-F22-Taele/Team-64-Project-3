@@ -101,7 +101,8 @@ def comboReportApi(request):
             odItems = Orderdetails.objects.raw(odquery)
             print('order ' + str(id))
             for n in odItems:
-                print(n.order_id, n.food_id)
+                #print(n.order_id, n.food_id)
+                print("hello")
         return JsonResponse("Test sent.", safe=False)
 
 @csrf_exempt
