@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from ManagerApp.models import Inventory, Menu, Lowinventory
+from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
 from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer
 
 # Create your views here.
@@ -83,6 +83,26 @@ def lowInventoryApi(request, id=0):
         lowInv = Lowinventory.objects.get(priority_id=id)
         lowInv.delete()
         return JsonResponse("Delete Successfull!", safe=False)
+
+def comboReportApi(request):
+    if request.method == 'GET':
+        start = request.GET['start']
+        end = request.GET['end']
+        if start == "" and end == "":
+            return JsonResponse("Invalid date/time(s) provided.", safe=False)
+        ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
+        menuquery = "SELECT * FROM menu ORDER BY food_id"
+        orderHistory = Orderhistory.objects.raw(ohquery)
+        menuItems = Menu.objects.raw(menuquery)
+        for p in orderHistory:
+            # print(p.order_id, p.time_stamp)
+            id = p.order_id
+            odquery = "SELECT * FROM orderdetails WHERE order_id = " + str(id)
+            odItems = Orderdetails.objects.raw(odquery)
+            print('order ' + str(id))
+            for n in odItems:
+                print(n.order_id, n.food_id)
+        return JsonResponse("Test sent.", safe=False)
 
 @csrf_exempt
 def inventoryCountApi(request, count=0):

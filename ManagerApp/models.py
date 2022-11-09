@@ -30,3 +30,21 @@ class Lowinventory(models.Model):
     class Meta:
         managed = False
         db_table = 'lowinventory'
+
+class Orderhistory(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    time_stamp = models.DateTimeField()
+    pricetotal = models.DecimalField(max_digits=6, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'orderhistory'
+
+class Orderdetails(models.Model):
+    # id = models.AutoField(primary_key=True)
+    order_id = models.ForeignKey('Orderhistory', models.DO_NOTHING, blank=True, null=True)
+    food_id = models.ForeignKey(Menu, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'orderdetails'
