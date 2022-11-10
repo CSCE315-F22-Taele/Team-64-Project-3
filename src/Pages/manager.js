@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import { useEffect } from 'react';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -67,10 +68,28 @@ const formStyle = {
 }
 
 
+const MenuRequest = () => {
+  const [posts, setPosts] = useState([]);
 
+   useEffect(() => {
+      fetch('http://127.0.0.1:8000/manager/menu')
+         .then((res) => res.json())
+         .then((data) => {
+            //console.log(data);
+            for(var i=0; i<data.length; ++i){
+              console.log(data[i].food_id);
+            }
+            setPosts(data);
+         })
+         .catch((err) => {
+            console.log(err.message);
+         });
+   }, []);
+}
 
 const Manager = () => {
   const [selects, setSelects] = useState();
+  MenuRequest();
   return (
     <div>
       <img src={picture} style={backgroundStyle} alt='Kyle Field'/>
