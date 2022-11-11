@@ -11,4 +11,6 @@ urlpatterns = [
     re_path(r'^manager/lowinventory$', views.lowInventoryApi),
     re_path(r'^manager/lowinventory/([0-9]+)$', views.lowInventoryApi),
     re_path(r'^manager/comboreport$', views.comboReportApi),
+    re_path(r'^manager/salesreport$', views.salesReportApi),
+    re_path(r'^manager/excessreport$', views.excessReportApi),
 ]

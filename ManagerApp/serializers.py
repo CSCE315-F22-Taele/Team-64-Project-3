@@ -18,4 +18,13 @@ class lowInvSerializer(serializers.ModelSerializer):
 
 class comboItemSerializer(serializers.Serializer):
     combo=serializers.CharField(max_length=200)
-    count=serializers.IntegerField(max_value=100)
+    count=serializers.IntegerField(max_value=1000)
+
+class salesItemSerializer(serializers.Serializer):
+    menuItem=serializers.CharField(max_length=200)
+    amountSold=serializers.IntegerField(max_value=1000)
+    totalRevenue=serializers.FloatField(max_value=10000.0)
+
+class inventoryItemSerializer(serializers.Serializer):
+    item=serializers.CharField(max_length=3)
+    amountSold=serializers.IntegerField(max_value=1000)

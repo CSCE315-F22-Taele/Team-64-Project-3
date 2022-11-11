@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 
 from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
 from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer, comboItemSerializer
+from ManagerApp.serializers import salesItemSerializer, inventoryItemSerializer
 
 # Create your views here.
 
@@ -84,17 +85,21 @@ def lowInventoryApi(request, id=0):
         lowInv.delete()
         return JsonResponse("Delete Successfull!", safe=False)
 
+@csrf_exempt
 def comboReportApi(request):
     if request.method == 'GET':
         start = request.GET['start']
         end = request.GET['end']
         if start == "" and end == "":
             return JsonResponse("Invalid date/time(s) provided.", safe=False)
+
         ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
         menuquery = "SELECT * FROM menu ORDER BY food_id"
+
         orderHistory = Orderhistory.objects.raw(ohquery)
         menuItems = Menu.objects.raw(menuquery)
         map = {}
+
         class ComboItem:
             def __init__(self, combo, count):
                 self.combo = combo
@@ -103,8 +108,8 @@ def comboReportApi(request):
                 return self.combo + ", " + str(self.count)
             def __repr__(self):
                 return self.__str__()
+        
         for p in orderHistory:
-            # print(p.order_id, p.time_stamp)
             id = p.order_id
             odquery = "SELECT * FROM orderdetails WHERE order_id = " + str(id)
             odItems = Orderdetails.objects.raw(odquery)
@@ -114,18 +119,118 @@ def comboReportApi(request):
                 for j in range(i+1, len(ids)):
                     key = str(ids[i]) + " " + str(ids[j])
                     if key in map:
-                        # map -> <key, (str, int)>
-                        # map[key] = (map[key][0], map[key][1]+1)
                         map[key] = ComboItem(map[key].combo, map[key].count+1)
                     else:
                         newKey = menuItems[ids[i]].menuitem + " and " + menuItems[ids[j]].menuitem
                         map[key] = ComboItem(newKey, 1)
+        
         pairs = [map[x] for x in map]
         pairs.sort(key=lambda x: -x.count)
-        print(pairs)
         pairs_serializer = comboItemSerializer(pairs, many=True)
         return JsonResponse(pairs_serializer.data, safe=False)
-        #return JsonResponse("test", safe=False)
+
+@csrf_exempt
+def salesReportApi(request):
+    if request.method == 'GET':
+        start = request.GET['start']
+        end = request.GET['end']
+
+        if start == "" and end == "":
+            return JsonResponse("Invalid date/time(s) provided.", safe=False)
+        
+        ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
+        menuquery = "SELECT * FROM menu ORDER BY food_id"
+
+        orderHistory = Orderhistory.objects.raw(ohquery)
+        firstID = orderHistory[0].order_id
+        lastID = orderHistory[-1].order_id
+        odquery = "SELECT * FROM orderdetails WHERE order_id >= " + str(firstID) + " AND order_id <= " + str(lastID)
+
+        odItems = Orderdetails.objects.raw(odquery)
+        menuItems = Menu.objects.raw(menuquery)
+
+        salesNumbers = [0 for x in menuItems]
+        for od in odItems:
+            salesNumbers[od.food_id-1] += 1
+        
+        class SalesItem:
+            def __init__(self, menuItem, amountSold, totalRevenue):
+                self.menuItem = menuItem
+                self.amountSold = amountSold
+                self.totalRevenue = totalRevenue
+            def __str__(self):
+                return self.menuItem + ", " + str(self.amountSold) + ", " + str(self.totalRevenue)
+            def __repr__(self):
+                return self.__str__()
+        
+        sales = []
+        for item in menuItems:
+            amtSold = salesNumbers[item.food_id-1]
+            if amtSold != 0:
+                price = item.price
+                sales.append(SalesItem(item.menuitem, amtSold, price*amtSold))
+
+        sales.sort(key=lambda x : -x.totalRevenue)
+        sales_serializer = salesItemSerializer(sales, many=True)
+        return JsonResponse(sales_serializer.data, safe=False)
+
+@csrf_exempt
+def excessReportApi(request):
+    if request.method == 'GET':
+        start = request.GET['start']
+        end = request.GET['end']
+
+        if start == "" and end == "":
+            return JsonResponse("Invalid date/time(s) provided.", safe=False)
+        
+        ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
+        menuquery = "SELECT * FROM menu ORDER BY food_id"
+
+        orderHistory = Orderhistory.objects.raw(ohquery)
+        firstID = orderHistory[0].order_id
+        lastID = orderHistory[-1].order_id
+        odquery = "SELECT * FROM orderdetails WHERE order_id >= " + str(firstID) + " AND order_id <= " + str(lastID)
+        ivquery = "SELECT * FROM inventory ORDER BY item_id"
+
+        odItems = Orderdetails.objects.raw(odquery)
+        menuItems = Menu.objects.raw(menuquery)
+
+        salesNumbers = [0 for x in menuItems]
+        for od in odItems:
+            salesNumbers[od.food_id-1] += 1
+        
+        invSalesNumbers = {}
+        for item in menuItems:
+            if salesNumbers[item.food_id-1] != 0:
+                ings = item.ingredients.split(',')
+                for x in ings:
+                    if x in invSalesNumbers:
+                        invSalesNumbers[x] += salesNumbers[item.food_id-1]
+                    else:
+                        invSalesNumbers[x] = salesNumbers[item.food_id-1]
+                
+        class ExcessItem:
+            def __init__(self, item, amountSold):
+                self.item = item
+                self.amountSold = amountSold
+            def __str__(self):
+                return self.menuItem + ", " + str(self.amountSold) + ", " + str(self.totalRevenue)
+            def __repr__(self):
+                return self.__str__()
+        
+        ivItems = Inventory.objects.raw(ivquery)
+        excessReport = []
+        for item in ivItems:
+            if item.itemcode in invSalesNumbers:
+                ivItem = ExcessItem(item.itemcode, invSalesNumbers[item.itemcode])
+                excessReport.append(ivItem)
+            else:
+                excessReport.append(ExcessItem(item.itemcode, 0))
+        
+        excessReport.sort(key=lambda x : -x.amountSold)
+        ivitems_serializer = inventoryItemSerializer(excessReport, many=True)
+        return JsonResponse(ivitems_serializer.data, safe=False)
+
 
 @csrf_exempt
 def inventoryCountApi(request, count=0):
