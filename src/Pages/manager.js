@@ -8,6 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
+import axios from 'axios';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -67,72 +68,98 @@ const formStyle = {
   
 }
 
+//Components (should probably be in another file, but oh well)
+const InventoryTable = ({inventory}) => {
+  return (
+    <Card style={{height: '85%'}}>
+      <Table striped bordered hover style={{display: 'block', height: '250px', maxWidth: '600px', width: '100%', overflow: 'auto'}}>
+        <thead>
+          <tr>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Item Count</th>
+            <th>Item Capacity</th>
+            <th>Item Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inventory.map((item, index) => <InventoryTableRow item={item} key={index}/>)}
+        </tbody>
+        </Table>
+      </Card>
+  )
+}
 
-const MenuRequest = () => {
-  const [posts, setPosts] = useState([]);
+const InventoryTableRow = ({item}) => {
+  return (
+    <tr>
+      <td>{item.item_id}</td>
+      <td>{item.itemname}</td>
+      <td>{item.itemcount}</td>
+      <td>{item.itemfcount}</td>
+      <td>{item.itemcode}</td>
+    </tr>
+  )
+}
 
-   useEffect(() => {
-      fetch('http://127.0.0.1:8000/manager/menu')
-         .then((res) => res.json())
-         .then((data) => {
-            //console.log(data);
-            for(var i=0; i<data.length; ++i){
-              console.log(data[i].food_id);
-            }
-            setPosts(data);
-         })
-         .catch((err) => {
-            console.log(err.message);
-         });
-   }, []);
+const MenuTable = ({menu}) => {
+  return (
+    <Card style={{height: '85%'}}>
+      <Table striped bordered hover style={{display: 'block', height: '250px', overflow: 'auto'}}>
+        <thead>
+          <tr>
+            <th>Food ID</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Ingredients</th>
+          </tr>
+        </thead>
+        <tbody >
+          {menu.map((item, index) => <MenuTableRow item={item} key={index}/>)}
+        </tbody>
+      </Table>
+    </Card>
+  )
+}
+
+const MenuTableRow = ({item}) => {
+  return (
+    <tr>
+      <td>{item.food_id}</td>
+      <td>{item.menuitem}</td>
+      <td>{item.price}</td>
+      <td>{item.ingredients}</td>
+    </tr>
+  )
 }
 
 const Manager = () => {
   const [selects, setSelects] = useState();
-  MenuRequest();
+  const [menuTable, setMenuTable] = useState([]);
+  const [inventoryTable, setInventoryTable] = useState([]);
+
+  useEffect(() => {
+    axios('http://127.0.0.1:8000/manager/menu')
+      .then(res => setMenuTable(res.data))
+      .catch(err => console.log(err))
+  }, []);
+
+  useEffect(() => {
+    axios('http://127.0.0.1:8000/manager/inventory')
+      .then(res => setInventoryTable(res.data))
+      .catch(err => console.log(err))
+  }, []);
+
   return (
     <div>
       <img src={picture} style={backgroundStyle} alt='Kyle Field'/>
         <div style={glassPane}>
-          
-          
           <Card style={menuItemsStyle}>
             <Card.Body>
               <Card.Title style={{textAlign:'center'}}>
                 Menu Items
               </Card.Title>
-              <Card style={{height: '85%'}}>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Food ID</th>
-                      <th>Item Name</th>
-                      <th>Price</th>
-                      <th>Ingredients</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Burger</td>
-                      <td>8.99</td>
-                      <td>Lettuce, Bacon</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Chicken Burger</td>
-                      <td>7.99</td>
-                      <td>Chicken, Buns, Lettuce</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Salad</td>
-                      <td>5.99</td>
-                      <td>Lettuce, Tomato, Onion</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card>
+              <MenuTable menu={menuTable}/>
             </Card.Body>
           </Card>
           
@@ -195,42 +222,7 @@ const Manager = () => {
               <Card.Title style={{textAlign:'center'}}>
                 Inventory Items
               </Card.Title>
-              <Card style={{height: '85%'}}>
-              <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Item ID</th>
-                      <th>Item Name</th>
-                      <th>Item Count</th>
-                      <th>Item Capacity</th>
-                      <th>Item Code</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Buns</td>
-                      <td>200</td>
-                      <td>3000</td>
-                      <td>5299</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Lettuce</td>
-                      <td>34</td>
-                      <td>3500</td>
-                      <td>34569</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Onion</td>
-                      <td>54</td>
-                      <td>2500</td>
-                      <td>23123</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card>
+              <InventoryTable inventory={inventoryTable}/>
             </Card.Body>
           </Card>
 
