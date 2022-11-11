@@ -41,7 +41,6 @@ class Orderhistory(models.Model):
         db_table = 'orderhistory'
 
 class Orderdetails(models.Model):
-    # id = models.AutoField(primary_key=True)
     id = models.AutoField(primary_key=True)
     order_id = models.IntegerField(blank=True, null=True)
     food_id = models.IntegerField(blank=True, null=True)

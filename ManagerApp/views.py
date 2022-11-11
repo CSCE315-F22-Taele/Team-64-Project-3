@@ -255,13 +255,3 @@ def restockReportApi(request):
         lowItems.sort(key=lambda x: x.level)
         lowitems_serializer = lowItemSerializer(lowItems, many=True)
         return JsonResponse(lowitems_serializer.data, safe=False)
-
-@csrf_exempt
-def inventoryCountApi(request, count=0):
-    if request.method=='GET':
-        if count == 0:
-            inv=Inventory.objects.all()
-        else:
-            inv=Inventory.objects.filter(itemcount__lte=count)
-        inv_serializer=inventorySerializer(inv, many=True)
-        return JsonResponse(inv_serializer.data, safe=False)
