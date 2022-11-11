@@ -28,3 +28,7 @@ class salesItemSerializer(serializers.Serializer):
 class inventoryItemSerializer(serializers.Serializer):
     item=serializers.CharField(max_length=3)
     amountSold=serializers.IntegerField(max_value=1000)
+
+class lowItemSerializer(serializers.Serializer):
+    item=serializers.CharField(max_length=200)
+    level=serializers.IntegerField(max_value=1000)

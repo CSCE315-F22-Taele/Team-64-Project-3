@@ -5,7 +5,7 @@ from django.http.response import JsonResponse
 
 from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
 from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer, comboItemSerializer
-from ManagerApp.serializers import salesItemSerializer, inventoryItemSerializer
+from ManagerApp.serializers import salesItemSerializer, inventoryItemSerializer, lowItemSerializer
 
 # Create your views here.
 
@@ -170,7 +170,7 @@ def salesReportApi(request):
                 price = item.price
                 sales.append(SalesItem(item.menuitem, amtSold, price*amtSold))
 
-        sales.sort(key=lambda x : -x.totalRevenue)
+        sales.sort(key=lambda x: -x.totalRevenue)
         sales_serializer = salesItemSerializer(sales, many=True)
         return JsonResponse(sales_serializer.data, safe=False)
 
@@ -214,23 +214,47 @@ def excessReportApi(request):
                 self.item = item
                 self.amountSold = amountSold
             def __str__(self):
-                return self.menuItem + ", " + str(self.amountSold) + ", " + str(self.totalRevenue)
+                return self.item + ", " + str(self.amountSold)
             def __repr__(self):
                 return self.__str__()
         
         ivItems = Inventory.objects.raw(ivquery)
         excessReport = []
         for item in ivItems:
-            if item.itemcode in invSalesNumbers:
+            if item.itemcode in invSalesNumbers and invSalesNumbers[item.itemcode] < 350:
                 ivItem = ExcessItem(item.itemcode, invSalesNumbers[item.itemcode])
                 excessReport.append(ivItem)
             else:
                 excessReport.append(ExcessItem(item.itemcode, 0))
         
-        excessReport.sort(key=lambda x : -x.amountSold)
+        excessReport.sort(key=lambda x: -x.amountSold)
         ivitems_serializer = inventoryItemSerializer(excessReport, many=True)
         return JsonResponse(ivitems_serializer.data, safe=False)
 
+@csrf_exempt
+def restockReportApi(request):
+    if request.method == 'GET':
+        lowInv = Lowinventory.objects.raw("SELECT * FROM lowinventory")
+        invItems = Inventory.objects.raw("SELECT * FROM inventory ORDER BY item_id")
+
+        class LowItem:
+            def __init__(self, item, level):
+                self.item = item
+                self.level = level
+            def __str__(self):
+                return self.item + ", " + str(self.level)
+            def __repr__(self):
+                return self.__str__()
+
+        lowItems = []
+        for item in lowInv:
+            ivItem = invItems[item.item_id]
+            lowitem = LowItem(ivItem.itemname, ivItem.itemcount)
+            lowItems.append(lowitem)
+        
+        lowItems.sort(key=lambda x: x.level)
+        lowitems_serializer = lowItemSerializer(lowItems, many=True)
+        return JsonResponse(lowitems_serializer.data, safe=False)
 
 @csrf_exempt
 def inventoryCountApi(request, count=0):
