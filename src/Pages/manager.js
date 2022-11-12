@@ -133,10 +133,42 @@ const MenuTableRow = ({item}) => {
   )
 }
 
+const Report = ({reportType, start, end}) => {
+  const [report, setReport] = useState([]);
+
+  //const Test = () =>{
+    console.log("i am here")
+    useEffect(() => {
+      axios('http://127.0.0.1:8000/manager/comboreport?start="' + start + '"&end="' + end + '"')
+        .then(res => {setReport(res.data); console.log("heyyy")})
+        .catch(err => console.log(err))
+    }, []);
+  //}
+
+  if(reportType == "Sales"){
+    return (<h1>Sales</h1>)
+  }else if(reportType == "Restock"){
+    return (<h1>Restock</h1>)
+  }else if(reportType == "Excess"){
+    return (<h1>Excess</h1>)
+  }else if(reportType == "Combo"){
+    if(start != "" && end != ""){
+      console.log("heyo")
+      //{<Test/>}
+      console.log(report)
+    }
+    // return (<h1>Combo</h1>)
+  }
+}
+
 const Manager = () => {
   const [selects, setSelects] = useState();
   const [menuTable, setMenuTable] = useState([]);
   const [inventoryTable, setInventoryTable] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [reportType, setReportType] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
@@ -170,7 +202,7 @@ const Manager = () => {
             </Card.Title>
             <Card style={{height:'65%'}}>
               <Card.Body>
-
+                <Report reportType={reportType} start={startTime} end={endTime}/>
               </Card.Body>
             </Card>
             
@@ -178,11 +210,13 @@ const Manager = () => {
               <Form>
                 <Row className="align-items-center">
                   <Col xs="100%">
-                    <Form.Select aria-label="Default select example" style={{textAlign: 'center'}}>
-                          <option>Sales Report</option>
-                          <option>Restock Report</option>
-                          <option>Excess Report</option>
-                          <option>Combo Report</option>
+                    <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} 
+                      value={reportType} 
+                      onChange={(event) => setReportType(event.target.value)}>
+                          <option value={"Sales"}>Sales Report</option>
+                          <option value={"Restock"}>Restock Report</option>
+                          <option value={"Excess"}>Excess Report</option>
+                          <option value={"Combo"}>Combo Report</option>
                     </Form.Select>
                   </Col>
                 </Row>
@@ -193,20 +227,22 @@ const Manager = () => {
                     </Form.Label>
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Start:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" />
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" 
+                        value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col xs="auto" style={{width: '40%'}}>
                     <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
                       Username
                     </Form.Label>
-                    <InputGroup className="mb-2">
+                    <InputGroup className="mb-3">
                       <InputGroup.Text>End:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" />
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY"
+                        value={endTime} onChange={(event) => setEndTime(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col xs="auto">
-                    <Button type="submit" className="mb-2" >
+                    <Button className="mb-2" onClick={() => {console.log("I may not be needed"); console.log("start: " + startTime)}}>
                       Submit
                     </Button>
                   </Col>
