@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 import axios from 'axios';
+// import Report from './reportGen';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 //Style for the Kyle Field BG
@@ -73,7 +74,7 @@ const formStyle = {
 const InventoryTable = ({inventory}) => {
   return (
     <Card style={{height: '85%'}}>
-      <Table striped bordered hover style={{display: 'block', height: '250px', maxWidth: '600px', width: '100%', overflow: 'auto'}}>
+      <Table striped bordered hover style={{display: 'block', height: '250px', overflow: 'auto'}}>
         <thead>
           <tr>
             <th>Item ID</th>
@@ -134,34 +135,44 @@ const MenuTableRow = ({item}) => {
   )
 }
 
-const Report = ({reportType, start="2022-09-18 20:12:51", end="2022-09-18 20:14:12"}) => {
-  const [report, setReport] = useState([]);
+const Report = ({reportType, start, end}) => {
+  var report = [];
+  var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+start+'"'+'&end='+'"'+end+'"';
 
-  console.log("hahah")
-  console.log(start)
-  console.log(end)
-  console.log('http://127.0.0.1:8000/manager/comboreport?start="' + start + '"&end="' + end + '"');
-  //const Test = () =>{
-    console.log("i am here")
-    useEffect(() => {
-      axios('http://127.0.0.1:8000/manager/comboreport?start="' + start + '"&end="' + end + '"')
-        .then(res => {setReport(res.data); console.log("heyyy")})
-        .catch(err => console.log(err))
-    }, []);
-  //}
+  const getReport = async () => {
+    try {
+      const {data} = await axios.get(reportString);
 
-  if(reportType == "Sales"){
-    return (<h1>Sales</h1>)
-  }else if(reportType == "Restock"){
-    return (<h1>Restock</h1>)
-  }else if(reportType == "Excess"){
-    return (<h1>Excess</h1>)
-  }else if(reportType == "Combo"){
-    if(start != "" && end != ""){
-      console.log("heyo")
-      //{<Test/>}
-      console.log(report)
+      console.log('data is: ', data);
+
+      report = data;
+    } catch (err) {
+      console.log(err.message);
     }
+  };
+
+  const mutexReport = async () => {
+    await getReport();
+    return (<h1>hello</h1>);
+  };
+
+  console.log("loop");
+
+  if(reportType == "salesreport"){
+    console.log("asdfasd");
+    return (<h1>Sales</h1>)
+  }else if(reportType == "restockreport"){
+    return (<h1>Restock</h1>)
+  }else if(reportType == "excessreport"){
+    return (<h1>Excess</h1>)
+  }else if(reportType == "comboreport"){
+    //mutexReport();
+    axios.get(reportString).then((res) => {
+      report = res.data;
+      console.log(res.data);
+    });
+    console.log("request made");
+    console.log(report[0]);
     // return (<h1>Combo</h1>)
   }
 }
@@ -174,6 +185,42 @@ const Manager = () => {
   const [reportType, setReportType] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // var report = [];
+  // var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+start+'"'+'&end='+'"'+end+'"';
+  //const [report, setReport] = useState([]);
+
+  // const handleClick = async () => {
+  //   try {
+  //     const {data} = await axios.get('http://127.0.0.1:8000/manager/comboreport?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"', {
+  //       headers: {
+  //         Accept: 'application/json',
+  //       },
+  //     });
+
+  //     console.log('data is: ', data);
+
+  //     setData(data);
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
+
+  // const getReport = async () => {
+  //   setLoading(true);
+  //   try {
+  //   const {data} = await axios.get(reportString);
+
+  //   console.log('data is: ', data);
+
+  //   report = data;
+  //   } catch (err) {
+  //   console.log(err.message);
+  //   } finally {
+  //       setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
@@ -218,10 +265,10 @@ const Manager = () => {
                     <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} 
                       value={reportType} 
                       onChange={(event) => setReportType(event.target.value)}>
-                          <option value={"Sales"}>Sales Report</option>
-                          <option value={"Restock"}>Restock Report</option>
-                          <option value={"Excess"}>Excess Report</option>
-                          <option value={"Combo"}>Combo Report</option>
+                          <option value={"salesreport"}>Sales Report</option>
+                          <option value={"restockreport"}>Restock Report</option>
+                          <option value={"excessreport"}>Excess Report</option>
+                          <option value={"comboreport"}>Combo Report</option>
                     </Form.Select>
                   </Col>
                 </Row>
@@ -247,7 +294,8 @@ const Manager = () => {
                     </InputGroup>
                   </Col>
                   <Col xs="auto">
-                    <Button type="submit" className="mb-2" onClick={() => {console.log("I may not be needed"); console.log("start: " + startTime)}}>
+                    {/* type="submit"  */}
+                    <Button className="mb-2" onClick={console.log("click")}>
                       Submit
                     </Button>
                   </Col>
