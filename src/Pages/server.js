@@ -1,5 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card } from 'react-bootstrap';
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
 const myStyle = {
@@ -38,14 +42,23 @@ const inventoryContainerStyle = {
 }
 
 const gridContainer = {
-  height:'97%',
+  // height:'97%',
 
-  //Grid layout
-  display: 'grid',
-  gridTemplateColumns: 'repeat(8, 1fr)',
-  gridTemplateRows: 'repeat(8, 1fr)',
-  gap: '2vw',
-  padding: '2%',
+  // //Grid layout
+  // display: 'grid',
+  
+  //gap: '2vw',
+  //padding: '2%',
+  // overflow: 'scroll',
+    display: 'grid',
+    //gridTemplateColumns: 'repeat(4, 1fr)',
+    //gridTemplateRows: 'repeat(8, 1fr)',
+    alignItems: 'center',
+    gridAutoFlow: 'row',
+    gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
+    gridTemplateColumns: 'unset', /* do not set template columns and rows */
+    gridTemplateRows: 'unset',
+    overflow: 'scroll',
 }
 
 
@@ -58,11 +71,29 @@ const checkoutStyle = {
   height: '100%',
 }
 
+// components
+const MenuGrid = ({menu}) => {
+  return (
+    <div style={gridContainer}>
+      {menu.map((item, index) => <MenuElement name={item.menuitem} key={index}/>)}
+    </div>
+  )
+}
 
+const MenuElement = ({name}) => {
+  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>{name}</Button>;
+}
 
 
 
 const Server = () => {
+  const [menuTable, setMenuTable] = useState([]);
+  useEffect(() => {
+    axios('http://127.0.0.1:8000/manager/menu')
+      .then(res => setMenuTable(res.data))
+      .catch(err => console.log(err))
+  }, []);
+
   return (
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field' />
@@ -89,36 +120,7 @@ const Server = () => {
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
                 aria-labelledby='nav-home-tab'>
-                <div style={gridContainer}>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>1</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>2</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>3</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>4</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>5</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>6</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>7</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>8</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>9</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>10</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>11</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>12</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>13</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>14</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>15</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>16</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>17</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>18</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>19</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>20</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>21</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>22</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>23</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>24</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>25</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>26</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>27</Button>
-                  <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>28</Button>
-            </div>
+                <MenuGrid menu={menuTable}/>
 
                 </div>
               </div>

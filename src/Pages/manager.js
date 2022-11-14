@@ -61,6 +61,7 @@ const inventoryItemsStyle = {
   width: '100%',
   height: '100%',
   gridColumn: '1/3',
+  alignItems: 'center',
 }
 const formStyle = {
   
@@ -133,9 +134,13 @@ const MenuTableRow = ({item}) => {
   )
 }
 
-const Report = ({reportType, start, end}) => {
+const Report = ({reportType, start="2022-09-18 20:12:51", end="2022-09-18 20:14:12"}) => {
   const [report, setReport] = useState([]);
 
+  console.log("hahah")
+  console.log(start)
+  console.log(end)
+  console.log('http://127.0.0.1:8000/manager/comboreport?start="' + start + '"&end="' + end + '"');
   //const Test = () =>{
     console.log("i am here")
     useEffect(() => {
@@ -242,7 +247,7 @@ const Manager = () => {
                     </InputGroup>
                   </Col>
                   <Col xs="auto">
-                    <Button className="mb-2" onClick={() => {console.log("I may not be needed"); console.log("start: " + startTime)}}>
+                    <Button type="submit" className="mb-2" onClick={() => {console.log("I may not be needed"); console.log("start: " + startTime)}}>
                       Submit
                     </Button>
                   </Col>
