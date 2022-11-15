@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useBetween } from "use-between";
 // import Report from './reportGen';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
@@ -51,17 +52,19 @@ const glassPane = {
 const menuItemsStyle = {
   width: '100%',
   height: '100%',
+  alignItems: 'center',
 }
 const reportStyle = {
   position: 'relative',
   width: '100%',
-  height: '100%', 
-  
+  height: '100%',
+  gridRow: '1/3',
+  gridColumn: '2',
 }
 const inventoryItemsStyle = {
   width: '100%',
   height: '100%',
-  gridColumn: '1/3',
+  gridColumn: '1',
   alignItems: 'center',
 }
 const formStyle = {
@@ -71,6 +74,15 @@ const formStyle = {
 }
 
 //Components (should probably be in another file, but oh well)
+const LoadingState = () => {
+  const [loading, setLoading] = useState(false);
+  return {
+    loading, setLoading
+  };
+};
+
+const UseSharedLoadingState = () => useBetween(LoadingState);
+
 const InventoryTable = ({inventory}) => {
   return (
     <Card style={{height: '85%'}}>
@@ -135,7 +147,8 @@ const MenuTableRow = ({item}) => {
   )
 }
 
-const Report = ({reportType, start, end}) => {
+const Report = ({reportType, start, end, test}) => {
+  const { loading, setLoading } = UseSharedLoadingState();
   var report = [];
   var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+start+'"'+'&end='+'"'+end+'"';
 
@@ -151,11 +164,6 @@ const Report = ({reportType, start, end}) => {
     }
   };
 
-  const mutexReport = async () => {
-    await getReport();
-    return (<h1>hello</h1>);
-  };
-
   console.log("loop");
 
   if(reportType == "salesreport"){
@@ -167,10 +175,21 @@ const Report = ({reportType, start, end}) => {
     return (<h1>Excess</h1>)
   }else if(reportType == "comboreport"){
     //mutexReport();
-    axios.get(reportString).then((res) => {
-      report = res.data;
-      console.log(res.data);
-    });
+    if(!test){
+      setLoading(true);
+      axios.get(reportString).then((res) => {
+
+        report = res.data;
+        console.log(res.data);
+        setLoading(false);
+        return (<h1>test</h1>);
+      });
+    }
+    if(loading){
+      return (<h1>Loading...</h1>)
+    }else{
+      return (<h1>done</h1>)
+    }
     console.log("request made");
     console.log(report[0]);
     // return (<h1>Combo</h1>)
@@ -186,41 +205,8 @@ const Manager = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // var report = [];
-  // var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+start+'"'+'&end='+'"'+end+'"';
-  //const [report, setReport] = useState([]);
 
-  // const handleClick = async () => {
-  //   try {
-  //     const {data} = await axios.get('http://127.0.0.1:8000/manager/comboreport?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"', {
-  //       headers: {
-  //         Accept: 'application/json',
-  //       },
-  //     });
-
-  //     console.log('data is: ', data);
-
-  //     setData(data);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
-  // const getReport = async () => {
-  //   setLoading(true);
-  //   try {
-  //   const {data} = await axios.get(reportString);
-
-  //   console.log('data is: ', data);
-
-  //   report = data;
-  //   } catch (err) {
-  //   console.log(err.message);
-  //   } finally {
-  //       setLoading(false);
-  //   }
-  // };
+  const { loading, setLoading } = UseSharedLoadingState();
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
@@ -233,6 +219,10 @@ const Manager = () => {
       .then(res => setInventoryTable(res.data))
       .catch(err => console.log(err))
   }, []);
+
+  // if(loading){
+  //   setVisible(true);
+  // }
 
   return (
     <div>
@@ -252,9 +242,9 @@ const Manager = () => {
             <Card.Title style={{textAlign:'center'}}>
                 Reports
             </Card.Title>
-            <Card style={{height:'65%'}}>
+            <Card style={{height:'85%'}}>
               <Card.Body>
-                <Report reportType={reportType} start={startTime} end={endTime}/>
+                <Report reportType={reportType} start={startTime} end={endTime} test={visible}/>
               </Card.Body>
             </Card>
             
@@ -283,7 +273,7 @@ const Manager = () => {
                         value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
                     </InputGroup>
                   </Col>
-                  <Col xs="auto" style={{width: '40%'}}>
+                  <Col xs="auto" style={{width: '60%'}}>
                     <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
                       Username
                     </Form.Label>
@@ -295,9 +285,9 @@ const Manager = () => {
                   </Col>
                   <Col xs="auto">
                     {/* type="submit"  */}
-                    <Button className="mb-2" onClick={console.log("click")}>
+                    {/* <Button className="mb-2" onClick={console.log("click")}>
                       Submit
-                    </Button>
+                    </Button> */}
                   </Col>
                 </Row>
               </Form>
