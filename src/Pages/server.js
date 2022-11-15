@@ -37,6 +37,7 @@ const glassPane = {
 
 //----Inventory Styles Begin----
 const inventoryContainerStyle = {
+  overflow: 'scroll',
   width: '100%',
   height: '100%',
 }
@@ -47,17 +48,17 @@ const gridContainer = {
   // //Grid layout
   // display: 'grid',
   
-  //gap: '2vw',
+    gap: '2vw',
   //padding: '2%',
   // overflow: 'scroll',
     display: 'grid',
-    //gridTemplateColumns: 'repeat(4, 1fr)',
-    //gridTemplateRows: 'repeat(8, 1fr)',
+    gridTemplateColumns: 'repeat(4, 7vw)',
+    gridTemplateRows: 'repeat(8, 7vw)',
     alignItems: 'center',
-    gridAutoFlow: 'row',
-    gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
-    gridTemplateColumns: 'unset', /* do not set template columns and rows */
-    gridTemplateRows: 'unset',
+    //gridAutoFlow: 'row',
+    //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
+    //gridTemplateColumns: 'unset', /* do not set template columns and rows */
+    //gridTemplateRows: 'unset',
     overflow: 'scroll',
 }
 
@@ -66,6 +67,7 @@ const gridContainer = {
 
 //Checkout 
 const checkoutStyle = {
+  overflow: 'scroll',
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -81,7 +83,7 @@ const MenuGrid = ({menu}) => {
 }
 
 const MenuElement = ({name}) => {
-  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)'}}>{name}</Button>;
+  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '7.5vw', height: '7.5vw'}}>{name}</Button>;
 }
 
 
