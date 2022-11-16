@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useBetween } from "use-between";
+//import { useBetween } from "use-between";
 // import Report from './reportGen';
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
@@ -44,15 +44,24 @@ const glassPane = {
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   gap: '1vw',
-  // gridAutoRows: 'minmax(500px, auto)',
+  gridAutoRows: 'minmax(100px, auto)',
   padding: '2%',
 }
 
 //Containers
 const menuItemsStyle = {
   width: '100%',
-  height: '100%',
   alignItems: 'center',
+  gridColumn: '1',
+  gridRow: '1',
+  
+}
+const inventoryItemsStyle = {
+  width: '100%',
+  alignItems: 'center',
+  gridColumn: '1',
+  gridRow: '2',
+  
 }
 const reportStyle = {
   position: 'relative',
@@ -61,16 +70,19 @@ const reportStyle = {
   gridRow: '1/3',
   gridColumn: '2',
 }
-const inventoryItemsStyle = {
-  width: '100%',
-  height: '100%',
-  gridColumn: '1',
-  alignItems: 'center',
-}
 const formStyle = {
-  
   width: '100%',
+}
+const menuTableContainer = {
+  height: '15%',
+  width: '40vw',
+  overflow: 'auto',
   
+}
+const inventoryTableContainer = {
+  height: '12%',
+  width: '40vw',
+  overflow: 'auto',
 }
 
 //Components (should probably be in another file, but oh well)
@@ -81,28 +93,8 @@ const LoadingState = () => {
   };
 };
 
-const UseSharedLoadingState = () => useBetween(LoadingState);
+//const UseSharedLoadingState = () => useBetween(LoadingState);
 
-const InventoryTable = ({inventory}) => {
-  return (
-    <Card style={{height: '85%'}}>
-      <Table striped bordered hover style={{display: 'block', height: '250px', overflow: 'auto'}}>
-        <thead>
-          <tr>
-            <th>Item ID</th>
-            <th>Item Name</th>
-            <th>Item Count</th>
-            <th>Item Capacity</th>
-            <th>Item Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          {inventory.map((item, index) => <InventoryTableRow item={item} key={index}/>)}
-        </tbody>
-        </Table>
-      </Card>
-  )
-}
 
 const InventoryTableRow = ({item}) => {
   return (
@@ -118,23 +110,46 @@ const InventoryTableRow = ({item}) => {
 
 const MenuTable = ({menu}) => {
   return (
-    <Card style={{height: '85%'}}>
-      <Table striped bordered hover style={{display: 'block', height: '250px', overflow: 'auto'}}>
-        <thead>
-          <tr>
-            <th>Food ID</th>
-            <th>Item Name</th>
-            <th>Price</th>
-            <th>Ingredients</th>
-          </tr>
-        </thead>
-        <tbody >
-          {menu.map((item, index) => <MenuTableRow item={item} key={index}/>)}
-        </tbody>
-      </Table>
-    </Card>
-  )
-}
+    // Delete the card
+    <div style={menuTableContainer}>
+      <Table striped bordered hover style={{overflow: 'hidden'}}>
+          <thead>
+            <tr>
+              <th>Food ID</th>
+              <th>Item Name</th>
+              <th>Price</th>
+              <th>Ingredients</th>
+            </tr>
+          </thead>
+          <tbody >
+            {menu.map((item, index) => <MenuTableRow item={item} key={index}/>)}
+          </tbody>
+        </Table>
+      </div>
+    
+    )
+  }
+  const InventoryTable = ({inventory}) => {
+    return (
+      // Delete the card
+      <div style={inventoryTableContainer}>
+        <Table striped bordered hover style={{overflow: 'hidden'}}>
+          <thead>
+            <tr>
+              <th>Item ID</th>
+              <th>Item Name</th>
+              <th>Item Count</th>
+              <th>Item Capacity</th>
+              <th>Item Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            {inventory.map((item, index) => <InventoryTableRow item={item} key={index}/>)}
+          </tbody>
+          </Table>
+      </div>
+    )
+  }
 
 const MenuTableRow = ({item}) => {
   return (
@@ -148,7 +163,7 @@ const MenuTableRow = ({item}) => {
 }
 
 const Report = ({reportType, start, end, test}) => {
-  const { loading, setLoading } = UseSharedLoadingState();
+  //const { loading, setLoading } = UseSharedLoadingState();
   var report = [];
   var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+start+'"'+'&end='+'"'+end+'"';
 
@@ -176,20 +191,20 @@ const Report = ({reportType, start, end, test}) => {
   }else if(reportType == "comboreport"){
     //mutexReport();
     if(!test){
-      setLoading(true);
+      //setLoading(true);
       axios.get(reportString).then((res) => {
 
         report = res.data;
         console.log(res.data);
-        setLoading(false);
+        //setLoading(false);
         return (<h1>test</h1>);
       });
     }
-    if(loading){
-      return (<h1>Loading...</h1>)
-    }else{
-      return (<h1>done</h1>)
-    }
+    //if(loading){
+      //return (<h1>Loading...</h1>)
+    //}else{
+      //return (<h1>done</h1>)
+    //}
     console.log("request made");
     console.log(report[0]);
     // return (<h1>Combo</h1>)
@@ -206,7 +221,7 @@ const Manager = () => {
   const [endTime, setEndTime] = useState("");
   const [data, setData] = useState([]);
 
-  const { loading, setLoading } = UseSharedLoadingState();
+  //const { loading, setLoading } = UseSharedLoadingState();
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
@@ -234,6 +249,88 @@ const Manager = () => {
                 Menu Items
               </Card.Title>
               <MenuTable menu={menuTable}/>
+              
+              {/* Add item row */}
+              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
+                  <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Item name:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Price:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Ingredients:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Add item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+
+                {/* Edit Item Row */}
+                <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Item name:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Price:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Ingredients:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Edit Item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+
+                {/* Remove item row */}
+                <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Remove item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+              
             </Card.Body>
           </Card>
           
@@ -295,15 +392,106 @@ const Manager = () => {
             
             </Card.Body>
           </Card>
-          
           <Card style={inventoryItemsStyle}>
             <Card.Body>
               <Card.Title style={{textAlign:'center'}}>
                 Inventory Items
               </Card.Title>
               <InventoryTable inventory={inventoryTable}/>
+              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
+              <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Name:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Count:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Cap:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Code:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Add item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+
+                {/* Edit Item Row */}
+                <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Name:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Count:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Cap:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Code:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Edit Item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+
+                {/* Remove item row */}
+                <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Col >
+                    <InputGroup className="mb-2">
+                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup className="mb-2">
+                      <button type="button" class="btn btn-outline-secondary">Remove item</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
             </Card.Body>
           </Card>
+          
 
         </div>
     </div>

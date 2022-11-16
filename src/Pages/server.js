@@ -28,8 +28,10 @@ const glassPane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden',
+  
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
+  gridAutoRows: 'minmax(500px, auto)',
   gap: '2vw',
   padding: '2%',
 }
@@ -37,9 +39,9 @@ const glassPane = {
 
 //----Inventory Styles Begin----
 const inventoryContainerStyle = {
-  overflow: 'scroll',
   width: '100%',
   height: '100%',
+  overflow: 'auto',
 }
 
 const gridContainer = {
@@ -48,26 +50,22 @@ const gridContainer = {
   // //Grid layout
   // display: 'grid',
   
-    gap: '2vw',
   //padding: '2%',
   // overflow: 'scroll',
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 7vw)',
-    gridTemplateRows: 'repeat(8, 7vw)',
+    gap: '1vw',
+    gridTemplateColumns: 'repeat(5, 6.5vw)',
     alignItems: 'center',
     //gridAutoFlow: 'row',
     //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
     //gridTemplateColumns: 'unset', /* do not set template columns and rows */
     //gridTemplateRows: 'unset',
-    overflow: 'scroll',
+    
 }
-
-
-//--Inventory Styles End----
 
 //Checkout 
 const checkoutStyle = {
-  overflow: 'scroll',
+  
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -83,7 +81,7 @@ const MenuGrid = ({menu}) => {
 }
 
 const MenuElement = ({name}) => {
-  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '7.5vw', height: '7.5vw'}}>{name}</Button>;
+  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
 }
 
 
@@ -107,18 +105,6 @@ const Server = () => {
               Menu Items
             </Card.Title>
             <div class="container my-5">
-              <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" 
-                  data-bs-target="#nav-home" type="button" role="tab" aria-controls='nav-home'
-                  aria-selected="true">Food</button>
-
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" 
-                  data-bs-target="#nav-profile" type="button" role="tab" aria-controls='nav-profile'
-                  aria-selected="false">Drinks</button>
-
-                </div>
-              </nav>
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
                 aria-labelledby='nav-home-tab'>
@@ -128,10 +114,7 @@ const Server = () => {
               </div>
 
               
-                <div class="tab-pane fade p-3" id="nav-profile" role="tabpanel"
-                aria-labelledby='nav-profile-tab'>
-                This is the Drinks Tab
-                </div>
+                
               
             </div>
 
