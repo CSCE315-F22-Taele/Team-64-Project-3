@@ -155,7 +155,6 @@ const MenuTableRow = ({item}) => {
 }
 
 const ReportRow = ({reportType, item}) => {
-  console.log(item);
   if(reportType === "salesreport"){
     var data = item.menuItem + " sold " + item.amountSold 
     + " time(s) for $" + item.totalRevenue;
@@ -205,8 +204,13 @@ const Manager = () => {
   const [endTime, setEndTime] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  var menuAddID, menuAddName, menuAddPrice, menuAddIngs;
 
   var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"';
+
+  function updateMenu(){
+    axios.get('http://127.0.0.1:8000/manager/menu').then(res => setMenuTable(res.data));
+  }
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
@@ -236,30 +240,36 @@ const Manager = () => {
                   <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Food ID:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuAddID} onChange={(event) => menuAddID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Item name:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuAddName} onChange={(event) => menuAddName=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Price:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuAddPrice} onChange={(event) => menuAddPrice=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Ingredients:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuAddIngs} onChange={(event) => menuAddIngs=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary">Add item</button>
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      axios.post('http://127.0.0.1:8000/manager/menu', {
+                        menuitem: menuAddName,
+                        price: menuAddPrice,
+                        ingredients: menuAddIngs
+                      }).then((res) => {updateMenu(); console.log(menuAddName); console.log(menuAddPrice); console.log(menuAddIngs)}).catch(err => console.log(err));
+                      }}>Add item</button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -269,7 +279,7 @@ const Manager = () => {
                   <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Food ID:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
+                      <Form.Control id="inlineFormInputGroups" value={menuAddID} onChange={(event) => menuAddID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
