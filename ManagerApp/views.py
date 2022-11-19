@@ -222,7 +222,7 @@ def excessReportApi(request):
         excessReport = []
         for item in ivItems:
             if item.itemcode in invSalesNumbers and invSalesNumbers[item.itemcode] < 350:
-                ivItem = ExcessItem(item.itemcode, invSalesNumbers[item.itemcode])
+                ivItem = ExcessItem(item.itemname, invSalesNumbers[item.itemcode])
                 excessReport.append(ivItem)
             else:
                 excessReport.append(ExcessItem(item.itemcode, 0))
