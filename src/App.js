@@ -84,6 +84,7 @@ const App = () => {
 
   return(
     <body>
+      <img src={picture} style={myStyle} alt='Kyle Field'/>
       <section class="skewbox">
         <div class="leftSlanted">
           <div>
