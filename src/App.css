@@ -1,0 +1,61 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    color: grey;
+}
+
+section{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
+    width: 1200px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+}
+
+.leftSlanted{
+    width: calc(50% - 50px);
+    height: 100%;
+    background-color: rgb(80, 0, 0);
+    padding: 0% 5%;
+    line-height: 1.5em;
+    font-size: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rightSlanted{
+    width: calc(50% + 50px);
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-left: 100px solid rgb(80, 0, 0);
+    border-bottom: 400px solid transparent;
+
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    
+    
+
+}
+
+.loginContainer{
+    background-color: rgb(255, 255, 255);
+    height: 20vh;
+    width: 20vw;
+    border-radius: 5px;
+
+    margin-top: 0%;
+    margin-left: 5%;
+    
+    
+    
+}
