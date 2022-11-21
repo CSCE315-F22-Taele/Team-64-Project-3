@@ -84,6 +84,7 @@ const App = () => {
 
   return(
     <body>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous"></link>
       <img src={picture} style={myStyle} alt='Kyle Field'/>
       <section class="skewbox">
         <div class="leftSlanted">
@@ -95,10 +96,11 @@ const App = () => {
 
         <div class="rightSlanted">
           <div class="loginContainer">
+            
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
-                  aria-controls="pills-login" aria-selected="true" onClick={loginClick}>Login</a>
+                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} >Login</a>
               </li>
               <li class="nav-item" role="presentation">
                 <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
@@ -109,44 +111,37 @@ const App = () => {
             <div class="tab-content">
               <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                 <form>
-                  <div class="text-center mb-3">
+                  <div class="text-center mt-1">
                     <p>Sign in with:</p>
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-facebook-f"></i>
-                    </button>
 
                     <button type="button" class="btn btn-link btn-floating mx-1">
                       <i class="fab fa-google"></i>
                     </button>
-
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-twitter"></i>
-                    </button>
-
                     <button type="button" class="btn btn-link btn-floating mx-1">
                       <i class="fab fa-github"></i>
                     </button>
+
                   </div>
 
-                  <p class="text-center">or:</p>
+                  <p class="text-center mt-0">or:</p>
 
-                  <div class="form-outline mb-4">
-                    <input type="email" id="loginName" class="form-control" />
+                  <div class="form-outline mb-0 mx-5">
                     <label class="form-label" for="loginName">Username</label>
+                    <input type="email" id="loginName" class="form-control" />
                   </div>
 
-                  <div class="form-outline mb-4">
-                    <input type="password" id="loginPassword" class="form-control" />
+                  <div class="form-outline mb-0 mx-5">
                     <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control"/>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                  <button type="submit" class="btn btn-primary btn-block mt-2 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}}>Sign in</button>
                 </form>
               </div>
               
               <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form>
-                  <div class="text-center mb-3">
+                  <div class="text-center mb-0">
                     <p>Sign up with:</p>
 
                     <button type="button" class="btn btn-link btn-floating mx-1">
@@ -158,25 +153,25 @@ const App = () => {
                     </button>
                   </div>
 
-                  <p class="text-center">or:</p>
+                  <p class="text-center mt-0">or:</p>
 
-                  <div class="form-outline mb-4">
-                    <input type="text" id="registerUsername" class="form-control" />
+                  <div class="form-outline mb-0">
                     <label class="form-label" for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" class="form-control" />
                   </div>
 
-                  <div class="form-outline mb-4">
-                    <input type="password" id="registerPassword" class="form-control" />
+                  <div class="form-outline mb-0">
                     <label class="form-label" for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" />
                   </div>
 
                   
-                  <div class="form-outline mb-4">
+                  <div class="form-outline mb-0">
+                    <label class="form-label" for="registerRepeatPassword">Key</label>
                     <input type="password" id="registerRepeatPassword" class="form-control" />
-                    <label class="form-label" for="registerRepeatPassword">Repeat password</label>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}} >Sign in</button>
                 </form>
               </div>
             </div>

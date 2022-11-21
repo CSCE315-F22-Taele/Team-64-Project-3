@@ -13,8 +13,8 @@ section{
     top: 50%;
     left:50%;
     transform: translate(-50%, -50%);
-    height: 400px;
-    width: 1200px;
+    height: 500px;
+    width: 1300px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     display: flex;
@@ -36,7 +36,7 @@ section{
     height: 100%;
     background-color: rgb(255, 255, 255);
     border-left: 100px solid rgb(80, 0, 0);
-    border-bottom: 400px solid transparent;
+    border-bottom: 500px solid transparent;
 
     justify-content: center;
     text-align: center;
@@ -48,14 +48,13 @@ section{
 }
 
 .loginContainer{
-    background-color: rgb(255, 255, 255);
-    height: 20vh;
+    /* background-color: rgb(0, 0, 0); */
+    height: 32vh;
     width: 20vw;
     border-radius: 5px;
 
-    margin-top: 0%;
-    margin-left: 5%;
-    
-    
-    
+
+    margin-top: 4%;
+    margin-left: 10%;
 }
+
