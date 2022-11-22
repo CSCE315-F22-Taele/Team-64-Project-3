@@ -24,11 +24,12 @@ section{
     width: calc(50% - 50px);
     height: 100%;
     background-color: rgb(80, 0, 0);
-    padding: 0% 5%;
+    /* padding: 0% 0%; */
     line-height: 1.5em;
     font-size: 18px;
     text-align: center;
-    vertical-align: middle;
+    z-index: 1;
+    
 }
 
 .rightSlanted{
@@ -42,9 +43,6 @@ section{
     text-align: center;
     align-content: center;
     align-items: center;
-    
-    
-
 }
 
 .loginContainer{
@@ -57,4 +55,31 @@ section{
     margin-top: 4%;
     margin-left: 10%;
 }
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .bg-primary{
+    background-color: rgb(80, 0, 0);
+}
+
+.fa-github{
+    color: rgb(80, 0, 0);
+}
+.fa-google{
+    color: rgb(80, 0, 0);
+}
+
+.nav-link{
+    color:rgb(80, 0, 0);
+}
+
+.nav-link :active{
+    color:rgb(0, 0, 0);
+}
+
+.nav-link ::hover {
+    color:rgb(80, 0, 0);
+}
+
+
+
+
 

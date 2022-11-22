@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 const picture = new URL("./Resources/KyleField.jpg", import.meta.url)
 
+// const revsLogo = new URL("./Resources/whiteLogo.png", import.meta.url)
+const revsLogo = new URL("./Resources/yellowLogo.png", import.meta.url)
 
 
 const myStyle = {
@@ -15,6 +17,11 @@ const myStyle = {
   left: '-18vw',
   top: '0',
   z: '-2'
+}
+
+const logoStyle = {
+  height: '50vh',
+  marginTop: '-5vh'
 }
 
 const whitePane = {
@@ -29,7 +36,7 @@ const whitePane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden', 
-  backgroundColor: 'white'
+  backgroundColor: 'white',
   
 }
 
@@ -51,12 +58,16 @@ const App = () => {
 
 
 
+
   const loginClick = event => {
     //Sets the login page to be active
     const loginButton = document.getElementById("tab-login");
     loginButton.setAttribute("class", "nav-link active");
     const loginForm = document.getElementById("pills-login");
     loginForm.setAttribute("class", "tab-pane fade show active");
+    
+    
+
     
     // Sets the register pill to be inactive
     const element = document.getElementById("tab-register");
@@ -88,21 +99,21 @@ const App = () => {
       <img src={picture} style={myStyle} alt='Kyle Field'/>
       <section class="skewbox">
         <div class="leftSlanted">
-          <div>
-            {/* Logo goes here and needs to be centered */}
-            </div>
+          
+            <img src={revsLogo} style={logoStyle} alt='Revs Logo'/>
+          
           
         </div>
 
         <div class="rightSlanted">
-          <div class="loginContainer">
+          <div class="loginContainer ">
             
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
-                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} >Login</a>
+                  aria-controls="pills-login" aria-selected="true" onClick={loginClick}>Login</a>
               </li>
-              <li class="nav-item" role="presentation">
+              <li class="nav-item" role="presentation" >
                 <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
                   aria-controls="pills-register" aria-selected="false" onClick={registerClick}>Register</a>
               </li>
@@ -114,7 +125,7 @@ const App = () => {
                   <div class="text-center mt-1">
                     <p>Sign in with:</p>
 
-                    <button type="button" class="btn btn-link btn-floating mx-1">
+                    <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton">
                       <i class="fab fa-google"></i>
                     </button>
                     <button type="button" class="btn btn-link btn-floating mx-1">
@@ -171,7 +182,7 @@ const App = () => {
                     <input type="password" id="registerRepeatPassword" class="form-control" />
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}} >Sign in</button>
+                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white">Sign in</button>
                 </form>
               </div>
             </div>
