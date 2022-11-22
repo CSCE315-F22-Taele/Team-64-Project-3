@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from datetime import datetime
 
 from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
 from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer, comboItemSerializer
@@ -255,3 +256,45 @@ def restockReportApi(request):
         lowItems.sort(key=lambda x: x.level)
         lowitems_serializer = lowItemSerializer(lowItems, many=True)
         return JsonResponse(lowitems_serializer.data, safe=False)
+
+def updateInv(inv, ings):
+    for ing in ings.split(','):
+        item = Inventory.objects.raw("SELECT * FROM inventory WHERE itemcode='" + ing + "'")
+        print(item[0].itemname)
+        # print(ing)
+
+@csrf_exempt
+def placeOrderApi(request):
+    if request.method == 'POST':
+        order = JSONParser().parse(request)
+        total = 0.0
+        for i in range(len(order)):
+            total += float(order[i]['price'])
+        
+        menuItems = Menu.objects.raw("SELECT * FROM menu ORDER BY food_id")
+        invItems = Inventory.objects.raw("SELECT * FROM inventory ORDER BY item_id")
+        orderDetails = Orderdetails.objects.raw("SELECT * FROM orderdetails ORDER BY order_id")
+        currOrderId = 1
+        if len(orderDetails) > 0:
+            currOrderId = orderDetails[-1].order_id + 1
+
+        now = datetime.now()
+        dt_string = "'" + now.strftime("%Y-%m-%d %H:%M:%S") + "'"
+        cmd = "INSERT INTO orderhistory(order_id, time_stamp, pricetotal) VALUES("
+        cmd = cmd + str(currOrderId) + ', ' + dt_string + ', ' + str(total) + ')'
+        print(cmd)
+
+        cmd = "INSERT INTO orderdetails(order_id, food_id) VALUES("
+        for i in range(len(order)):
+            id = order[i]['itemid']
+            print(cmd + str(currOrderId) + ', ' + str(id) + ')')
+            updateInv(invItems, menuItems[int(id)-1].ingredients)
+
+        #   int id = currOrder.get(i);
+        #   menuItems.absolute(id);
+        #   String ings = menuItems.getString("ingredients");
+        #   db.updateInventory(ings);
+        #   db.executeUpdate(cmd + currOrderId + ", " + id + ")");
+        
+        print(order)
+        return JsonResponse("Added Successfully!", safe=False)
