@@ -54,8 +54,8 @@ const gridContainer = {
   //padding: '2%',
   // overflow: 'scroll',
     display: 'grid',
-    gap: '1vw',
-    gridTemplateColumns: 'repeat(5, 6.5vw)',
+    gap: '3vw',
+    gridTemplateColumns: 'repeat(4, 6.5vw)',
     alignItems: 'center',
     //gridAutoFlow: 'row',
     //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
@@ -82,7 +82,7 @@ const MenuGrid = ({menu}) => {
 }
 
 const MenuElement = ({name}) => {
-  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
+  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '8vw', height: '6vw'}}>{name}</Button>;
 }
 
 
