@@ -102,10 +102,23 @@ const MenuElement = ({name, id, price, setOrder, setTotal}) => {
 
 const OrderDisplay = ({order, menu}) => {
   if(menu.length <= 0) return;
+
+  function findMenuItem(id){
+    for(var i=0; i<menu.length; ++i){
+      if(menu[i].food_id == id) return menu[i]; 
+    }
+  }
+  
   return (
     <div style={orderItemStyle}>
-      {order.map((id, index) => <p key={index}>{'1x ' + menu[id-1].menuitem + ' $' + menu[id-1].price}</p>)}
+      {order.map((id, index) => <OrderItem item={findMenuItem(id)} key={index}/>)}
     </div>
+  )
+}
+
+const OrderItem = ({item}) => {
+  return (
+    <p>{'1x ' + item.menuitem + ' $' + item.price}</p>
   )
 }
 
@@ -120,14 +133,21 @@ const Customer = () => {
       .catch(err => console.log(err))
   }, []);
 
+  function findMenuItem(id){
+    for(var i=0; i<menuTable.length; ++i){
+      if(menuTable[i].food_id == id) return menuTable[i]; 
+    }
+  }
+
   function createJSON(){
     var res = []
     for(var i=0; i<order.length; ++i){
+      var item = findMenuItem(order[i]);
       res.push(
         {
           "itemid": order[i],
-          "itemname": menuTable[order[i]-1].menuitem,
-          "price": menuTable[order[i]-1].price
+          "itemname": item.menuitem,
+          "price": item.price
         }
       )
     }
@@ -168,8 +188,7 @@ const Customer = () => {
             </Card>
             <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
-              ).then((res) => {console.log("success"); setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
-              //createJSON();
+              ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>Checkout</Button>
 
           </Card.Body>

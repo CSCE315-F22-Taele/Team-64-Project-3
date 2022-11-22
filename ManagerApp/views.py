@@ -258,14 +258,12 @@ def restockReportApi(request):
         lowitems_serializer = lowItemSerializer(lowItems, many=True)
         return JsonResponse(lowitems_serializer.data, safe=False)
 
-def updateInv(inv, ings, cursor):
+def updateInv(ings, cursor):
     for ing in ings.split(','):
         item = Inventory.objects.raw("SELECT * FROM inventory WHERE itemcode='" + ing + "'")
         count = item[0].itemcount - 1
         cmd = "UPDATE inventory SET itemcount=" + str(count) + " WHERE item_id=" + str(item[0].item_id)
         cursor.execute(cmd)
-        #Inventory.objects.raw(cmd)
-        # print(ing)
 
 @csrf_exempt
 def placeOrderApi(request):
@@ -276,8 +274,6 @@ def placeOrderApi(request):
         for i in range(len(order)):
             total += float(order[i]['price'])
         
-        menuItems = Menu.objects.raw("SELECT * FROM menu ORDER BY food_id")
-        invItems = Inventory.objects.raw("SELECT * FROM inventory ORDER BY item_id")
         orderDetails = Orderdetails.objects.raw("SELECT * FROM orderdetails ORDER BY order_id")
         currOrderId = 1
         if len(orderDetails) > 0:
@@ -287,17 +283,13 @@ def placeOrderApi(request):
         dt_string = "'" + now.strftime("%Y-%m-%d %H:%M:%S") + "'"
         cmd = "INSERT INTO orderhistory(order_id, time_stamp, pricetotal) VALUES("
         cmd = cmd + str(currOrderId) + ', ' + dt_string + ', ' + str(total) + ')'
-        print(cmd)
         cursor.execute(cmd)
-        #Orderhistory.objects.raw(cmd)
 
         cmd = "INSERT INTO orderdetails(order_id, food_id) VALUES("
         for i in range(len(order)):
             id = order[i]['itemid']
-            # print(cmd + str(currOrderId) + ', ' + str(id) + ')')
-            # Orderdetails.objects.raw(cmd + str(currOrderId) + ', ' + str(id) + ')')
             cursor.execute(cmd + str(currOrderId) + ', ' + str(id) + ')')
-            updateInv(invItems, menuItems[int(id)-1].ingredients, cursor)
+            item = Menu.objects.raw("SELECT * FROM menu WHERE food_id='" + str(id) + "'")
+            updateInv(item[0].ingredients, cursor)
         
-        print(order)
-        return JsonResponse("Added Successfully!", safe=False)
+        return JsonResponse("Order Placed Successfully!", safe=False)
