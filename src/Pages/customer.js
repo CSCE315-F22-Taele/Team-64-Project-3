@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Card } from "react-bootstrap";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import './hover.css';
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
 
@@ -86,7 +87,7 @@ const InventoryGrid = ({menu}) => {
 }
 
 const MenuElement = ({name}) => {
-  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
+  return <Button class="button" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
 }
 
 

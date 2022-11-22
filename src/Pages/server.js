@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import './hover.css';
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
