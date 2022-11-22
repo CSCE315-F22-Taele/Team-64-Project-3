@@ -168,7 +168,7 @@ const Customer = () => {
             </Card>
             <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
-              ).then((res) => console.log("success")).catch(err => console.log(err));
+              ).then((res) => {console.log("success"); setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               //createJSON();
               }}>Checkout</Button>
 
