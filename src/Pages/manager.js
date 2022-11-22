@@ -32,17 +32,18 @@ const glassPane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden', 
+  borderRadius: '20px',
 
   //Glass Effect
-  backgroundColor: 'rgba(90, 90, 90, .8)',   
-  backdropFilter: 'blur(10px)',
+  backgroundColor: 'rgba(90, 90, 90, .15)',   
+  backdropFilter: 'blur(5px)',
   
   //Grid layout
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: '1vw',
+  gap: '2vw',
   gridAutoRows: 'minmax(100px, auto)',
-  padding: '2%',
+  padding: '1%',
 }
 
 //Containers
@@ -79,7 +80,7 @@ const inventoryTableContainer = {
   overflow: 'auto',
 }
 const reportItemStyle = {
-  backgroundColor: 'yellow',
+  // backgroundColor: 'yellow',
   height: '100%',
   overflow: 'auto',
 }
@@ -345,7 +346,7 @@ const Manager = () => {
                 Reports
             </Card.Title>
             <Card style={{height:'85%'}}>
-              <Card.Body style={{height:'1vh', backgroundColor:'blue'}}>
+              <Card.Body style={{height:'1vh', backgroundColor:''}}>
                 <Report reportType={reportType} data={data} loading={loading}/>
               </Card.Body>
             </Card>
@@ -387,12 +388,12 @@ const Manager = () => {
                   </Col>
                   <Col xs="auto">
                     {/* type="submit"  */}
-                    <Button className="mb-2" onClick={(event) => {
+                    <button className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
                       setLoading(true);
                       axios.get(reportString).then((res) => {setData(res.data); setLoading(false)});
                       }}>
                       Submit
-                    </Button>
+                    </button>
                   </Col>
                 </Row>
               </Form>

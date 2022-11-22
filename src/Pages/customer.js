@@ -25,17 +25,20 @@ const glassPane = {
   right: '0',
   bottom: '0',
   left: '0',
-  backgroundColor: 'rgba(90, 90, 90, .8)',
-  backdropFilter: 'blur(10px)',
+  backgroundColor: 'rgba(90, 90, 90, .15)',
+  backdropFilter: 'blur(5px)',
   height: '90vh',
   width: '90vw',
   overflow: 'hidden',
+  borderRadius: '20px',
   
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   gridAutoRows: 'minmax(500px, auto)',
   gap: '2vw',
-  padding: '2%',
+  padding: '1%',
+  // boxShadow: 'inset 0px 0px 40px 40px rgb(0,0,0,0)',
+  // boxShadow: '0 0 10px rgb(0,0,0)',
 };
 
 
@@ -90,7 +93,7 @@ const InventoryGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button class="button" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;

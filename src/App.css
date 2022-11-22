@@ -51,7 +51,6 @@ section{
     width: 20vw;
     border-radius: 5px;
 
-
     margin-top: 4%;
     margin-left: 10%;
 }
@@ -78,6 +77,7 @@ section{
 .nav-link ::hover {
     color:rgb(80, 0, 0);
 }
+
 
 
 

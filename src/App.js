@@ -63,15 +63,14 @@ const App = () => {
     //Sets the login page to be active
     const loginButton = document.getElementById("tab-login");
     loginButton.setAttribute("class", "nav-link active");
+    loginButton.setAttribute("style", "background-color:rgb(80,0,0)");
     const loginForm = document.getElementById("pills-login");
     loginForm.setAttribute("class", "tab-pane fade show active");
-    
-    
-
     
     // Sets the register pill to be inactive
     const element = document.getElementById("tab-register");
     element.setAttribute("class", "nav-link");
+    element.setAttribute("style", "background-color:rgb(255,255,255)");
     const registerForm = document.getElementById("pills-register");
     registerForm.setAttribute("class", "tab-pane fade");
     
@@ -79,6 +78,7 @@ const App = () => {
   const registerClick = event => {
     //Sets the login page to be inactive
     const loginButton = document.getElementById("tab-login");
+    loginButton.setAttribute("style", "background-color:rgb(255,255,255)");
     loginButton.setAttribute("class", "nav-link");
     const loginForm = document.getElementById("pills-login");
     loginForm.setAttribute("class", "tab-pane fade");
@@ -86,6 +86,7 @@ const App = () => {
     // Sets the register pill to be active
     const element = document.getElementById("tab-register");
     element.setAttribute("class", "nav-link active");
+    element.setAttribute("style", "background-color:rgb(80,0,0)");
     const registerForm = document.getElementById("pills-register");
     registerForm.setAttribute("class", "tab-pane fade show active");
     
@@ -101,21 +102,22 @@ const App = () => {
         <div class="leftSlanted">
           
             <img src={revsLogo} style={logoStyle} alt='Revs Logo'/>
-          
+            
           
         </div>
 
         <div class="rightSlanted">
           <div class="loginContainer ">
+
             
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
-                  aria-controls="pills-login" aria-selected="true" onClick={loginClick}>Login</a>
+                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{backgroundColor:'rgb(80,0,0)'}}>Login</a>
               </li>
               <li class="nav-item" role="presentation" >
                 <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
-                  aria-controls="pills-register" aria-selected="false" onClick={registerClick}>Register</a>
+                  aria-controls="pills-register" aria-selected="false" onClick={registerClick} style={{backgroundColor:'rgb(255,255,255)'}}>Register</a>
               </li>
             </ul>
 
@@ -189,6 +191,7 @@ const App = () => {
           </div>
 
         </div>
+        
       </section>
     </body>
   )

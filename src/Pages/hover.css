@@ -1,19 +1,19 @@
-button{
+#buttonHoverEffect{
   font-size: 18px;
   /* padding: 15px; */
-  /* border: 2px solid #FFF; */
-  color: #FFF;
+  border: 2px solid #FFF;
+  color: rgb(0, 0, 0);
   display: block;
   /* margin: 50px auto; */
   background: transparent;
   transition: .2s ease-in-out 0s;
 }
 
-button:hover{
+#buttonHoverEffect:hover{
      cursor: pointer;
      transform: scale(1.25);
      background: #FFF;
-     color: #000;
+     color: rgb(255, 255, 255);
 }
   
  

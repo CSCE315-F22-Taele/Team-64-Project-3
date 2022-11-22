@@ -4,6 +4,7 @@ import { Button, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './hover.css';
+import './hover.css';
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
@@ -24,17 +25,18 @@ const glassPane = {
   right: '0',
   bottom: '0',
   left: '0',
-  backgroundColor: 'rgba(90, 90, 90, .8)',
-  backdropFilter: 'blur(10px)',
+  backgroundColor: 'rgba(90, 90, 90, .15)',
+  backdropFilter: 'blur(5px)',
   height: '90vh',
   width: '90vw',
   overflow: 'hidden',
+  borderRadius: '20px',
   
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   gridAutoRows: 'minmax(500px, auto)',
   gap: '2vw',
-  padding: '2%',
+  padding: '1%',
 }
 
 
@@ -82,7 +84,7 @@ const MenuGrid = ({menu}) => {
 }
 
 const MenuElement = ({name}) => {
-  return <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
 }
 
 
