@@ -87,6 +87,7 @@ def lowInventoryApi(request, id=0):
         lowInv.delete()
         return JsonResponse("Delete Successfull!", safe=False)
 
+# TODO fix bug with menu food_id's not matching len of menu
 @csrf_exempt
 def comboReportApi(request):
     if request.method == 'GET':
@@ -131,6 +132,7 @@ def comboReportApi(request):
         pairs_serializer = comboItemSerializer(pairs, many=True)
         return JsonResponse(pairs_serializer.data, safe=False)
 
+# TODO fix bug with menu food_id's not matching len of menu
 @csrf_exempt
 def salesReportApi(request):
     if request.method == 'GET':
@@ -151,7 +153,7 @@ def salesReportApi(request):
         odItems = Orderdetails.objects.raw(odquery)
         menuItems = Menu.objects.raw(menuquery)
 
-        salesNumbers = [0 for x in menuItems]
+        salesNumbers = [0 for x in range(menuItems[-1].food_id)]
         for od in odItems:
             salesNumbers[od.food_id-1] += 1
         
@@ -176,6 +178,7 @@ def salesReportApi(request):
         sales_serializer = salesItemSerializer(sales, many=True)
         return JsonResponse(sales_serializer.data, safe=False)
 
+# TODO fix bug with menu food_id's not matching len of menu
 @csrf_exempt
 def excessReportApi(request):
     if request.method == 'GET':
@@ -197,7 +200,7 @@ def excessReportApi(request):
         odItems = Orderdetails.objects.raw(odquery)
         menuItems = Menu.objects.raw(menuquery)
 
-        salesNumbers = [0 for x in menuItems]
+        salesNumbers = [0 for x in range(menuItems[-1].food_id)]
         for od in odItems:
             salesNumbers[od.food_id-1] += 1
         
@@ -233,6 +236,7 @@ def excessReportApi(request):
         ivitems_serializer = inventoryItemSerializer(excessReport, many=True)
         return JsonResponse(ivitems_serializer.data, safe=False)
 
+# TODO fix bug with menu food_id's not matching len of menu
 @csrf_exempt
 def restockReportApi(request):
     if request.method == 'GET':
