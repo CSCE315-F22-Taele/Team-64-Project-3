@@ -178,7 +178,7 @@ const Customer = () => {
         <Card style={checkoutStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center'}}>
-              Current Order 
+              Your Order 
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
