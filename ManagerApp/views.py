@@ -277,7 +277,9 @@ def placeOrderApi(request):
         total = 0.0
         for i in range(len(order)):
             total += float(order[i]['price'])
-        
+        if total == 0.0:
+            return JsonResponse("Must add items before placing order!", safe=False)
+            
         orderDetails = Orderdetails.objects.raw("SELECT * FROM orderdetails ORDER BY order_id")
         currOrderId = 1
         if len(orderDetails) > 0:
