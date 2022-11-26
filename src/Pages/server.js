@@ -57,7 +57,7 @@ const gridContainer = {
   // overflow: 'scroll',
     display: 'grid',
     gap: '3vw',
-    gridTemplateColumns: 'repeat(4, 6.5vw)',
+    gridTemplateColumns: 'repeat(4, 7vw)',
     alignItems: 'center',
     //gridAutoFlow: 'row',
     //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */

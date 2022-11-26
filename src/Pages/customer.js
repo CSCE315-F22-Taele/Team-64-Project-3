@@ -52,7 +52,7 @@ const inventoryContainerStyle = {
 const gridContainer = {
   //Grid layout
   display: 'grid',
-  gridTemplateColumns: 'repeat(4, 6.5vw)',
+  gridTemplateColumns: 'repeat(4, 7vw)',
   // gridTemplateRows: 'repeat(8, 1fr)',
   gap: '3vw',
   alignItems: 'center',
