@@ -275,6 +275,7 @@ const Manager = () => {
                         price: menuPrice,
                         ingredients: menuIngs
                       }).then((res) => updateMenu()).catch(err => console.log(err));
+                      window.location.reload(false);
                       }}>Add item</button>
                     </InputGroup>
                   </Col>
@@ -315,6 +316,7 @@ const Manager = () => {
                         price: menuPrice,
                         ingredients: menuIngs
                       }).then((res) => updateMenu()).catch(err => console.log(err));
+                      window.location.reload(false);
                       }}>Edit Item</button>
                     </InputGroup>
                   </Col>
@@ -448,6 +450,7 @@ const Manager = () => {
                         itemfcount: invCap,
                         itemcode: invCode
                       }).then((res) => updateInventory()).catch(err => console.log(err));
+                      window.location.reload(false);
                       }}>Add item</button>
                     </InputGroup>
                   </Col>
@@ -495,6 +498,7 @@ const Manager = () => {
                         itemfcount: invCap,
                         itemcode: invCode
                       }).then((res) => updateInventory()).catch(err => console.log(err));
+                      window.location.reload(false);
                       }}>Edit Item</button>
                     </InputGroup>
                   </Col>

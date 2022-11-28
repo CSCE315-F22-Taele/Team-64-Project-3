@@ -57,7 +57,7 @@ const gridContainer = {
   // overflow: 'scroll',
     display: 'grid',
     gap: '3vw',
-    gridTemplateColumns: 'repeat(4, 6.5vw)',
+    gridTemplateColumns: 'repeat(4, 7vw)',
     alignItems: 'center',
     //gridAutoFlow: 'row',
     //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
@@ -90,7 +90,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;

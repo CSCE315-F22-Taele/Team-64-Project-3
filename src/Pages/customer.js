@@ -52,9 +52,9 @@ const inventoryContainerStyle = {
 const gridContainer = {
   //Grid layout
   display: 'grid',
-  gridTemplateColumns: 'repeat(5, 6.5vw)',
+  gridTemplateColumns: 'repeat(4, 7vw)',
   // gridTemplateRows: 'repeat(8, 1fr)',
-  gap: '1vw',
+  gap: '3vw',
   alignItems: 'center',
   
 }
@@ -93,7 +93,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;
