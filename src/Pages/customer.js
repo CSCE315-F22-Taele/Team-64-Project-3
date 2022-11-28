@@ -83,7 +83,7 @@ const orderItemStyle = {
   overflow: 'auto',
 }
 
-const InventoryGrid = ({menu, order, setOrder, setTotal}) => {
+const MenuGrid = ({menu, order, setOrder, setTotal}) => {
   return (
     <div style={gridContainer}>
       {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order} 
@@ -168,7 +168,7 @@ const Customer = () => {
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
                 aria-labelledby='nav-home-tab'>
-                  <InventoryGrid menu={menuTable} setOrder={setOrder} setTotal={setTotal}/>
+                  <MenuGrid menu={menuTable} setOrder={setOrder} setTotal={setTotal}/>
                 </div>
               </div>
             </div>
@@ -190,7 +190,6 @@ const Customer = () => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>Checkout</Button>
-
           </Card.Body>
         </Card>
 

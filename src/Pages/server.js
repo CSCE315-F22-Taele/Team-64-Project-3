@@ -74,28 +74,81 @@ const checkoutStyle = {
   height: '100%',
 }
 
+const orderItemStyle = {
+  height: '90%',
+  overflow: 'auto',
+}
+
 // components
-const MenuGrid = ({menu}) => {
+const MenuGrid = ({menu, order, setOrder, setTotal}) => {
   return (
     <div style={gridContainer}>
-      {menu.map((item, index) => <MenuElement name={item.menuitem} key={index}/>)}
+      {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order} 
+        setOrder={setOrder} setTotal={setTotal} key={index}/>)}
     </div>
   )
 }
 
-const MenuElement = ({name}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}}>{name}</Button>;
+const MenuElement = ({name, id, price, setOrder, setTotal}) => {
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '6vw', height: '6vw'}} 
+    onClick={(event) => { setOrder(current => [...current, id]);
+      setTotal(current => current + parseFloat(price));
+      }}>{name}</Button>;
 }
 
+const OrderDisplay = ({order, menu}) => {
+  if(menu.length <= 0) return;
 
+  function findMenuItem(id){
+    for(var i=0; i<menu.length; ++i){
+      if(menu[i].food_id == id) return menu[i]; 
+    }
+  }
+  
+  return (
+    <div style={orderItemStyle}>
+      {order.map((id, index) => <OrderItem item={findMenuItem(id)} key={index}/>)}
+    </div>
+  )
+}
+
+const OrderItem = ({item}) => {
+  return (
+    <p>{'1x ' + item.menuitem + ' $' + item.price}</p>
+  )
+}
 
 const Server = () => {
   const [menuTable, setMenuTable] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [total, setTotal] = useState(0.0);
+
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
       .then(res => setMenuTable(res.data))
       .catch(err => console.log(err))
   }, []);
+
+  function findMenuItem(id){
+    for(var i=0; i<menuTable.length; ++i){
+      if(menuTable[i].food_id == id) return menuTable[i]; 
+    }
+  }
+
+  function createJSON(){
+    var res = []
+    for(var i=0; i<order.length; ++i){
+      var item = findMenuItem(order[i]);
+      res.push(
+        {
+          "itemid": order[i],
+          "itemname": item.menuitem,
+          "price": item.price
+        }
+      )
+    }
+    return res;
+  }
 
   return (
     <div>
@@ -111,18 +164,10 @@ const Server = () => {
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
                 aria-labelledby='nav-home-tab'>
-                <MenuGrid menu={menuTable}/>
-
+                  <MenuGrid menu={menuTable} setOrder={setOrder} setTotal={setTotal}/>
                 </div>
               </div>
-
-              
-                
-              
             </div>
-
-            
-          
           </Card.Body>
         </Card>
 
@@ -132,10 +177,15 @@ const Server = () => {
               Current Order 
             </Card.Title>
             <Card style={{height: '90%'}}>
-
+              <Card.Body style={{height:'1vh'}}>
+                <h2 style={{textAlign: 'center'}}>Total: ${total.toFixed(2)}</h2>
+                <OrderDisplay order={order} menu={menuTable}/>
+              </Card.Body>
             </Card>
-            <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}}>Checkout</Button>
-
+            <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}} onClick={(event) => {
+              axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
+              ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
+              }}>Checkout</Button>
           </Card.Body>
         </Card>
 
