@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card } from 'react-bootstrap';
 import React, {useState} from "react";
 import { useEffect } from 'react';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
 import './hover.css';
 
@@ -105,7 +106,7 @@ const OrderDisplay = ({order, menu}) => {
 
   function findMenuItem(id){
     for(var i=0; i<menu.length; ++i){
-      if(menu[i].food_id == id) return menu[i]; 
+      if(menu[i].food_id === id) return menu[i]; 
     }
   }
   
@@ -122,6 +123,12 @@ const OrderItem = ({item}) => {
   )
 }
 
+const GoogleMapcontainerStyle = {
+  width: '100%',
+  height: '60%',
+  overflow: 'auto',
+};
+
 const Customer = () => {
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
@@ -135,7 +142,7 @@ const Customer = () => {
 
   function findMenuItem(id){
     for(var i=0; i<menuTable.length; ++i){
-      if(menuTable[i].food_id == id) return menuTable[i]; 
+      if(menuTable[i].food_id === id) return menuTable[i]; 
     }
   }
 
@@ -154,16 +161,48 @@ const Customer = () => {
     return res;
   }
 
-  return (
+  const center = {
+    lat: 30.6123985,
+    lng: -96.3414823
+  };
+    const { isLoaded } = useJsApiLoader({
+      id: 'google-map-script',
+      googleMapsApiKey: "AIzaSyBBOsZmB4HCcudFw2G4eawdpraS4FfP0-I"
+    })
+  
+    const [map, setMap] = React.useState(null)
+  
+    const onLoad = React.useCallback(function callback(map) {
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
+  
+      setMap(map)
+    }, [])
+  
+    const onUnmount = React.useCallback(function callback(map) {
+      setMap(null)
+    }, [])
+  
+
+
+  return isLoaded ? (
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field' />
       <div style={glassPane}>
-
         <Card style={inventoryContainerStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' }}>
               Menu Items
             </Card.Title>
+        {/* <GoogleMap
+          mapContainerStyle={GoogleMapcontainerStyle}
+          center={center}
+          zoom={19}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          <></>
+        </GoogleMap> */}
             <div class="container my-5">
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
@@ -195,7 +234,7 @@ const Customer = () => {
 
       </div>
     </div>
-  );
+  ) : <></>
 };
 
 export default Customer;

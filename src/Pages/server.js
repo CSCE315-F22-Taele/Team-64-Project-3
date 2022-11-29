@@ -101,7 +101,7 @@ const OrderDisplay = ({order, menu}) => {
 
   function findMenuItem(id){
     for(var i=0; i<menu.length; ++i){
-      if(menu[i].food_id == id) return menu[i]; 
+      if(menu[i].food_id === id) return menu[i]; 
     }
   }
   
@@ -131,7 +131,7 @@ const Server = () => {
 
   function findMenuItem(id){
     for(var i=0; i<menuTable.length; ++i){
-      if(menuTable[i].food_id == id) return menuTable[i]; 
+      if(menuTable[i].food_id === id) return menuTable[i]; 
     }
   }
 
