@@ -45,7 +45,7 @@ const glassPane = {
 
 //----Invent Styles Begin----
 const inventoryContainerStyle = {
-  backgroundColor: 'yellow',
+  backgroundColor: 'orange',
   width: '100%',
   height: '100%',
   overflow: 'auto',

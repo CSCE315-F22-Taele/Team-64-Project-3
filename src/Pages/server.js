@@ -69,7 +69,7 @@ const gridContainer = {
 
 //Checkout 
 const checkoutStyle = {
-  backgroundColor: 'yellow',
+  backgroundColor: 'orange',
   position: 'relative',
   width: '100%',
   height: '100%',
