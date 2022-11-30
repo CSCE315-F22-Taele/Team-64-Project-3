@@ -20,12 +20,12 @@ const myStyle = {
 }
 
 const logoStyle = {
-  height: '50vh',
-  marginTop: '-5vh'
+  height: '60vh',
+  marginTop: '-2vh'
 }
 
 const whitePane = {
-  
+  filter: 'dropShadow(30px 10px 4px #4444dd)',
   margin: '5vh auto',
   top: '0',
   right: '0',
@@ -36,7 +36,7 @@ const whitePane = {
   height: '90vh',
   width: '90vw',
   overflow: 'hidden', 
-  backgroundColor: 'white',
+  backgroundColor: 'blue',
   
 }
 
@@ -124,7 +124,7 @@ const App = () => {
             <div class="tab-content">
               <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                 <form>
-                  <div class="text-center mt-1">
+                  <div class="text-center mt-4">
                     <p>Sign in with:</p>
 
                     <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton">
@@ -136,14 +136,14 @@ const App = () => {
 
                   </div>
 
-                  <p class="text-center mt-0">or:</p>
+                  <p class="text-center mt-1">or:</p>
 
-                  <div class="form-outline mb-0 mx-5">
+                  <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginName">Username</label>
                     <input type="email" id="loginName" class="form-control" />
                   </div>
 
-                  <div class="form-outline mb-0 mx-5">
+                  <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginPassword">Password</label>
                     <input type="password" id="loginPassword" class="form-control"/>
                   </div>
@@ -154,7 +154,7 @@ const App = () => {
               
               <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form>
-                  <div class="text-center mb-0">
+                  <div class="text-center mt-4">
                     <p>Sign up with:</p>
 
                     <button type="button" class="btn btn-link btn-floating mx-1">
@@ -166,25 +166,25 @@ const App = () => {
                     </button>
                   </div>
 
-                  <p class="text-center mt-0">or:</p>
+                  <p class="text-center mt-1">or:</p>
 
-                  <div class="form-outline mb-0">
+                  <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerUsername">Username</label>
                     <input type="text" id="registerUsername" class="form-control" />
                   </div>
 
-                  <div class="form-outline mb-0">
+                  <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerPassword">Password</label>
                     <input type="password" id="registerPassword" class="form-control" />
                   </div>
 
                   
-                  <div class="form-outline mb-0">
-                    <label class="form-label" for="registerRepeatPassword">Key</label>
-                    <input type="password" id="registerRepeatPassword" class="form-control" />
+                  <div class="form-outline mb-1 mx-5" >
+                    <label class="form-label" for="registerRepeatPassword" >Key</label>
+                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control" />
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white">Sign in</button>
+                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white">Sign Up</button>
                 </form>
               </div>
             </div>

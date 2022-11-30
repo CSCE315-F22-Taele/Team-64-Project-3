@@ -9,6 +9,7 @@ body{
 }
 
 section{
+    filter: drop-shadow(5px 5px 10px #000000);
     position: absolute;
     top: 50%;
     left:50%;
@@ -52,7 +53,7 @@ section{
     border-radius: 5px;
 
     margin-top: 4%;
-    margin-left: 10%;
+    margin-left: 18%;
 }
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .bg-primary{
