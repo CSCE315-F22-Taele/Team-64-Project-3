@@ -48,21 +48,18 @@ const glassPane = {
 
 //Containers
 const menuItemsStyle = {
-  backgroundColor: 'maroon',
   width: '100%',
   alignItems: 'center',
   gridColumn: '1',
   gridRow: '1',
 }
 const inventoryItemsStyle = {
-  backgroundColor: 'maroon',
   width: '100%',
   alignItems: 'center',
   gridColumn: '1',
   gridRow: '2',
 }
 const reportStyle = {
-  backgroundColor: 'maroon',
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -73,19 +70,17 @@ const formStyle = {
   width: '100%',
 }
 const menuTableContainer = {
-  backgroundColor: 'orange',
-  height: '16%',
+  height: '15%',
   width: '40vw',
   overflow: 'auto',
 }
 const inventoryTableContainer = {
-  backgroundColor: 'orange',
   height: '12%',
   width: '40vw',
   overflow: 'auto',
 }
 const reportItemStyle = {
-  //backgroundColor: 'yellow',
+  // backgroundColor: 'yellow',
   height: '100%',
   overflow: 'auto',
 }
@@ -241,7 +236,7 @@ const Manager = () => {
         <div style={glassPane}>
           <Card style={menuItemsStyle}>
             <Card.Body>
-              <Card.Title style={{textAlign:'center', color: 'white'}}>
+              <Card.Title style={{textAlign:'center'}}>
                 Menu Items
               </Card.Title>
               <MenuTable menu={menuTable}/>
@@ -274,7 +269,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('http://127.0.0.1:8000/manager/menu', {
                         menuitem: menuName,
                         price: menuPrice,
@@ -314,7 +309,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button  type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('http://127.0.0.1:8000/manager/menu', {
                         food_id: menuID,
                         menuitem: menuName,
@@ -337,7 +332,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.delete('http://127.0.0.1:8000/manager/menu/' + menuID).then((res) => updateMenu()).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>
@@ -349,7 +344,7 @@ const Manager = () => {
           
           <Card style={reportStyle}>
             <Card.Body>
-            <Card.Title style={{textAlign:'center', color: 'white'}}>
+            <Card.Title style={{textAlign:'center'}}>
                 Reports
             </Card.Title>
             &nbsp;
@@ -398,7 +393,7 @@ const Manager = () => {
                   <Col xs="auto">
                     {/* type="submit"  */}
                     <InputGroup className="mb-2">
-                    <button style={{backgroundColor: 'black', color: 'white'}} className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
+                    <button  className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
                       setLoading(true);
                       axios.get(reportString).then((res) => {setData(res.data); setLoading(false)});
                       }}>
@@ -415,7 +410,7 @@ const Manager = () => {
 
           <Card style={inventoryItemsStyle}>
             <Card.Body>
-              <Card.Title style={{textAlign:'center', color: 'white'}}>
+              <Card.Title style={{textAlign:'center'}}>
                 Inventory Items
               </Card.Title>
               <InventoryTable inventory={inventoryTable}/>
@@ -452,7 +447,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('http://127.0.0.1:8000/manager/inventory', {
                         itemname: invName,
                         itemcount: invCount,
@@ -499,7 +494,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('http://127.0.0.1:8000/manager/inventory', {
                         item_id: invID,
                         itemname: invName,
@@ -523,7 +518,7 @@ const Manager = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.delete('http://127.0.0.1:8000/manager/inventory/' + invID).then((res) => updateInventory()).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>

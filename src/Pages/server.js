@@ -42,34 +42,23 @@ const glassPane = {
 
 //----Inventory Styles Begin----
 const inventoryContainerStyle = {
-  backgroundColor: 'orange',
+  
   width: '100%',
   height: '100%',
   overflow: 'auto',
 }
 
 const gridContainer = {
-  // height:'97%',
-
-  // //Grid layout
-  // display: 'grid',
-  
-  //padding: '2%',
-  // overflow: 'scroll',
     display: 'grid',
     gap: '3vw',
     gridTemplateColumns: 'repeat(4, 7vw)',
-    alignItems: 'center',
-    //gridAutoFlow: 'row',
-    //gridAutoRows: '5%', /* play with this to change height of the children, 50% will fill half */
-    //gridTemplateColumns: 'unset', /* do not set template columns and rows */
-    //gridTemplateRows: 'unset',
-    
+    justifyContent: "center",
+    placeItems: 'center',  
 }
 
 //Checkout 
 const checkoutStyle = {
-  backgroundColor: 'orange',
+  
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -91,7 +80,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'maroon', color: 'white', width: '8vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;
@@ -183,7 +172,7 @@ const Server = () => {
                 <OrderDisplay order={order} menu={menuTable}/>
               </Card.Body>
             </Card>
-            <Button style={{backgroundColor: 'black', width: '100%',color:'white'}} onClick={(event) => {
+            <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', width: '100%',color:'white'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>Checkout</Button>

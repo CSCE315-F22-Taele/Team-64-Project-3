@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
 import './hover.css';
+import './customer.css';
 
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
@@ -12,11 +13,12 @@ const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
 const myStyle = {
   height: "100vh",
   objectFit: "cover",
-  overflow: "hidden",
+  
   position: "fixed",
   left: "-18vw",
   top: "0",
   z: "-2",
+  backgroundAttachment: 'fixed',
 };
 
 const glassPane = {
@@ -42,10 +44,29 @@ const glassPane = {
   // boxShadow: '0 0 10px rgb(0,0,0)',
 };
 
+const googleMaps = {
+  
+  margin: '40vh auto',
+  
+  position: 'relative',
+  padding:'20px',
+  
+  
+  backgroundColor: 'rgba(90, 90, 90, .15)',
+  backdropFilter: 'blur(5px)',
+  height: '40vh',
+  width: '40vw',
+  overflow: 'hidden',
+  borderRadius: '20px',
+
+  
+  
+}
+
 
 //----Invent Styles Begin----
 const inventoryContainerStyle = {
-  backgroundColor: 'orange',
+  
   width: '100%',
   height: '100%',
   overflow: 'auto',
@@ -57,13 +78,12 @@ const gridContainer = {
   gridTemplateColumns: 'repeat(4, 7vw)',
   // gridTemplateRows: 'repeat(8, 1fr)',
   gap: '3vw',
-  alignItems: 'center',
-  
+  justifyContent: "center",
+  placeItems: 'center',
 }
 
 //--Checkout Style Begins
 const checkoutStyle = {
-  backgroundColor: 'orange',
   position: "relative",
   width: "100%",
   height: "100%",
@@ -96,7 +116,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'maroon', color: 'white', width: '8vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;
@@ -127,11 +147,34 @@ const OrderItem = ({item}) => {
 
 const GoogleMapcontainerStyle = {
   width: '100%',
-  height: '60%',
+  height: '100%',
   overflow: 'auto',
+  borderRadius: '20px'
+
 };
 
+
+
 const Customer = () => {
+
+  const observer = new IntersectionObserver((entries) => {
+    
+    console.log("test: ", entries.at(0));
+    
+    if(entries.isIntersecting){
+      
+    }
+    else{
+      
+    }
+  
+    
+});
+
+const hiddenElements = document.querySelectorAll('.hidden');
+// observer.observe(hiddenElements);
+hiddenElements.forEach((el) => observer.observe(el));
+
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
@@ -164,8 +207,8 @@ const Customer = () => {
   }
 
   const center = {
-    lat: 30.6123985,
-    lng: -96.3414823
+    lat: 30.612545,
+    lng: -96.34074
   };
     const { isLoaded } = useJsApiLoader({
       id: 'google-map-script',
@@ -184,11 +227,13 @@ const Customer = () => {
     const onUnmount = React.useCallback(function callback(map) {
       setMap(null)
     }, [])
+
+    
   
 
 
   return isLoaded ? (
-    <div>
+    <div style={{height:'200vh'}}>
       <img src={picture} style={myStyle} alt='Kyle Field' />
       <div style={glassPane}>
         <Card style={inventoryContainerStyle}>
@@ -196,15 +241,7 @@ const Customer = () => {
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
               Menu Items
             </Card.Title>
-        {/* <GoogleMap
-          mapContainerStyle={GoogleMapcontainerStyle}
-          center={center}
-          zoom={19}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          <></>
-        </GoogleMap> */}
+        
             <div class="container my-5">
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
@@ -227,13 +264,26 @@ const Customer = () => {
                 <OrderDisplay order={order} menu={menuTable}/>
               </Card.Body>
             </Card>
-            <Button style={{backgroundColor: 'black', color: 'white', width: '100%'}} onClick={(event) => {
+            <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>Checkout</Button>
           </Card.Body>
         </Card>
 
+      </div>
+      
+      <div style={googleMaps} class='hidden'>
+        <GoogleMap
+            class='hidden' 
+            mapContainerStyle={GoogleMapcontainerStyle}
+            center={center}
+            zoom={19}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+            >
+            <></>
+          </GoogleMap>
       </div>
     </div>
   ) : <></>
