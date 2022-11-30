@@ -42,6 +42,7 @@ const glassPane = {
 
 //----Inventory Styles Begin----
 const inventoryContainerStyle = {
+  backgroundColor: 'orange',
   width: '100%',
   height: '100%',
   overflow: 'auto',
@@ -68,7 +69,7 @@ const gridContainer = {
 
 //Checkout 
 const checkoutStyle = {
-  
+  backgroundColor: 'yellow',
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -90,7 +91,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '8vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" style={{backgroundColor: 'maroon', color: 'white', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{name}</Button>;
@@ -157,7 +158,7 @@ const Server = () => {
 
         <Card style={inventoryContainerStyle}>
           <Card.Body>
-            <Card.Title style={{ textAlign: 'center' }}>
+            <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
               Menu Items
             </Card.Title>
             <div class="container my-5">
@@ -173,16 +174,16 @@ const Server = () => {
 
         <Card style={checkoutStyle}>
           <Card.Body>
-            <Card.Title style={{ textAlign: 'center'}}>
+            <Card.Title style={{ textAlign: 'center', color:'black'}}>
               Current Order 
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
-                <h2 style={{textAlign: 'center'}}>Total: ${total.toFixed(2)}</h2>
+                <h2 style={{textAlign: 'center', color:'black'}}>Total: ${total.toFixed(2)}</h2>
                 <OrderDisplay order={order} menu={menuTable}/>
               </Card.Body>
             </Card>
-            <Button style={{backgroundColor: 'rgba(90, 90, 90, .8)', width: '100%'}} onClick={(event) => {
+            <Button style={{backgroundColor: 'black', width: '100%',color:'white'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>Checkout</Button>
