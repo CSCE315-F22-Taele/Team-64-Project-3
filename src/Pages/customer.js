@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import './hover.css';
 import './customer.css';
+import './scrollbar.css';
 
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
@@ -71,6 +72,7 @@ const inventoryContainerStyle = {
   width: '100%',
   height: '100%',
   overflow: 'auto',
+  scrollbarWidth: 'thin',
 }
 
 const gridContainer = {
@@ -241,7 +243,7 @@ const Customer = () => {
     <div style={{height:'200vh'}}>
       <img src={picture} style={myStyle} alt='Kyle Field' />
       <div style={glassPane}>
-        <Card style={inventoryContainerStyle}>
+        <Card style={inventoryContainerStyle} id='scroll'>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
               Menu Items

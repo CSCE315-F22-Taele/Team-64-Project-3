@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './hover.css';
 import './hover.css';
+import './scrollbar.css';
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
 
