@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card } from 'react-bootstrap';
 import React, {useState} from "react";
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
+
 import './hover.css';
 import './customer.css';
 
@@ -155,34 +156,39 @@ const GoogleMapcontainerStyle = {
 
 
 
+
+
+
+
 const Customer = () => {
 
-  const observer = new IntersectionObserver((entries) => {
-    
-    console.log("test: ", entries.at(0));
-    
-    if(entries.isIntersecting){
-      
-    }
-    else{
-      
+  const myRef = useRef();
+  
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+      else{
+        entry.target.classList.remove('show');
+      }
+    });
+    if(myRef.current != null){
+      observer.observe(myRef.current);
     }
   
-    
-});
+  
 
-const hiddenElements = document.querySelectorAll('.hidden');
-// observer.observe(hiddenElements);
-hiddenElements.forEach((el) => observer.observe(el));
+  
 
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
-
+  
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
-      .then(res => setMenuTable(res.data))
-      .catch(err => console.log(err))
+    .then(res => setMenuTable(res.data))
+    .catch(err => console.log(err))
   }, []);
 
   function findMenuItem(id){
@@ -220,7 +226,6 @@ hiddenElements.forEach((el) => observer.observe(el));
     const onLoad = React.useCallback(function callback(map) {
       const bounds = new window.google.maps.LatLngBounds(center);
       map.fitBounds(bounds);
-  
       setMap(map)
     }, [])
   
@@ -273,16 +278,15 @@ hiddenElements.forEach((el) => observer.observe(el));
 
       </div>
       
-      <div style={googleMaps} class='hidden'>
-        <GoogleMap
-            class='hidden' 
+      <div style={googleMaps} class='hidden' ref={myRef}>
+        <GoogleMap 
             mapContainerStyle={GoogleMapcontainerStyle}
             center={center}
-            zoom={19}
             onLoad={onLoad}
             onUnmount={onUnmount}
+            zoom={19}
             >
-            <></>
+            
           </GoogleMap>
       </div>
     </div>
