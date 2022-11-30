@@ -48,18 +48,21 @@ const glassPane = {
 
 //Containers
 const menuItemsStyle = {
+  backgroundColor: 'maroon',
   width: '100%',
   alignItems: 'center',
   gridColumn: '1',
   gridRow: '1',
 }
 const inventoryItemsStyle = {
+  backgroundColor: 'maroon',
   width: '100%',
   alignItems: 'center',
   gridColumn: '1',
   gridRow: '2',
 }
 const reportStyle = {
+  backgroundColor: 'maroon',
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -70,17 +73,19 @@ const formStyle = {
   width: '100%',
 }
 const menuTableContainer = {
-  height: '15%',
+  backgroundColor: 'orange',
+  height: '16%',
   width: '40vw',
   overflow: 'auto',
 }
 const inventoryTableContainer = {
+  backgroundColor: 'orange',
   height: '12%',
   width: '40vw',
   overflow: 'auto',
 }
 const reportItemStyle = {
-  // backgroundColor: 'yellow',
+  //backgroundColor: 'yellow',
   height: '100%',
   overflow: 'auto',
 }
@@ -236,7 +241,7 @@ const Manager = () => {
         <div style={glassPane}>
           <Card style={menuItemsStyle}>
             <Card.Body>
-              <Card.Title style={{textAlign:'center'}}>
+              <Card.Title style={{textAlign:'center', color: 'white'}}>
                 Menu Items
               </Card.Title>
               <MenuTable menu={menuTable}/>
@@ -245,38 +250,38 @@ const Manager = () => {
               <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuID} onChange={(event) => menuID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Item name:</InputGroup.Text>
+                      <InputGroup.Text ><small>Item name:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuName} onChange={(event) => menuName=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Price:</InputGroup.Text>
+                      <InputGroup.Text ><small>Price:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuPrice} onChange={(event) => menuPrice=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Ingredients:</InputGroup.Text>
+                      <InputGroup.Text ><small>Ingredients:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuIngs} onChange={(event) => menuIngs=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('http://127.0.0.1:8000/manager/menu', {
                         menuitem: menuName,
                         price: menuPrice,
                         ingredients: menuIngs
                       }).then((res) => updateMenu()).catch(err => console.log(err));
                       window.location.reload(false);
-                      }}>Add item</button>
+                      }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -285,31 +290,31 @@ const Manager = () => {
                 <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroups" value={menuID} onChange={(event) => menuID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Item name:</InputGroup.Text>
+                      <InputGroup.Text ><small>Item name:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuName} onChange={(event) => menuName=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Price:</InputGroup.Text>
+                      <InputGroup.Text ><small>Price:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuPrice} onChange={(event) => menuPrice=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Ingredients:</InputGroup.Text>
+                      <InputGroup.Text ><small>Ingredients:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuIngs} onChange={(event) => menuIngs=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('http://127.0.0.1:8000/manager/menu', {
                         food_id: menuID,
                         menuitem: menuName,
@@ -317,7 +322,7 @@ const Manager = () => {
                         ingredients: menuIngs
                       }).then((res) => updateMenu()).catch(err => console.log(err));
                       window.location.reload(false);
-                      }}>Edit Item</button>
+                      }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -326,15 +331,15 @@ const Manager = () => {
                 <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
                   <Col >
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={menuID} onChange={(event) => menuID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.delete('http://127.0.0.1:8000/manager/menu/' + menuID).then((res) => updateMenu()).catch(err => console.log(err));
-                      }}>Remove item</button>
+                      }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -344,15 +349,16 @@ const Manager = () => {
           
           <Card style={reportStyle}>
             <Card.Body>
-            <Card.Title style={{textAlign:'center'}}>
+            <Card.Title style={{textAlign:'center', color: 'white'}}>
                 Reports
             </Card.Title>
-            <Card style={{height:'85%'}}>
+            &nbsp;
+            <Card style={{height:'75%'}}>
               <Card.Body style={{height:'1vh', backgroundColor:''}}>
                 <Report reportType={reportType} data={data} loading={loading}/>
               </Card.Body>
             </Card>
-            
+            &nbsp;
             <div style={formStyle}>
               <Form>
                 <Row className="align-items-center">
@@ -367,6 +373,7 @@ const Manager = () => {
                     </Form.Select>
                   </Col>
                 </Row>
+                &nbsp;
                 <Row className="align-items-center" style={{justifyContent: 'center'}}>
                   <Col xs="auto" style={{width: '40%'}}>
                     <Form.Label htmlFor="inlineFormInput" visuallyHidden>
@@ -378,11 +385,11 @@ const Manager = () => {
                         value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
                     </InputGroup>
                   </Col>
-                  <Col xs="auto" style={{width: '60%'}}>
+                  <Col xs="auto" style={{width: '40%'}}>
                     <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
                       Username
                     </Form.Label>
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-2">
                       <InputGroup.Text>End:</InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY"
                         value={endTime} onChange={(event) => setEndTime(event.target.value)}/>
@@ -390,12 +397,14 @@ const Manager = () => {
                   </Col>
                   <Col xs="auto">
                     {/* type="submit"  */}
-                    <button className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
+                    <InputGroup className="mb-2">
+                    <button style={{backgroundColor: 'black', color: 'white'}} className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
                       setLoading(true);
                       axios.get(reportString).then((res) => {setData(res.data); setLoading(false)});
                       }}>
                       Submit
                     </button>
+                    </InputGroup>
                   </Col>
                 </Row>
               </Form>
@@ -406,44 +415,44 @@ const Manager = () => {
 
           <Card style={inventoryItemsStyle}>
             <Card.Body>
-              <Card.Title style={{textAlign:'center'}}>
+              <Card.Title style={{textAlign:'center', color: 'white'}}>
                 Inventory Items
               </Card.Title>
               <InventoryTable inventory={inventoryTable}/>
               <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
               <Col >
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Name:</InputGroup.Text>
+                      <InputGroup.Text ><small>Name:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invName} onChange={(event) => invName=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Count:</InputGroup.Text>
+                      <InputGroup.Text ><small>Count:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCount} onChange={(event) => invCount=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Cap:</InputGroup.Text>
+                      <InputGroup.Text ><small>Cap:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCap} onChange={(event) => invCap=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Code:</InputGroup.Text>
+                      <InputGroup.Text ><small>Code:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCode} onChange={(event) => invCode=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('http://127.0.0.1:8000/manager/inventory', {
                         itemname: invName,
                         itemcount: invCount,
@@ -451,7 +460,7 @@ const Manager = () => {
                         itemcode: invCode
                       }).then((res) => updateInventory()).catch(err => console.log(err));
                       window.location.reload(false);
-                      }}>Add item</button>
+                      }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -460,37 +469,37 @@ const Manager = () => {
                 <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
                   <Col >
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Name:</InputGroup.Text>
+                      <InputGroup.Text ><small>Name:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invName} onChange={(event) => invName=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Count:</InputGroup.Text>
+                      <InputGroup.Text ><small>Count:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCount} onChange={(event) => invCount=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Cap:</InputGroup.Text>
+                      <InputGroup.Text ><small>Cap:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCap} onChange={(event) => invCap=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Code:</InputGroup.Text>
+                      <InputGroup.Text ><small>Code:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invCode} onChange={(event) => invCode=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('http://127.0.0.1:8000/manager/inventory', {
                         item_id: invID,
                         itemname: invName,
@@ -499,7 +508,7 @@ const Manager = () => {
                         itemcode: invCode
                       }).then((res) => updateInventory()).catch(err => console.log(err));
                       window.location.reload(false);
-                      }}>Edit Item</button>
+                      }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
@@ -508,15 +517,15 @@ const Manager = () => {
                 <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center'}}>
                   <Col >
                     <InputGroup className="mb-2">
-                      <InputGroup.Text >Food ID:</InputGroup.Text>
+                      <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
                       <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
-                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button style={{backgroundColor: 'black', color: 'white'}}type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.delete('http://127.0.0.1:8000/manager/inventory/' + invID).then((res) => updateInventory()).catch(err => console.log(err));
-                      }}>Remove item</button>
+                      }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
                 </Row>
