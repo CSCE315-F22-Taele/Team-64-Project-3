@@ -33,6 +33,10 @@ def inventoryApi(request, id=0):
         inv_serializer = inventorySerializer(inv, data=inv_data)
         if inv_serializer.is_valid():
             inv_serializer.save()
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM lowinventory")
+            cursor.execute("ALTER SEQUENCE lowinventory_priority_id_seq RESTART WITH 1")
+            cursor.execute("INSERT INTO lowinventory(item_id) SELECT item_id FROM inventory WHERE itemcount < 250")
             return JsonResponse("Updated Successfully!", safe=False)
         return JsonResponse("Failed to update.", safe=False)
     elif request.method == 'DELETE':
@@ -268,6 +272,9 @@ def updateInv(ings, cursor):
         count = item[0].itemcount - 1
         cmd = "UPDATE inventory SET itemcount=" + str(count) + " WHERE item_id=" + str(item[0].item_id)
         cursor.execute(cmd)
+        cursor.execute("DELETE FROM lowinventory")
+        cursor.execute("ALTER SEQUENCE lowinventory_priority_id_seq RESTART WITH 1")
+        cursor.execute("INSERT INTO lowinventory(item_id) SELECT item_id FROM inventory WHERE itemcount < 250")
 
 @csrf_exempt
 def placeOrderApi(request):
