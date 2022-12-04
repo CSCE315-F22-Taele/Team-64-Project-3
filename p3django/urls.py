@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html')),
     re_path(r'^', include('ManagerApp.urls')),
+    path('auth/',include('drf_social_oauth2.urls',namespace='drf')),
 ]

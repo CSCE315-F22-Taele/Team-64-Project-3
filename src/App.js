@@ -3,10 +3,16 @@ import  Button  from 'react-bootstrap/Button';
 import { ReactDOM } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import GoogleLogin from "react-google-login";
+import axios from 'axios';
 const picture = new URL("./Resources/KyleField.jpg", import.meta.url)
 
 // const revsLogo = new URL("./Resources/whiteLogo.png", import.meta.url)
 const revsLogo = new URL("./Resources/yellowLogo.png", import.meta.url)
+
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const drfClientId = process.env.REACT_APP_DRF_CLIENT_ID;
+const drfClientSecret = process.env.REACT_APP_DRF_CLIENT_SECRET;
 
 
 const myStyle = {
@@ -58,7 +64,6 @@ const App = () => {
 
 
 
-
   const loginClick = event => {
     //Sets the login page to be active
     const loginButton = document.getElementById("tab-login");
@@ -90,9 +95,28 @@ const App = () => {
     const registerForm = document.getElementById("pills-register");
     registerForm.setAttribute("class", "tab-pane fade show active");
     
+  }
+
+  const handleGoogleLogin = (response) => {
+    axios
+      .post(`http://localhost:3000/auth/convert-token`, {
+        token: response.accessToken,
+        backend: "google-oauth2",
+        grant_type: "convert_token",
+        client_id: drfClientId,
+        client_secret: drfClientSecret,
+      })
+      .then((res) => {
+        const { access_token, refresh_token } = res.data;
+        console.log({ access_token, refresh_token });
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+      })
+      .catch((err) => {
+        console.log("Error Google login", err);
+      });
   };
- 
-    
+  
 
   return(
     <body>
@@ -109,7 +133,24 @@ const App = () => {
         <div class="rightSlanted">
           <div class="loginContainer ">
 
-            
+            <GoogleLogin
+              clientId={googleClientId}
+              buttonText="LOGIN WITH GOOGLE"
+              onSuccess={(response) => handleGoogleLogin(response)}
+              render={(renderProps) => (
+                <button
+                  onClick={console.log("hello")}
+                  // disabled={renderProps.disabled}
+                  type="button"
+                  class="login-with-google-btn"
+                >
+                  Sign in with Google
+                </button>
+              )}
+              onFailure={(err) => console.log("Google Login failed", err)}
+            />
+
+
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
