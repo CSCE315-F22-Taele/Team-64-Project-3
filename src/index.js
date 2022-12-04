@@ -5,12 +5,15 @@ import Manager from './Pages/manager';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Server from './Pages/server';
 import Customer from './Pages/customer';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const googleClientId = "862219696784-jgurkbjugk2pm4k1pppsi7ah0o40q0gg.apps.googleusercontent.com"; //process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 ReactDOM.render(
   <BrowserRouter>
     {/* <App /> */}
     <Routes>
-      <Route path="/" element={<App />}/>
+      <Route path="/" element={<GoogleOAuthProvider clientId={googleClientId}><App /></GoogleOAuthProvider>}/>
       <Route path="manager" element={<Manager />}/>
       <Route path="server" element={<Server />}/>
       <Route path="customer" element={<Customer />}/>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ManagerApp.models import Inventory, Menu, Lowinventory
+from ManagerApp.models import Inventory, Menu, Lowinventory 
 
 class inventorySerializer(serializers.ModelSerializer):
     class Meta:
