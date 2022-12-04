@@ -1,8 +1,8 @@
 ::-webkit-scrollbar{
     width: 1em;
 }
+
 ::-webkit-scrollbar-track{
-    
     margin-block: .5em;
 }
 

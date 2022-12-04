@@ -10,6 +10,9 @@ import './customer.css';
 import './scrollbar.css';
 
 
+
+
+
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
 
 const myStyle = {
@@ -92,17 +95,7 @@ const checkoutStyle = {
   height: "100%",
 };
 
-const checkoutBox = {
-  position: "relative",
-  height: "85%",
-  width : "100%",
-}
 
-const payButton = {
-  position: "right",
-  height: '5%',
-  width: '100%',
-}
 
 const orderItemStyle = {
   height: '90%',
@@ -144,7 +137,7 @@ const OrderDisplay = ({order, menu}) => {
 
 const OrderItem = ({item}) => {
   return (
-    <p>{'1x ' + item.menuitem + ' $' + item.price}</p>
+    <p>{item.menuitem + ' $' + item.price}</p>
   )
 }
 
@@ -163,30 +156,54 @@ const GoogleMapcontainerStyle = {
 
 
 const Customer = () => {
-
   const myRef = useRef();
-  
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if(entry.isIntersecting){
-        entry.target.classList.add('show');
-      }
-      else{
-        entry.target.classList.remove('show');
-      }
-    });
-    if(myRef.current != null){
-      observer.observe(myRef.current);
-    }
-  
-  
-
-  
-
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
+
+  const translate = (inputText) => {
+    let fromLang = 'en';
+    let toLang = 'de'; // translate to norwegian
+    const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += '&q=' + encodeURI(inputText);
+    url += `&source=${fromLang}`;
+    url += `&target=${toLang}`; 
   
+    fetch(url, { 
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+    .then(res => res.json())
+    .then((response) => {
+      console.log("In Function: ", response.data.translations[0].translatedText);
+      // return 'test';
+      return response.data.translations[0].translatedText;
+    })
+    .catch(error => {
+      console.log("There was an error with the translation request: ", error);
+      return "Error";
+    }
+    );
+  }
+
+  
+  const observer = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+    else{
+      entry.target.classList.remove('show');
+    }
+  });
+  if(myRef.current != null){
+    observer.observe(myRef.current);
+  }
+
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
     .then(res => setMenuTable(res.data))
@@ -242,6 +259,7 @@ const Customer = () => {
   return isLoaded ? (
     <div style={{height:'200vh'}}>
       <img src={picture} style={myStyle} alt='Kyle Field' />
+      
       <div style={glassPane}>
         <Card style={inventoryContainerStyle} id='scroll'>
           <Card.Body>
@@ -263,6 +281,8 @@ const Customer = () => {
         <Card style={checkoutStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black'}}>
+            {translate("Your Order")}
+            {console.log("Out of Function:", translate("Your Order"))}
               Your Order 
             </Card.Title>
             <Card style={{height: '90%'}}>
