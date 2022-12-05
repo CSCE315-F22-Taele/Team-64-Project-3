@@ -151,15 +151,12 @@ const GoogleMapcontainerStyle = {
 
 
 
-
-
-
-
 const Customer = () => {
   const myRef = useRef();
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
+  const [orderText, setOrderText] = useState('');
 
   const translate = (inputText) => {
     let fromLang = 'en';
@@ -169,7 +166,8 @@ const Customer = () => {
     url += '&q=' + encodeURI(inputText);
     url += `&source=${fromLang}`;
     url += `&target=${toLang}`; 
-  
+    let string = '';
+    
     fetch(url, { 
       method: 'GET',
       headers: {
@@ -180,14 +178,14 @@ const Customer = () => {
     .then(res => res.json())
     .then((response) => {
       console.log("In Function: ", response.data.translations[0].translatedText);
-      // return 'test';
-      return response.data.translations[0].translatedText;
+      setOrderText(response);
+      return response;
     })
     .catch(error => {
       console.log("There was an error with the translation request: ", error);
-      return "Error";
     }
     );
+    return string;
   }
 
   
@@ -264,6 +262,7 @@ const Customer = () => {
         <Card style={inventoryContainerStyle} id='scroll'>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
+              
               Menu Items
             </Card.Title>
         
@@ -281,9 +280,10 @@ const Customer = () => {
         <Card style={checkoutStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black'}}>
+            
             {translate("Your Order")}
-            {console.log("Out of Function:", translate("Your Order"))}
-              Your Order 
+            {console.log("Outside Function: ", translate("Your Order"))}
+              {orderText}
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
