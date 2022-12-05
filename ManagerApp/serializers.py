@@ -36,4 +36,4 @@ class lowItemSerializer(serializers.Serializer):
 class SimpleUserSerializer(serializers.ModelSerializer):
     class Meta:
         model=SimpleAccount
-        fields=('email','password','first_name','last_name','is_staff','is_active','is_auth')
+        fields=('email','password','first_name','last_name','is_manager','is_server','is_active','is_auth')

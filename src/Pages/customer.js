@@ -200,7 +200,13 @@ const GoogleMapcontainerStyle = {
 
 };
 
-
+const Test = ({inputText, orderText, setOrderText, isDone}) => {
+  if(isDone){
+    return (<p>{orderText}</p>);
+  }else{
+    isDone = true;
+  }
+}
 
 const Customer = () => {
   const myRef = useRef();

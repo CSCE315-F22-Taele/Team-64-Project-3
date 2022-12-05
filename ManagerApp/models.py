@@ -54,7 +54,8 @@ class SimpleAccount(models.Model):
    password = models.CharField(max_length=150, default='')
    first_name = models.CharField(('First Name'),max_length=150)
    last_name = models.CharField(('last Name'),max_length=150)
-   is_staff=models.BooleanField(default=False)
+   is_manager=models.BooleanField(default=False)
+   is_server=models.BooleanField(default=False)
    is_active=models.BooleanField(default=True)
    is_auth=models.BooleanField(default=False)
    def __str__(self):

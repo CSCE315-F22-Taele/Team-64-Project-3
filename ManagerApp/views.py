@@ -321,11 +321,27 @@ def userApi(request):
                 return JsonResponse("Added New User Successfully!", safe=False)
             else:
                 return JsonResponse("User Already Exists!", safe=False)
+        else:
+            account = SimpleAccount.objects.raw("select * from \"ManagerApp_simpleaccount\" WHERE email='" 
+            + user_data['email'] + "'")
+            if len(account) == 0:
+                return JsonResponse("Invalid Email", safe=False)
+            if account[0].is_auth:
+                return JsonResponse("User Already Exists!", safe=False)
         return JsonResponse("Failed to Add User!", safe=False)
     elif request.method == 'GET':
-        user_data = JSONParser().parse(request)
+        # user_data = JSONParser().parse(request)
+        email = request.GET['email']
+        password = request.GET['pass']
+
         account = SimpleAccount.objects.raw("select * from \"ManagerApp_simpleaccount\" WHERE email='" 
-            + user_data['email'] + "'")
-        if check_password(user_data['password'], account[0].password):
+            + email + "'")
+        if len(account) == 0:
+            return JsonResponse("Invalid Email", safe=False)
+        if check_password(password, account[0].password):
+            if account[0].is_manager:
+                return JsonResponse("Valid Manager", safe=False)
+            elif account[0].is_server:
+                return JsonResponse("Valid Server", safe=False)
             return JsonResponse("Valid User", safe=False)
         return JsonResponse("Incorrect Password", safe=False)
