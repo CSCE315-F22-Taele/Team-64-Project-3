@@ -13,7 +13,7 @@ import './scrollbar.css';
 
 const translate = (inputText, setFunc) => {
   let fromLang = 'en';
-  let toLang = 'en'; // translate to norwegian
+  let toLang = 'ar';
   const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
@@ -40,7 +40,7 @@ const translate = (inputText, setFunc) => {
 
 const TranslateText = ({text}) => {
   const [nameTranslated, setNametranslated] = useState(text);
-  useEffect((text) => {
+  useEffect(() => {
     translate(text, setNametranslated);
   }, [])
 
@@ -153,7 +153,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   const [nameTranslated, setNametranslated] = useState(name);
 
-  useEffect((name) => {
+  useEffect(() => {
     translate(name, setNametranslated);
   }, [])
 
@@ -184,7 +184,7 @@ const OrderItem = ({item}) => {
   const name = item.menuitem;
   const [nameTranslated, setNametranslated] = useState(name);
 
-  useEffect((name) => {
+  useEffect(() => {
     translate(name, setNametranslated);
   }, [])
   return (
@@ -200,13 +200,7 @@ const GoogleMapcontainerStyle = {
 
 };
 
-const Test = ({inputText, orderText, setOrderText, isDone}) => {
-  if(isDone){
-    return (<p>{orderText}</p>);
-  }else{
-    isDone = true;
-  }
-}
+
 
 const Customer = () => {
   const myRef = useRef();
