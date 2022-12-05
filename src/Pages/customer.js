@@ -38,6 +38,19 @@ const translate = (inputText, setFunc) => {
   );
 }
 
+const TranslateText = ({text}) => {
+  const [nameTranslated, setNametranslated] = useState(text);
+  useEffect((text) => {
+    translate(text, setNametranslated);
+  }, [])
+
+  return (
+    <div>
+      {nameTranslated}
+    </div>
+  )
+}
+
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
 
 const myStyle = {
@@ -127,6 +140,7 @@ const orderItemStyle = {
   overflow: 'auto',
 }
 
+
 const MenuGrid = ({menu, order, setOrder, setTotal}) => {
   return (
     <div style={gridContainer}>
@@ -139,7 +153,7 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   const [nameTranslated, setNametranslated] = useState(name);
 
-  useEffect(() => {
+  useEffect((name) => {
     translate(name, setNametranslated);
   }, [])
 
@@ -170,7 +184,7 @@ const OrderItem = ({item}) => {
   const name = item.menuitem;
   const [nameTranslated, setNametranslated] = useState(name);
 
-  useEffect(() => {
+  useEffect((name) => {
     translate(name, setNametranslated);
   }, [])
   return (
@@ -193,14 +207,11 @@ const Customer = () => {
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
-  const [orderText, setOrderText] = useState('');
-  const [menuText, setMenuText] = useState('');
-  const [totalText, setTotalText] = useState('');;
-  const [checkoutText, setCheckoutText] = useState('');
+  
 
   const translate = (inputText, setFunc) => {
     let fromLang = 'en';
-    let toLang = 'de'; // translate to norwegian
+    let toLang = 'en'; // translate to norwegian
     const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
     let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
     url += '&q=' + encodeURI(inputText);
@@ -299,10 +310,7 @@ const Customer = () => {
         <Card style={inventoryContainerStyle} id='scroll'>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
-              {translate("Menu Items", setMenuText)}
-              {menuText}
-              
-              
+              <TranslateText text={'Menu Items'}></TranslateText>
             </Card.Title>
         
             <div class="container my-5">
@@ -319,16 +327,12 @@ const Customer = () => {
         <Card style={checkoutStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black'}}>
-            
-            {translate("Your Order", setOrderText)}
-            {orderText}
+              <TranslateText text={'Your Order'}></TranslateText>
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
                 <h2 style={{textAlign: 'center', color: 'black'}}>
-                  {translate("Total:", setTotalText)}
-                  {totalText}
-                   
+                  <TranslateText text={'Total'}></TranslateText>
                   ${total.toFixed(2)}</h2>
                 <OrderDisplay order={order} menu={menuTable}/>
               </Card.Body>
@@ -337,9 +341,7 @@ const Customer = () => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
               }}>
-                {translate("Checkout", setCheckoutText)}
-                {checkoutText}
-                
+                <TranslateText text={'Checkout'}></TranslateText>
                 </Button>
           </Card.Body>
         </Card>
