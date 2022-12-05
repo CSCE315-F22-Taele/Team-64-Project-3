@@ -12,8 +12,8 @@ import './scrollbar.css';
 
 
 const translate = (inputText, setFunc) => {
-  let fromLang = 'en';
-  let toLang = 'ar';
+  let fromLang = 'de';
+  let toLang = 'en';
   const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
@@ -152,15 +152,15 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   const [nameTranslated, setNametranslated] = useState(name);
-
   useEffect(() => {
     translate(name, setNametranslated);
   }, [])
-
+  
+  let output = {nameTranslated}.nameTranslated;
   return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
-      }}>{nameTranslated}</Button>;
+      }}>{output}</Button>;
 
 }
 
@@ -208,35 +208,7 @@ const Customer = () => {
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
   
-
-  const translate = (inputText, setFunc) => {
-    let fromLang = 'en';
-    let toLang = 'en'; // translate to norwegian
-    const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
-    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-    url += '&q=' + encodeURI(inputText);
-    url += `&source=${fromLang}`;
-    url += `&target=${toLang}`; 
-    
-    fetch(url, { 
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    })
-    .then(res => res.json())
-    .then((response) => {
-      setFunc(response.data.translations[0].translatedText);
-      // return response.data.translations[0].translatedText;
-    })
-    .catch(error => {
-      console.log("There was an error with the translation request: ", error);
-    }
-    );
-  }
-
-  
+  // For google maps animation
   const observer = new IntersectionObserver((entries) => {
     const entry = entries[0];
     if(entry.isIntersecting){

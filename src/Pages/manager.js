@@ -85,8 +85,8 @@ const reportItemStyle = {
   overflow: 'auto',
 }
 
-//Components (should probably be in another file, but oh well)
 
+//Components (should probably be in another file, but oh well)
 const InventoryTableRow = ({item}) => {
   return (
     <tr>
