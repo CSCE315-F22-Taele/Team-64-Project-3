@@ -11,7 +11,32 @@ import './scrollbar.css';
 
 
 
-
+const translate = (inputText, setFunc) => {
+  let fromLang = 'en';
+  let toLang = 'en'; // translate to norwegian
+  const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
+  let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+  url += '&q=' + encodeURI(inputText);
+  url += `&source=${fromLang}`;
+  url += `&target=${toLang}`; 
+  
+  fetch(url, { 
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then((response) => {
+    setFunc(response.data.translations[0].translatedText);
+    // return response.data.translations[0].translatedText;
+  })
+  .catch(error => {
+    console.log("There was an error with the translation request: ", error);
+  }
+  );
+}
 
 const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
 
@@ -112,10 +137,16 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
 }
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
+  const [nameTranslated, setNametranslated] = useState(name);
+
+  useEffect(() => {
+    translate(name, setNametranslated);
+  }, [])
+
   return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
-      }}>{name}</Button>;
+      }}>{nameTranslated}</Button>;
 
 }
 
@@ -136,8 +167,14 @@ const OrderDisplay = ({order, menu}) => {
 }
 
 const OrderItem = ({item}) => {
+  const name = item.menuitem;
+  const [nameTranslated, setNametranslated] = useState(name);
+
+  useEffect(() => {
+    translate(name, setNametranslated);
+  }, [])
   return (
-    <p>{item.menuitem + ' $' + item.price}</p>
+    <p>{nameTranslated + ' $' + item.price}</p>
   )
 }
 
@@ -163,10 +200,11 @@ const Customer = () => {
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
   const [orderText, setOrderText] = useState('');
-  var didTranslate = true;
+  const [menuText, setMenuText] = useState('');
+  const [totalText, setTotalText] = useState('');;
+  const [checkoutText, setCheckoutText] = useState('');
 
-  const translate = (inputText) => {
-    didTranslate = false;
+  const translate = (inputText, setFunc) => {
     let fromLang = 'en';
     let toLang = 'de'; // translate to norwegian
     const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
@@ -174,7 +212,6 @@ const Customer = () => {
     url += '&q=' + encodeURI(inputText);
     url += `&source=${fromLang}`;
     url += `&target=${toLang}`; 
-    let string = '';
     
     fetch(url, { 
       method: 'GET',
@@ -185,15 +222,13 @@ const Customer = () => {
     })
     .then(res => res.json())
     .then((response) => {
-      console.log("In Function: ", response.data.translations[0].translatedText);
-      setOrderText(response);
-      return response;
+      setFunc(response.data.translations[0].translatedText);
+      // return response.data.translations[0].translatedText;
     })
     .catch(error => {
       console.log("There was an error with the translation request: ", error);
     }
     );
-    return string;
   }
 
   
@@ -270,8 +305,10 @@ const Customer = () => {
         <Card style={inventoryContainerStyle} id='scroll'>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
+              {translate("Menu Items", setMenuText)}
+              {menuText}
               
-              Menu Items
+              
             </Card.Title>
         
             <div class="container my-5">
@@ -289,20 +326,27 @@ const Customer = () => {
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black'}}>
             
-            {didTranslate && translate("Your Order")}
-            {console.log("Outside Function: ", translate("Your Order"))}
-              {orderText}
+            {translate("Your Order", setOrderText)}
+            {orderText}
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
-                <h2 style={{textAlign: 'center', color: 'black'}}>Total: ${total.toFixed(2)}</h2>
+                <h2 style={{textAlign: 'center', color: 'black'}}>
+                  {translate("Total:", setTotalText)}
+                  {totalText}
+                   
+                  ${total.toFixed(2)}</h2>
                 <OrderDisplay order={order} menu={menuTable}/>
               </Card.Body>
             </Card>
             <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
-              }}>Checkout</Button>
+              }}>
+                {translate("Checkout", setCheckoutText)}
+                {checkoutText}
+                
+                </Button>
           </Card.Body>
         </Card>
 
