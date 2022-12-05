@@ -321,6 +321,13 @@ def userApi(request):
                 return JsonResponse("Added New User Successfully!", safe=False)
             else:
                 return JsonResponse("User Already Exists!", safe=False)
+        else:
+            account = SimpleAccount.objects.raw("select * from \"ManagerApp_simpleaccount\" WHERE email='" 
+            + user_data['email'] + "'")
+            if len(account) == 0:
+                return JsonResponse("Invalid Email", safe=False)
+            if account[0].is_auth:
+                return JsonResponse("User Already Exists!", safe=False)
         return JsonResponse("Failed to Add User!", safe=False)
     elif request.method == 'GET':
         # user_data = JSONParser().parse(request)

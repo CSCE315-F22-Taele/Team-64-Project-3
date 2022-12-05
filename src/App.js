@@ -110,10 +110,9 @@ const App = () => {
         last_name: "None",
       }).then((res) => {
         if(res.data === "Added New User Successfully!"){
-          console.log("account added")
           //navigateToCustomer();
         }else{
-          console.log("failed to add account")
+          alert("Failed to create account.")
           //navigateToCustomer();
         }
       })
@@ -121,18 +120,14 @@ const App = () => {
 
   function loginUser(username, password){
     axios.get('http://127.0.0.1:8000/login/user?email='+username+'&pass='+password).then((res) => {
-        console.log(res)
         if(res.data === "Valid User"){
-          console.log("customer")
           navigateToCustomer();
         }else if(res.data === "Valid Manager"){
-          console.log("manager")
           navigateToManager();
         }else if(res.data === "Valid Server"){
-          console.log("server")
           navigateToServer();
         }else{
-          console.log("not a user")
+          alert("Invalid email and/or password.")
         }
       })
   }
@@ -143,7 +138,6 @@ const App = () => {
         "Authorization": `Bearer ${accessToken}`
       }
     }).then((res) => {
-      console.log(res.data)
       axios.post('http://127.0.0.1:8000/login/user', {
         email: res.data.email,
         first_name: res.data.given_name,
@@ -151,18 +145,17 @@ const App = () => {
         is_auth: true,
       }).then((res) => {
         if(res.data === "Added New User Successfully!"){
-          console.log("ayee")
+          navigateToCustomer();
+        }else if(res.data === "User Already Exists!"){
           navigateToCustomer();
         }else{
-          console.log("oh no")
-          navigateToCustomer();
+          alert("Failed to log you in :/")
         }
       })
     })
    }
 
   function responseGoogle(response) {
-    console.log(response);
     googleLogin(response.access_token);
   }
 
