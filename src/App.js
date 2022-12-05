@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import  Button  from 'react-bootstrap/Button';
-import { ReactDOM } from 'react';
+import { ReactDOM, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 const picture = new URL("./Resources/KyleField.jpg", import.meta.url)
+
 
 // const revsLogo = new URL("./Resources/whiteLogo.png", import.meta.url)
 const revsLogo = new URL("./Resources/yellowLogo.png", import.meta.url)
@@ -96,19 +99,45 @@ const App = () => {
     
   }
 
+  function createUser(username, password, key){
+    axios.post('http://127.0.0.1:8000/login/user', {
+        email: username,
+        password: password,
+        is_auth: false,
+        is_manager: key === "manager",
+        is_server: key === "server",
+        first_name: "None",
+        last_name: "None",
+      }).then((res) => {
+        if(res.data === "Added New User Successfully!"){
+          console.log("account added")
+          //navigateToCustomer();
+        }else{
+          console.log("failed to add account")
+          //navigateToCustomer();
+        }
+      })
+  }
+
+  function loginUser(username, password){
+    axios.get('http://127.0.0.1:8000/login/user?email='+username+'&pass='+password).then((res) => {
+        console.log(res)
+        if(res.data === "Valid User"){
+          console.log("customer")
+          navigateToCustomer();
+        }else if(res.data === "Valid Manager"){
+          console.log("manager")
+          navigateToManager();
+        }else if(res.data === "Valid Server"){
+          console.log("server")
+          navigateToServer();
+        }else{
+          console.log("not a user")
+        }
+      })
+  }
+
   function googleLogin(accessToken) {
-    // axios
-    //   .post('http://127.0.0.1:8000/auth/convert-token', {
-    //     token: accessToken,
-    //     backend: "google-oauth2",
-    //     grant_type: "convert_token",
-    //     client_id: drfClientId,
-    //     client_secret: drfClientSecret,
-    //   })
-    //   .then((res) => {
-    //    // Save somewhere these access and refresh tokens
-    //     console.log(res.data);
-    //   });
     axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: {
         "Authorization": `Bearer ${accessToken}`
@@ -123,8 +152,10 @@ const App = () => {
       }).then((res) => {
         if(res.data === "Added New User Successfully!"){
           console.log("ayee")
+          navigateToCustomer();
         }else{
           console.log("oh no")
+          navigateToCustomer();
         }
       })
     })
@@ -135,7 +166,9 @@ const App = () => {
     googleLogin(response.access_token);
   }
 
-  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [key, setKey] = useState("");
 
   return(
     <body>
@@ -183,15 +216,18 @@ const App = () => {
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginName">Username</label>
-                    <input type="email" id="loginName" class="form-control" />
+                    <input type="email" id="loginName" class="form-control" value={username} onChange={(event) =>
+                      setUsername(event.target.value)}/>
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" class="form-control"/>
+                    <input type="password" id="loginPassword" class="form-control" value={password} onChange={(event) =>
+                      setPassword(event.target.value)}/>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mt-2 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}}>Sign in</button>
+                  <button /*type="submit"*/ class="btn btn-primary btn-block mt-2 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}}
+                    onClick={(event) => loginUser(username, password)}>Sign in</button>
                 </form>
               </div>
               
@@ -211,23 +247,28 @@ const App = () => {
 
                   <p class="text-center mt-1">or:</p>
 
+                  
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerUsername">Username</label>
-                    <input type="text" id="registerUsername" class="form-control" />
+                    <input type="email" id="registerUsername" class="form-control" value={username} onChange={(event) =>
+                      setUsername(event.target.value)}/>
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerPassword">Password</label>
-                    <input type="password" id="registerPassword" class="form-control" />
+                    <input type="password" id="registerPassword" class="form-control" value={password} onChange={(event) =>
+                      setPassword(event.target.value)}/>
                   </div>
 
                   
                   <div class="form-outline mb-1 mx-5" >
                     <label class="form-label" for="registerRepeatPassword" >Key</label>
-                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control" />
+                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control" 
+                      value={key} onChange={(event) => setKey(event.target.value)}/>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white">Sign Up</button>
+                  <button type="submit" class="btn btn-primary btn-block mt-1 border border-white"
+                    onClick={(event) => createUser(username, password, key)}>Sign Up</button>
                 </form>
               </div>
             </div>

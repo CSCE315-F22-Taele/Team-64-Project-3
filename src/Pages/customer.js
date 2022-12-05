@@ -149,7 +149,13 @@ const GoogleMapcontainerStyle = {
 
 };
 
-
+const Test = ({inputText, orderText, setOrderText, isDone}) => {
+  if(isDone){
+    return (<p>{orderText}</p>);
+  }else{
+    isDone = true;
+  }
+}
 
 const Customer = () => {
   const myRef = useRef();
@@ -157,8 +163,10 @@ const Customer = () => {
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
   const [orderText, setOrderText] = useState('');
+  var didTranslate = true;
 
   const translate = (inputText) => {
+    didTranslate = false;
     let fromLang = 'en';
     let toLang = 'de'; // translate to norwegian
     const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
@@ -281,7 +289,7 @@ const Customer = () => {
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black'}}>
             
-            {translate("Your Order")}
+            {didTranslate && translate("Your Order")}
             {console.log("Outside Function: ", translate("Your Order"))}
               {orderText}
             </Card.Title>
