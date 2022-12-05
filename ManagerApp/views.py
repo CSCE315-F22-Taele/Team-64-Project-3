@@ -98,7 +98,7 @@ def comboReportApi(request):
     if request.method == 'GET':
         start = request.GET['start']
         end = request.GET['end']
-        if start == "" and end == "":
+        if start == '""' and end == '""':
             return JsonResponse("Invalid date/time(s) provided.", safe=False)
 
         ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
@@ -144,7 +144,7 @@ def salesReportApi(request):
         start = request.GET['start']
         end = request.GET['end']
 
-        if start == "" and end == "":
+        if start == '""' and end == '""':
             return JsonResponse("Invalid date/time(s) provided.", safe=False)
         
         ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
@@ -189,8 +189,7 @@ def excessReportApi(request):
     if request.method == 'GET':
         start = request.GET['start']
         end = request.GET['end']
-
-        if start == "" and end == "":
+        if start == '""' or end == '""':
             return JsonResponse("Invalid date/time(s) provided.", safe=False)
         
         ohquery = "SELECT * FROM orderhistory WHERE time_stamp >= '" + start + "' AND time_stamp <= '" + end + "'"
@@ -259,7 +258,7 @@ def restockReportApi(request):
 
         lowItems = []
         for item in lowInv:
-            ivItem = invItems[item.item_id]
+            ivItem = invItems[item.item_id-1]
             lowitem = LowItem(ivItem.itemname, ivItem.itemcount)
             lowItems.append(lowitem)
         

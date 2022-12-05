@@ -395,7 +395,15 @@ const Manager = () => {
                     <InputGroup className="mb-2">
                     <button  className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
                       setLoading(true);
-                      axios.get(reportString).then((res) => {setData(res.data); setLoading(false)});
+                      axios.get(reportString).then((res) => {
+                        console.log(res.data)
+                        if(res.data === "Invalid date/time(s) provided."){
+                          setLoading(false)
+                        }
+                        else{
+                          setData(res.data); setLoading(false)
+                        }
+                      });
                       }}>
                       Submit
                     </button>
