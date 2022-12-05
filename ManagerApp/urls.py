@@ -13,4 +13,5 @@ urlpatterns = [
     re_path(r'^manager/excessreport$', views.excessReportApi),
     re_path(r'^manager/restockreport$', views.restockReportApi),
     re_path(r'^server/placeorder$', views.placeOrderApi),
+    re_path(r'^login/user$', views.userApi),
 ]

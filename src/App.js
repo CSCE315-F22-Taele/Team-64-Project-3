@@ -3,7 +3,6 @@ import  Button  from 'react-bootstrap/Button';
 import { ReactDOM } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import ReactGoogleLogin from "react-google-login";
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
@@ -116,13 +115,17 @@ const App = () => {
       }
     }).then((res) => {
       console.log(res.data)
-      axios.post('http://127.0.0.1:8000/auth/create', {
+      axios.post('http://127.0.0.1:8000/login/user', {
         email: res.data.email,
         first_name: res.data.given_name,
-        password: "ooog",
-        username: res.data.email
+        last_name: res.data.family_name,
+        is_auth: true,
       }).then((res) => {
-        console.log(res)
+        if(res.data === "Added New User Successfully!"){
+          console.log("ayee")
+        }else{
+          console.log("oh no")
+        }
       })
     })
    }

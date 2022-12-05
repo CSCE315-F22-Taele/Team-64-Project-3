@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ManagerApp.models import Inventory, Menu, Lowinventory 
+from ManagerApp.models import Inventory, Menu, Lowinventory, SimpleAccount
 
 class inventorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +32,8 @@ class inventoryItemSerializer(serializers.Serializer):
 class lowItemSerializer(serializers.Serializer):
     item=serializers.CharField(max_length=200)
     level=serializers.IntegerField(max_value=1000)
+
+class SimpleUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SimpleAccount
+        fields=('email','password','first_name','last_name','is_staff','is_active','is_auth')
