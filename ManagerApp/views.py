@@ -4,10 +4,11 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from datetime import datetime
 from django.db import connection
+from django.contrib.auth.hashers import make_password, check_password
 
-from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails
+from ManagerApp.models import Inventory, Menu, Lowinventory, Orderhistory, Orderdetails, SimpleAccount
 from ManagerApp.serializers import inventorySerializer, menuSerializer, lowInvSerializer, comboItemSerializer
-from ManagerApp.serializers import salesItemSerializer, inventoryItemSerializer, lowItemSerializer
+from ManagerApp.serializers import salesItemSerializer, inventoryItemSerializer, lowItemSerializer, SimpleUserSerializer
 
 # Create your views here.
 
@@ -306,3 +307,25 @@ def placeOrderApi(request):
             updateInv(item[0].ingredients, cursor)
         
         return JsonResponse("Order Placed Successfully!", safe=False)
+
+@csrf_exempt
+def userApi(request):
+    if request.method == 'POST':
+        user_data = JSONParser().parse(request)
+        if not user_data['is_auth']:
+            user_data['password'] = make_password(user_data['password'])
+        user_serializer = SimpleUserSerializer(data=user_data)
+        if user_serializer.is_valid():
+            new_user = user_serializer.save()
+            if new_user:
+                return JsonResponse("Added New User Successfully!", safe=False)
+            else:
+                return JsonResponse("User Already Exists!", safe=False)
+        return JsonResponse("Failed to Add User!", safe=False)
+    elif request.method == 'GET':
+        user_data = JSONParser().parse(request)
+        account = SimpleAccount.objects.raw("select * from \"ManagerApp_simpleaccount\" WHERE email='" 
+            + user_data['email'] + "'")
+        if check_password(user_data['password'], account[0].password):
+            return JsonResponse("Valid User", safe=False)
+        return JsonResponse("Incorrect Password", safe=False)
