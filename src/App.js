@@ -306,24 +306,23 @@ const App = () => {
         </div>
         
       </section>
+      
+      <div style={{position: 'absolute', left: '20px', bottom: '20px'}}>
+        <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} >
+          <option value={"en"}>English</option>
+          <option value={"es"}>Español</option>
+          <option value={"de"}>Deutsch</option>
+          <option value={"fr"}>Français</option>
+          <option value={"ar"}>عربي</option>
+          <option value={"zh-CN"}>中文简体</option>
+          <option value={"ko"}>	한국어</option>
+          <option value={"hi"}>	हिन्दी</option>
+          <option value={"ru"}>Русский</option>
+          <option value={"pt"}>Português</option>
+        </Form.Select>
+      </div>
     </body>
   )
-  
-  // return (
-  //   // <div>
-  //   //   <img src={picture} style={myStyle} alt='Kyle Field'/>
-  //   //     <div style={whitePane}>
-          
-  //   //     </div>
-      
-      
-  //   //   {/* <div style={glassPane}>
-  //   //     <Button variant='primary' onClick={navigateToManager} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Manager</Button>
-  //   //     <Button variant='primary' onClick={navigateToServer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Server</Button>
-  //   //     <Button variant='primary' onClick={navigateToCustomer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Customer</Button>
-  //   //   </div> */}
-  //   // </div>
-  //   )
 }
       
       
