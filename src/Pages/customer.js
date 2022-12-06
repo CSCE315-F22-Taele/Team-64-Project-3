@@ -315,6 +315,9 @@ const Customer = () => {
               }}>
                 <TranslateText text={'Checkout'}></TranslateText>
                 </Button>
+            <Button onClick={(event) => {
+              setOrder([]); setTotal(0.00);
+            }}>Clear</Button>
           </Card.Body>
         </Card>
 
