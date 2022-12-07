@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import  Button  from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import { ReactDOM, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -42,17 +42,22 @@ const whitePane = {
   top: '0',
   right: '0',
   bottom: '0',
-  left:'0',
-    
+  left: '0',
+
   backdropFilter: 'blur(10px)',
   height: '90vh',
   width: '90vw',
-  overflow: 'hidden', 
+  overflow: 'hidden',
   backgroundColor: 'blue',
-  
+
 }
 
 //Translate Component
+/**
+ * @param inputText text to be translated 
+ * @param setFunc function to get api call for google translate
+ * @exception Exception if there was error in translation request
+ */
 const translate = (inputText, setFunc) => {
   let fromLang = 'en';
   let toLang = 'en';
@@ -60,27 +65,30 @@ const translate = (inputText, setFunc) => {
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
   url += `&source=${fromLang}`;
-  url += `&target=${toLang}`; 
-  
-  fetch(url, { 
+  url += `&target=${toLang}`;
+
+  fetch(url, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json"
     }
   })
-  .then(res => res.json())
-  .then((response) => {
-    setFunc(response.data.translations[0].translatedText);
-    // return response.data.translations[0].translatedText;
-  })
-  .catch(error => {
-    console.log("There was an error with the translation request: ", error);
-  }
-  );
+    .then(res => res.json())
+    .then((response) => {
+      setFunc(response.data.translations[0].translatedText);
+      // return response.data.translations[0].translatedText;
+    })
+    .catch(error => {
+      console.log("There was an error with the translation request: ", error);
+    }
+    );
 }
-
-const TranslateText = ({text}) => {
+/**
+ * @param text the text that is going to be translated
+ * @return translated text
+ */
+const TranslateText = ({ text }) => {
   const [nameTranslated, setNametranslated] = useState(text);
   useEffect(() => {
     translate(text, setNametranslated);
@@ -93,9 +101,13 @@ const TranslateText = ({text}) => {
   )
 }
 
+
+/**
+ * @return full website GUI  
+ */
 const App = () => {
   let navigate = useNavigate();
-  
+
   const navigateToManager = () => {
     navigate("/manager");
   }
@@ -107,7 +119,9 @@ const App = () => {
   }
 
 
-
+  /**
+   * @param event action event, the button that got pressed
+   */
   const loginClick = event => {
     //Sets the login page to be active
     const loginButton = document.getElementById("tab-login");
@@ -115,15 +129,19 @@ const App = () => {
     loginButton.setAttribute("style", "background-color:rgb(80,0,0)");
     const loginForm = document.getElementById("pills-login");
     loginForm.setAttribute("class", "tab-pane fade show active");
-    
+
     // Sets the register pill to be inactive
     const element = document.getElementById("tab-register");
     element.setAttribute("class", "nav-link");
     element.setAttribute("style", "background-color:rgb(255,255,255)");
     const registerForm = document.getElementById("pills-register");
     registerForm.setAttribute("class", "tab-pane fade");
-    
+
   };
+
+  /**
+ * @param event action event, the button that got pressed
+ */
   const registerClick = event => {
     //Sets the login page to be inactive
     const loginButton = document.getElementById("tab-login");
@@ -131,49 +149,61 @@ const App = () => {
     loginButton.setAttribute("class", "nav-link");
     const loginForm = document.getElementById("pills-login");
     loginForm.setAttribute("class", "tab-pane fade");
-    
+
     // Sets the register pill to be active
     const element = document.getElementById("tab-register");
     element.setAttribute("class", "nav-link active");
     element.setAttribute("style", "background-color:rgb(80,0,0)");
     const registerForm = document.getElementById("pills-register");
     registerForm.setAttribute("class", "tab-pane fade show active");
-    
+
   }
 
-  function createUser(username, password, key){
+  /**
+ * @param username name of the user inputted
+ * @param password password  of the user inputted
+ * @param key given value of manager side or server side
+ */
+  function createUser(username, password, key) {
     axios.post('http://127.0.0.1:8000/login/user', {
-        email: username,
-        password: password,
-        is_auth: false,
-        is_manager: key === "manager",
-        is_server: key === "server",
-        first_name: "None",
-        last_name: "None",
-      }).then((res) => {
-        if(res.data === "Added New User Successfully!"){
-          //navigateToCustomer();
-        }else{
-          alert("Failed to create account.")
-          //navigateToCustomer();
-        }
-      })
+      email: username,
+      password: password,
+      is_auth: false,
+      is_manager: key === "manager",
+      is_server: key === "server",
+      first_name: "None",
+      last_name: "None",
+    }).then((res) => {
+      if (res.data === "Added New User Successfully!") {
+        //navigateToCustomer();
+      } else {
+        alert("Failed to create account.")
+        //navigateToCustomer();
+      }
+    })
   }
 
-  function loginUser(username, password){
-    axios.get('http://127.0.0.1:8000/login/user?email='+username+'&pass='+password).then((res) => {
-        if(res.data === "Valid User"){
-          navigateToCustomer();
-        }else if(res.data === "Valid Manager"){
-          navigateToManager();
-        }else if(res.data === "Valid Server"){
-          navigateToServer();
-        }else{
-          alert("Invalid email and/or password.")
-        }
-      })
+  /**
+* @param username name of the user inputted
+* @param password password  of the user inputted
+*/
+  function loginUser(username, password) {
+    axios.get('http://127.0.0.1:8000/login/user?email=' + username + '&pass=' + password).then((res) => {
+      if (res.data === "Valid User") {
+        navigateToCustomer();
+      } else if (res.data === "Valid Manager") {
+        navigateToManager();
+      } else if (res.data === "Valid Server") {
+        navigateToServer();
+      } else {
+        alert("Invalid email and/or password.")
+      }
+    })
   }
 
+  /**
+* @param accessToken given access for customer
+*/
   function googleLogin(accessToken) {
     axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: {
@@ -186,17 +216,20 @@ const App = () => {
         last_name: res.data.family_name,
         is_auth: true,
       }).then((res) => {
-        if(res.data === "Added New User Successfully!"){
+        if (res.data === "Added New User Successfully!") {
           navigateToCustomer();
-        }else if(res.data === "User Already Exists!"){
+        } else if (res.data === "User Already Exists!") {
           navigateToCustomer();
-        }else{
+        } else {
           alert("Failed to log you in :/")
         }
       })
     })
-   }
+  }
 
+    /**
+* @param response google login response to user
+*/
   function responseGoogle(response) {
     googleLogin(response.access_token);
   }
@@ -205,16 +238,16 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [key, setKey] = useState("");
 
-  return(
+  return (
     <body>
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous"></link>
-      <img src={picture} style={myStyle} alt='Kyle Field'/>
+      <img src={picture} style={myStyle} alt='Kyle Field' />
       <section class="skewbox">
         <div class="leftSlanted">
-          
-            <img src={revsLogo} style={logoStyle} alt='Revs Logo'/>
-            
-          
+
+          <img src={revsLogo} style={logoStyle} alt='Revs Logo' />
+
+
         </div>
 
         <div class="rightSlanted">
@@ -223,11 +256,11 @@ const App = () => {
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
-                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{backgroundColor:'rgb(80,0,0)'}}><TranslateText text={'Login'}></TranslateText></a>
+                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{ backgroundColor: 'rgb(80,0,0)' }}><TranslateText text={'Login'}></TranslateText></a>
               </li>
               <li class="nav-item" role="presentation" >
                 <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
-                  aria-controls="pills-register" aria-selected="false" onClick={registerClick} style={{backgroundColor:'rgb(255,255,255)'}}><TranslateText text={'Register'}></TranslateText></a>
+                  aria-controls="pills-register" aria-selected="false" onClick={registerClick} style={{ backgroundColor: 'rgb(255,255,255)' }}><TranslateText text={'Register'}></TranslateText></a>
               </li>
             </ul>
 
@@ -236,12 +269,13 @@ const App = () => {
                 <form>
                   <div class="text-center mt-4">
                     <p><TranslateText text={'Sign in with:'}></TranslateText></p>
-                    
+
                     <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton" onClick={useGoogleLogin({
-                        onSuccess: tokenResponse => responseGoogle(tokenResponse),})}>
+                      onSuccess: tokenResponse => responseGoogle(tokenResponse),
+                    })}>
                       <i class="fab fa-google"></i>
                     </button>
-                    
+
 
                   </div>
 
@@ -250,20 +284,20 @@ const App = () => {
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginName"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="loginName" class="form-control" value={username} onChange={(event) =>
-                      setUsername(event.target.value)}/>
+                      setUsername(event.target.value)} />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginPassword"><TranslateText text={'Password'}></TranslateText></label>
                     <input type="password" id="loginPassword" class="form-control" value={password} onChange={(event) =>
-                      setPassword(event.target.value)}/>
+                      setPassword(event.target.value)} />
                   </div>
 
-                  <button /*type="submit"*/ class="btn btn-primary btn-block mt-2 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}}
+                  <button /*type="submit"*/ class="btn btn-primary btn-block mt-2 border border-white" style={{ backgroundColor: 'rgb(80, 0, 0)' }}
                     onClick={(event) => loginUser(username, password)}><TranslateText text={'Sign In'}></TranslateText></button>
                 </form>
               </div>
-              
+
               <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form>
                   <div class="text-center mt-4">
@@ -276,24 +310,24 @@ const App = () => {
 
                   <p class="text-center mt-1"><TranslateText text={'Or'}></TranslateText></p>
 
-                  
+
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerUsername"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="registerUsername" class="form-control" value={username} onChange={(event) =>
-                      setUsername(event.target.value)}/>
+                      setUsername(event.target.value)} />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerPassword"><TranslateText text={'Password'}></TranslateText></label>
                     <input type="password" id="registerPassword" class="form-control" value={password} onChange={(event) =>
-                      setPassword(event.target.value)}/>
+                      setPassword(event.target.value)} />
                   </div>
 
-                  
+
                   <div class="form-outline mb-1 mx-5" >
                     <label class="form-label" for="registerRepeatPassword" ><TranslateText text={'Key'}></TranslateText></label>
-                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control" 
-                      value={key} onChange={(event) => setKey(event.target.value)}/>
+                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control"
+                      value={key} onChange={(event) => setKey(event.target.value)} />
                   </div>
 
                   <button type="submit" class="btn btn-primary btn-block mt-1 border border-white"
@@ -304,11 +338,11 @@ const App = () => {
           </div>
 
         </div>
-        
+
       </section>
-      
-      <div style={{position: 'absolute', left: '20px', bottom: '20px'}}>
-        <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} >
+
+      <div style={{ position: 'absolute', left: '20px', bottom: '20px' }}>
+        <Form.Select aria-label="Default select example" style={{ textAlign: 'center' }} >
           <option value={"en"}>English</option>
           <option value={"es"}>Español</option>
           <option value={"de"}>Deutsch</option>
@@ -324,8 +358,7 @@ const App = () => {
     </body>
   )
 }
-      
-      
+
+
 export default App;
-      
-      
+

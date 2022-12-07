@@ -32,7 +32,7 @@ const glassPane = {
   width: '90vw',
   overflow: 'hidden',
   borderRadius: '20px',
-  
+
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   gridAutoRows: 'minmax(500px, auto)',
@@ -43,23 +43,23 @@ const glassPane = {
 
 //----Inventory Styles Begin----
 const inventoryContainerStyle = {
-  
+
   width: '100%',
   height: '100%',
   overflow: 'auto',
 }
 
 const gridContainer = {
-    display: 'grid',
-    gap: '3vw',
-    gridTemplateColumns: 'repeat(4, 7vw)',
-    justifyContent: "center",
-    placeItems: 'center',  
+  display: 'grid',
+  gap: '3vw',
+  gridTemplateColumns: 'repeat(4, 7vw)',
+  justifyContent: "center",
+  placeItems: 'center',
 }
 
 //Checkout 
 const checkoutStyle = {
-  
+
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -71,44 +71,79 @@ const orderItemStyle = {
 }
 
 // components
-const MenuGrid = ({menu, order, setOrder, setTotal}) => {
+/**
+ * @param menu used to hold the menu items
+ * @param order used to hold the order 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return grid of the menu items and order
+ */
+
+const MenuGrid = ({ menu, order, setOrder, setTotal }) => {
   return (
     <div style={gridContainer}>
-      {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order} 
-        setOrder={setOrder} setTotal={setTotal} key={index}/>)}
+      {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order}
+        setOrder={setOrder} setTotal={setTotal} key={index} />)}
     </div>
   )
 }
 
-const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
-    onClick={(event) => { setOrder(current => [...current, id]);
+/**
+ * @param name used to hold the name of the menu items
+ * @param id used to hold the id of the menu items 
+ * @param price used to hold the price of the menu items 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return buttons for the menu items and their elements
+ */
+
+const MenuElement = ({ name, id, price, setOrder, setTotal }) => {
+  return <Button id="buttonHoverEffect" style={{ backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw' }}
+    onClick={(event) => {
+      setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
-      }}>{name}</Button>;
+    }}>{name}</Button>;
 }
 
-const OrderDisplay = ({order, menu}) => {
-  if(menu.length <= 0) return;
+/**
+ * @param order used to hold the order
+ * @param menu used to hold the name of the menu items
+ * @return order display
+ */
 
-  function findMenuItem(id){
-    for(var i=0; i<menu.length; ++i){
-      if(menu[i].food_id === id) return menu[i]; 
+const OrderDisplay = ({ order, menu }) => {
+  if (menu.length <= 0) return;
+
+  /**
+   * @param id used to hold the id of the menu items 
+   */
+  function findMenuItem(id) {
+    for (var i = 0; i < menu.length; ++i) {
+      if (menu[i].food_id === id) return menu[i];
     }
   }
-  
+
   return (
     <div style={orderItemStyle}>
-      {order.map((id, index) => <OrderItem item={findMenuItem(id)} key={index}/>)}
+      {order.map((id, index) => <OrderItem item={findMenuItem(id)} key={index} />)}
     </div>
   )
 }
 
-const OrderItem = ({item}) => {
+/**
+ * @param item used to hold the order menu item names
+ */
+const OrderItem = ({ item }) => {
   return (
-    <p><font size="+2">{ item.menuitem + ' $' + item.price}</font></p>
+    <p><font size="+2">{item.menuitem + ' $' + item.price}</font></p>
   )
 }
 
+
+/**
+ * @exception Exception if connecting to databse has an error
+ * @return the server side GUI
+ */
 const Server = () => {
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
@@ -120,15 +155,21 @@ const Server = () => {
       .catch(err => console.log(err))
   }, []);
 
-  function findMenuItem(id){
-    for(var i=0; i<menuTable.length; ++i){
-      if(menuTable[i].food_id === id) return menuTable[i]; 
+  /**
+ * @param id used to hold the id of the menu items 
+ */
+  function findMenuItem(id) {
+    for (var i = 0; i < menuTable.length; ++i) {
+      if (menuTable[i].food_id === id) return menuTable[i];
     }
   }
 
-  function createJSON(){
+  /**
+ * @return the details of the menu item chosen
+ */
+  function createJSON() {
     var res = []
-    for(var i=0; i<order.length; ++i){
+    for (var i = 0; i < order.length; ++i) {
       var item = findMenuItem(order[i]);
       res.push(
         {
@@ -148,14 +189,14 @@ const Server = () => {
 
         <Card style={inventoryContainerStyle}>
           <Card.Body>
-            <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
-            <font size="+2">Menu Items</font>
+            <Card.Title style={{ textAlign: 'center', color: 'black' }}>
+              <font size="+2">Menu Items</font>
             </Card.Title>
             <div class="container my-5">
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel"
-                aria-labelledby='nav-home-tab'>
-                  <MenuGrid menu={menuTable} setOrder={setOrder} setTotal={setTotal}/>
+                  aria-labelledby='nav-home-tab'>
+                  <MenuGrid menu={menuTable} setOrder={setOrder} setTotal={setTotal} />
                 </div>
               </div>
             </div>
@@ -164,25 +205,25 @@ const Server = () => {
 
         <Card style={checkoutStyle}>
           <Card.Body>
-            <Card.Title style={{ textAlign: 'center', color:'black'}}>
-            <font size="+2">Current Order </font>
+            <Card.Title style={{ textAlign: 'center', color: 'black' }}>
+              <font size="+2">Current Order </font>
             </Card.Title>
-            <Card style={{height: '90%'}}>
-              <Card.Body style={{height:'1vh'}}>
-                <OrderDisplay order={order} menu={menuTable}/>
+            <Card style={{ height: '90%' }}>
+              <Card.Body style={{ height: '1vh' }}>
+                <OrderDisplay order={order} menu={menuTable} />
               </Card.Body>
             </Card>
-       
-            <Card.Title style={{ textAlign: 'center', color:'black'}}><font size="+2">Total: ${total.toFixed(2)}</font></Card.Title>
-            
-            <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', width: '50%',color:'white'}} onClick={(event) => {
+
+            <Card.Title style={{ textAlign: 'center', color: 'black' }}><font size="+2">Total: ${total.toFixed(2)}</font></Card.Title>
+
+            <Button id="buttonHoverEffect" style={{ backgroundColor: 'rgba(80, 0, 0, .8)', width: '50%', color: 'white' }} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
-              ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
-              }}>Checkout</Button>
-      
+              ).then((res) => { setOrder([]); setTotal(0.00); }).catch(err => console.log(err));
+            }}>Checkout</Button>
+
           </Card.Body>
-          </Card>
-        
+        </Card>
+
       </div>
     </div>
   )
