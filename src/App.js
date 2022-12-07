@@ -6,6 +6,7 @@ import './App.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
+import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -49,6 +50,47 @@ const whitePane = {
   overflow: 'hidden', 
   backgroundColor: 'blue',
   
+}
+
+//Translate Component
+const translate = (inputText, setFunc) => {
+  let fromLang = 'en';
+  let toLang = 'en';
+  const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
+  let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+  url += '&q=' + encodeURI(inputText);
+  url += `&source=${fromLang}`;
+  url += `&target=${toLang}`; 
+  
+  fetch(url, { 
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then((response) => {
+    setFunc(response.data.translations[0].translatedText);
+    // return response.data.translations[0].translatedText;
+  })
+  .catch(error => {
+    console.log("There was an error with the translation request: ", error);
+  }
+  );
+}
+
+const TranslateText = ({text}) => {
+  const [nameTranslated, setNametranslated] = useState(text);
+  useEffect(() => {
+    translate(text, setNametranslated);
+  }, [])
+
+  return (
+    <div>
+      {nameTranslated}
+    </div>
+  )
 }
 
 const App = () => {
@@ -183,11 +225,11 @@ const App = () => {
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
-                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{backgroundColor:'rgb(80,0,0)'}}>Login</a>
+                  aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{backgroundColor:'rgb(80,0,0)'}}><TranslateText text={'Login'}></TranslateText></a>
               </li>
               <li class="nav-item" role="presentation" >
                 <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
-                  aria-controls="pills-register" aria-selected="false" onClick={registerClick} style={{backgroundColor:'rgb(255,255,255)'}}>Register</a>
+                  aria-controls="pills-register" aria-selected="false" onClick={registerClick} style={{backgroundColor:'rgb(255,255,255)'}}><TranslateText text={'Register'}></TranslateText></a>
               </li>
             </ul>
 
@@ -195,75 +237,69 @@ const App = () => {
               <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                 <form>
                   <div class="text-center mt-4">
-                    <p>Sign in with:</p>
+                    <p><TranslateText text={'Sign in with:'}></TranslateText></p>
                     
                     <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton" onClick={useGoogleLogin({
                         onSuccess: tokenResponse => responseGoogle(tokenResponse),})}>
                       <i class="fab fa-google"></i>
                     </button>
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-github"></i>
-                    </button>
+                    
 
                   </div>
 
-                  <p class="text-center mt-1">or:</p>
+                  <p class="text-center mt-1"><TranslateText text={'Or'}></TranslateText></p>
 
                   <div class="form-outline mb-1 mx-5">
-                    <label class="form-label" for="loginName">Username</label>
+                    <label class="form-label" for="loginName"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="loginName" class="form-control" value={username} onChange={(event) =>
                       setUsername(event.target.value)}/>
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
-                    <label class="form-label" for="loginPassword">Password</label>
+                    <label class="form-label" for="loginPassword"><TranslateText text={'Password'}></TranslateText></label>
                     <input type="password" id="loginPassword" class="form-control" value={password} onChange={(event) =>
                       setPassword(event.target.value)}/>
                   </div>
 
                   <button /*type="submit"*/ class="btn btn-primary btn-block mt-2 border border-white" style={{backgroundColor: 'rgb(80, 0, 0)'}}
-                    onClick={(event) => loginUser(username, password)}>Sign in</button>
+                    onClick={(event) => loginUser(username, password)}><TranslateText text={'Sign In'}></TranslateText></button>
                 </form>
               </div>
               
               <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form>
                   <div class="text-center mt-4">
-                    <p>Sign up with:</p>
+                    <p><TranslateText text={'Sign Up With:'}></TranslateText></p>
 
                     <button type="button" class="btn btn-link btn-floating mx-1">
                       <i class="fab fa-google"></i>
                     </button>
-
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-github"></i>
-                    </button>
                   </div>
 
-                  <p class="text-center mt-1">or:</p>
+                  <p class="text-center mt-1"><TranslateText text={'Or'}></TranslateText></p>
 
                   
                   <div class="form-outline mb-1 mx-5">
-                    <label class="form-label" for="registerUsername">Username</label>
+                    <label class="form-label" for="registerUsername"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="registerUsername" class="form-control" value={username} onChange={(event) =>
                       setUsername(event.target.value)}/>
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
-                    <label class="form-label" for="registerPassword">Password</label>
+                    <label class="form-label" for="registerPassword"><TranslateText text={'Password'}></TranslateText></label>
                     <input type="password" id="registerPassword" class="form-control" value={password} onChange={(event) =>
                       setPassword(event.target.value)}/>
                   </div>
 
                   
                   <div class="form-outline mb-1 mx-5" >
-                    <label class="form-label" for="registerRepeatPassword" >Key</label>
+                    <label class="form-label" for="registerRepeatPassword" ><TranslateText text={'Key'}></TranslateText></label>
                     <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control" 
                       value={key} onChange={(event) => setKey(event.target.value)}/>
                   </div>
 
                   <button type="submit" class="btn btn-primary btn-block mt-1 border border-white"
-                    onClick={(event) => createUser(username, password, key)}>Sign Up</button>
+                    onClick={(event) => createUser(username, password, key)}><TranslateText text={'Sign Up'}></TranslateText></button>
                 </form>
               </div>
             </div>
@@ -272,24 +308,23 @@ const App = () => {
         </div>
         
       </section>
+      
+      <div style={{position: 'absolute', left: '20px', bottom: '20px'}}>
+        <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} >
+          <option value={"en"}>English</option>
+          <option value={"es"}>Español</option>
+          <option value={"de"}>Deutsch</option>
+          <option value={"fr"}>Français</option>
+          <option value={"ar"}>عربي</option>
+          <option value={"zh-CN"}>中文简体</option>
+          <option value={"ko"}>	한국어</option>
+          <option value={"hi"}>	हिन्दी</option>
+          <option value={"ru"}>Русский</option>
+          <option value={"pt"}>Português</option>
+        </Form.Select>
+      </div>
     </body>
   )
-  
-  // return (
-  //   // <div>
-  //   //   <img src={picture} style={myStyle} alt='Kyle Field'/>
-  //   //     <div style={whitePane}>
-          
-  //   //     </div>
-      
-      
-  //   //   {/* <div style={glassPane}>
-  //   //     <Button variant='primary' onClick={navigateToManager} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Manager</Button>
-  //   //     <Button variant='primary' onClick={navigateToServer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Server</Button>
-  //   //     <Button variant='primary' onClick={navigateToCustomer} style={{backgroundColor: 'rgba(255, 255, 255, .5)', width: '100%', height: '100%'}}>Customer</Button>
-  //   //   </div> */}
-  //   // </div>
-  //   )
 }
       
       
