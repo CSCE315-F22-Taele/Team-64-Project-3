@@ -87,6 +87,13 @@ const reportItemStyle = {
 
 
 //Components (should probably be in another file, but oh well)
+
+/**
+ * 
+ * @param item Inventory item from database
+ * @returns all the information of the inventory item in a specifc row
+ */
+
 const InventoryTableRow = ({item}) => {
   return (
     <tr>
@@ -98,6 +105,12 @@ const InventoryTableRow = ({item}) => {
     </tr>
   )
 }
+
+/**
+ * 
+ * @param menu The container with the menu items
+ * @returns the menu table with all the information of a menu item
+ */
 
 const MenuTable = ({menu}) => {
   return (
@@ -120,6 +133,11 @@ const MenuTable = ({menu}) => {
     
     )
 }
+/**
+ * 
+ * @param inventory The container with all the inventory items
+ * @returns the inventory table with all the information of an inventory item
+ */
 
 const InventoryTable = ({inventory}) => {
   return (
@@ -142,6 +160,11 @@ const InventoryTable = ({inventory}) => {
     </div>
   )
 }
+/**
+ * 
+ * @param item Menu item in a specifc row
+ * @returns all the information of a menu item in a row
+ */
 
 const MenuTableRow = ({item}) => {
   return (
@@ -153,6 +176,13 @@ const MenuTableRow = ({item}) => {
     </tr>
   )
 }
+
+/**
+ * 
+ * @param reportType the type of the report that we want to generate 
+ * @param item used to hold the order menu item name
+ * @return chosen report data
+ */
 
 const ReportRow = ({reportType, item}) => {
   if(reportType === "salesreport"){
@@ -184,6 +214,14 @@ const ReportRow = ({reportType, item}) => {
   }
 }
 
+/**
+ * 
+ * @param reportType the type of the report that we want to generate
+ * @param data the data generated from the chosen report
+ * @param loading indicate that the report is loading
+ * @return the report generated
+ */
+
 const Report = ({reportType, data, loading}) => {
   if(loading){
     return (<h1>Loading...</h1>)
@@ -195,6 +233,10 @@ const Report = ({reportType, data, loading}) => {
     )
   }
 }
+/**
+ * @exception exception if connecting to databse has an error
+ * @returns the manager side interface
+ */
 
 const Manager = () => {
   const [menuTable, setMenuTable] = useState([]);
@@ -218,11 +260,19 @@ const Manager = () => {
     axios.get('http://127.0.0.1:8000/manager/inventory').then(res => setInventoryTable(res.data));
   }
 
+  /**
+   * @exception error in displaying the menu table
+   */
+
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/menu')
       .then(res => setMenuTable(res.data))
       .catch(err => console.log(err))
   }, []);
+
+  /**
+   * @exception error in outputting the inventory table
+   */
 
   useEffect(() => {
     axios('http://127.0.0.1:8000/manager/inventory')
@@ -540,5 +590,3 @@ const Manager = () => {
 }
 
 export default Manager;
-
-

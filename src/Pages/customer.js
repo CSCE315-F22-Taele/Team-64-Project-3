@@ -9,7 +9,11 @@ import './hover.css';
 import './customer.css';
 import './scrollbar.css';
 
-
+/**
+ * @param inputText text to be translated 
+ * @param setFunc function to get api call for google translate
+ * @exception Exception if there was error in translation request
+ */
 
 const translate = (inputText, setFunc) => {
   let fromLang = 'de';
@@ -37,6 +41,11 @@ const translate = (inputText, setFunc) => {
   }
   );
 }
+
+/**
+ * @param text the text that is going to be translated
+ * @return translated text
+ */
 
 const TranslateText = ({text}) => {
   const [nameTranslated, setNametranslated] = useState(text);
@@ -140,6 +149,14 @@ const orderItemStyle = {
   overflow: 'auto',
 }
 
+/**
+ * @param menu used to hold the menu items
+ * @param order used to hold the order 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return grid of the menu items and order
+ */
+
 
 const MenuGrid = ({menu, order, setOrder, setTotal}) => {
   return (
@@ -149,6 +166,15 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
     </div>
   )
 }
+
+/**
+ * @param name used to hold the name of the menu items
+ * @param id used to hold the id of the menu items 
+ * @param price used to hold the price of the menu items 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return buttons for the menu items and their elements
+ */
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   const [nameTranslated, setNametranslated] = useState(name);
@@ -163,6 +189,11 @@ const MenuElement = ({name, id, price, setOrder, setTotal}) => {
       }}>{output}</Button>;
 
 }
+/**
+ * @param order used to hold the order
+ * @param menu used to hold the name of the menu items
+ * @return order display
+ */
 
 const OrderDisplay = ({order, menu}) => {
   if(menu.length <= 0) return;
@@ -179,6 +210,9 @@ const OrderDisplay = ({order, menu}) => {
     </div>
   )
 }
+/**
+ * @param item used to hold the order menu item names
+ */
 
 const OrderItem = ({item}) => {
   const name = item.menuitem;
@@ -199,6 +233,11 @@ const GoogleMapcontainerStyle = {
   borderRadius: '20px'
 
 };
+
+/**
+ * @exception Exception if connecting to databse has an error
+ * @return the customer side GUI
+ */
 
 
 const Customer = () => {
@@ -227,11 +266,19 @@ const Customer = () => {
     .catch(err => console.log(err))
   }, []);
 
+   /**
+ * @param id used to hold the id of the menu items 
+ */
+
   function findMenuItem(id){
     for(var i=0; i<menuTable.length; ++i){
       if(menuTable[i].food_id === id) return menuTable[i]; 
     }
   }
+
+  /**
+ * @return the details of the menu item chosen
+ */
 
   function createJSON(){
     var res = []
