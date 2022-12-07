@@ -12,8 +12,8 @@ import './scrollbar.css';
 
 
 const translate = (inputText, setFunc) => {
-  let fromLang = 'en';
-  let toLang = 'ar';
+  let fromLang = 'ko';
+  let toLang = 'en';
   const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
@@ -201,41 +201,11 @@ const GoogleMapcontainerStyle = {
 };
 
 
-
 const Customer = () => {
   const myRef = useRef();
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
-  
-
-  const translate = (inputText, setFunc) => {
-    let fromLang = 'en';
-    let toLang = 'en'; // translate to norwegian
-    const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
-    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-    url += '&q=' + encodeURI(inputText);
-    url += `&source=${fromLang}`;
-    url += `&target=${toLang}`; 
-    
-    fetch(url, { 
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    })
-    .then(res => res.json())
-    .then((response) => {
-      setFunc(response.data.translations[0].translatedText);
-      // return response.data.translations[0].translatedText;
-    })
-    .catch(error => {
-      console.log("There was an error with the translation request: ", error);
-    }
-    );
-  }
-
   
   const observer = new IntersectionObserver((entries) => {
     const entry = entries[0];
