@@ -188,10 +188,12 @@ const App = () => {
 * @param password password  of the user inputted
 */
   function loginUser(username, password) {
+    console.log("idk");
     axios.get('http://127.0.0.1:8000/login/user?email=' + username + '&pass=' + password).then((res) => {
       if (res.data === "Valid User") {
         navigateToCustomer();
       } else if (res.data === "Valid Manager") {
+        console.log("idk");
         navigateToManager();
       } else if (res.data === "Valid Server") {
         navigateToServer();
@@ -227,7 +229,7 @@ const App = () => {
     })
   }
 
-    /**
+  /**
 * @param response google login response to user
 */
   function responseGoogle(response) {

@@ -1,5 +1,9 @@
-from django.urls import re_path
 from ManagerApp import views
+
+from django.urls import path
+from django.views.generic import TemplateView
+
+from django.urls import re_path, include
 
 urlpatterns = [
     re_path(r'^manager/inventory$', views.inventoryApi),
@@ -14,4 +18,11 @@ urlpatterns = [
     re_path(r'^manager/restockreport$', views.restockReportApi),
     re_path(r'^server/placeorder$', views.placeOrderApi),
     re_path(r'^login/user$', views.userApi),
+    path('manager', TemplateView.as_view(template_name='index.html')),
+    path('server', TemplateView.as_view(template_name='index.html')),
+    path('customer', TemplateView.as_view(template_name='index.html')),
+    path('manager/', TemplateView.as_view(template_name='index.html')),
+    path('server/', TemplateView.as_view(template_name='index.html')),
+    path('customer/', TemplateView.as_view(template_name='index.html')),
+    # path('login/', TemplateView.as_view(template_name='index.html')),
 ]

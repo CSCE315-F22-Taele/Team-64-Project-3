@@ -201,7 +201,6 @@ const GoogleMapcontainerStyle = {
 };
 
 
-
 const Customer = () => {
   const myRef = useRef();
   const [menuTable, setMenuTable] = useState([]);
