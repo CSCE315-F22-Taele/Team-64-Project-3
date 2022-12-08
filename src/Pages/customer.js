@@ -4,11 +4,15 @@ import React, {useState} from "react";
 import { useRef, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
+import { createGlobalstate, useGlobalState } from 'state-pool';
 
 import './hover.css';
 import './customer.css';
 import './scrollbar.css';
 
+// const GlobalContext = React.createContext(18);
+// const [fontSize, setFontSize] = createGlobalstate(18);
+window.fontSize = 18;
 /**
  * @param inputText text to be translated 
  * @param setFunc function to get api call for google translate
@@ -126,8 +130,11 @@ const inventoryContainerStyle = {
 
 const gridContainer = {
   //Grid layout
-  display: 'grid',
-  gridTemplateColumns: 'repeat(4, 7vw)',
+  display: 'flex',
+  flexWrap: 'wrap',
+  // gridTemplateColumns: '100px 100px 100px 100px', 
+
+  // gridTemplateColumns: 'repeat(4, 7vw)',
   // gridTemplateColumns: 'repeat(, 7vw)',
   // gridTemplateRows: 'repeat(8, 1fr)',
   gap: '3vw',
@@ -177,13 +184,17 @@ const MenuGrid = ({menu, order, setOrder, setTotal}) => {
  */
 
 const MenuElement = ({name, id, price, setOrder, setTotal}) => {
+// const [fontSize, setFontSize] = useGlobalState(count);
+// const [fontSize, setFontSize] = useState(18);
+
   const [nameTranslated, setNametranslated] = useState(name);
   useEffect(() => {
     translate(name, setNametranslated);
   }, [])
-  
+  console.log(window.fontSize);
+
   let output = {nameTranslated}.nameTranslated;
-  return <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '8vw', height: '6vw'}} 
+  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '10vw', height: '10vw', fontSize: `${window.$fontSize}px`}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{output}</Button>;
@@ -234,10 +245,11 @@ const GoogleMapcontainerStyle = {
 
 };
 
+
 /**
  * @exception Exception if connecting to databse has an error
  * @return the customer side GUI
- */
+*/
 
 
 const Customer = () => {
@@ -245,7 +257,16 @@ const Customer = () => {
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
+  // const [count, setCount, updateCount] = useGlobalState(count);
   
+  const increaseFontSize = () => {
+    window.fontSize = window.fontSize + 2;
+    console.log(window.fontSize);
+  }
+  
+  const decreaseFontSize = () => {
+    window.fontSize = window.fontSize - 2;
+  }
   // For google maps animation
   const observer = new IntersectionObserver((entries) => {
     const entry = entries[0];
@@ -321,6 +342,7 @@ const Customer = () => {
 
 
   return isLoaded ? (
+
     <div style={{height:'200vh'}}>
       <img src={picture} style={myStyle} alt='Kyle Field' />
       
@@ -329,6 +351,10 @@ const Customer = () => {
           <Card.Body>
             <Card.Title style={{ textAlign: 'center' , color: 'black'}}>
               <TranslateText text={'Menu Items'}></TranslateText>
+              <div style={{display: 'flex', justifyContent: 'right'}}>
+                <Button variant="secondary" style={{marginRight: '5px'}} onClick = {decreaseFontSize}>-</Button>
+                <Button variant="primary" style={{marginLeft: '5px'}} onClick = {increaseFontSize} >+</Button>
+              </div>
             </Card.Title>
         
             <div class="container my-5">
