@@ -12,7 +12,7 @@ import './scrollbar.css';
 
 // const GlobalContext = React.createContext(18);
 // const [fontSize, setFontSize] = createGlobalstate(18);
-window.fontSize = 18;
+let fontSize2 = 18;
 /**
  * @param inputText text to be translated 
  * @param setFunc function to get api call for google translate
@@ -191,10 +191,10 @@ const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   useEffect(() => {
     translate(name, setNametranslated);
   }, [])
-  console.log(window.fontSize);
+  // console.log(fontSize2);
 
   let output = {nameTranslated}.nameTranslated;
-  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '10vw', height: '10vw', fontSize: `${window.$fontSize}px`}} 
+  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '10vw', height: '10vw', fontSize: `${fontSize2}px`}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{output}</Button>;
@@ -257,15 +257,28 @@ const Customer = () => {
   const [menuTable, setMenuTable] = useState([]);
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
-  // const [count, setCount, updateCount] = useGlobalState(count);
+  const [fontSize, setFontSize] = useState(fontSize2);
   
   const increaseFontSize = () => {
-    window.fontSize = window.fontSize + 2;
-    console.log(window.fontSize);
+    if(fontSize2 > 32){
+      return;
+    }
+    // if(fontSize2 === 22){
+
+    // }
+    setFontSize(fontSize + 2);
+    fontSize2 += 2;
+
+    console.log(fontSize);
   }
   
   const decreaseFontSize = () => {
-    window.fontSize = window.fontSize - 2;
+    if(fontSize2 < 16){
+      return;
+    }
+    setFontSize(fontSize -2);
+    fontSize2 -= 2;
+    console.log(fontSize);
   }
   // For google maps animation
   const observer = new IntersectionObserver((entries) => {
@@ -380,7 +393,7 @@ const Customer = () => {
                   <TranslateText text={'Total'}></TranslateText> : ${total.toFixed(2)}</h2>
                 </div>
                 <OrderDisplay order={order} menu={menuTable}/>
-                <Button style={{marginLeft: '695px', marginTop: '-1270px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
+                <Button style={{marginLeft: '620px', marginTop: '-1150px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
                   setOrder([]); setTotal(0.00);}}><TranslateText text={'Clear Order'}></TranslateText></Button>
               </Card.Body>
             </Card>
