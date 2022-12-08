@@ -70,13 +70,13 @@ const formStyle = {
   width: '100%',
 }
 const menuTableContainer = {
-  height: '18.5%',
+  height: '17.5%',
   width: '42.5vw',
   paddingRight: '3px',
   overflow: 'auto',
 }
 const inventoryTableContainer = {
-  height: '13%',
+  height: '12.75%',
   width: '42.5vw',
   paddingRight: '3px',
   overflow: 'auto',
@@ -428,7 +428,7 @@ const Manager = () => {
                     </Form.Label>
                     <InputGroup className="mb-2">
                       <InputGroup.Text >Start:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY" 
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYYY" 
                         value={startTime} onChange={(event) => setStartTime(event.target.value)}/>
                     </InputGroup>
                   </Col>
@@ -438,7 +438,7 @@ const Manager = () => {
                     </Form.Label>
                     <InputGroup className="mb-2">
                       <InputGroup.Text>End:</InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYY"
+                      <Form.Control id="inlineFormInputGroup" placeholder="MM/DD/YYYY"
                         value={endTime} onChange={(event) => setEndTime(event.target.value)}/>
                     </InputGroup>
                   </Col>

@@ -128,6 +128,7 @@ const gridContainer = {
   //Grid layout
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 7vw)',
+  // gridTemplateColumns: 'repeat(, 7vw)',
   // gridTemplateRows: 'repeat(8, 1fr)',
   gap: '3vw',
   justifyContent: "center",

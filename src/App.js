@@ -329,7 +329,7 @@ const App = () => {
 
                   <div class="form-outline mb-1 mx-5" >
                     <label class="form-label" for="registerRepeatPassword" ><TranslateText text={'Key'}></TranslateText></label>
-                    <input placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control"
+                    <input style={{display:'flex', textAlign:'Center'}}placeholder="Leave blank if customer" type="password" id="registerRepeatPassword" class="form-control"
                       value={key} onChange={(event) => setKey(event.target.value)} />
                   </div>
 
