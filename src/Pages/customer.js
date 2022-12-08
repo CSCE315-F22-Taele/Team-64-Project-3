@@ -13,6 +13,7 @@ import './scrollbar.css';
 // const GlobalContext = React.createContext(18);
 // const [fontSize, setFontSize] = createGlobalstate(18);
 let fontSize2 = 18;
+let boxWidth = 10;
 /**
  * @param inputText text to be translated 
  * @param setFunc function to get api call for google translate
@@ -194,7 +195,7 @@ const MenuElement = ({name, id, price, setOrder, setTotal}) => {
   // console.log(fontSize2);
 
   let output = {nameTranslated}.nameTranslated;
-  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '10vw', height: '10vw', fontSize: `${fontSize2}px`}} 
+  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: `${boxWidth}vw`, height: '10vw', fontSize: `${fontSize2}px`}} 
     onClick={(event) => { setOrder(current => [...current, id]);
       setTotal(current => current + parseFloat(price));
       }}>{output}</Button>;
@@ -258,14 +259,20 @@ const Customer = () => {
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0.0);
   const [fontSize, setFontSize] = useState(fontSize2);
+  const [boxSize, setBoxSize] = useState(boxWidth);
   
   const increaseFontSize = () => {
     if(fontSize2 > 32){
       return;
     }
-    // if(fontSize2 === 22){
-
-    // }
+    if(fontSize2 === 22){
+      boxWidth = 12;
+      setBoxSize(12);
+    }
+    if(fontSize2 === 28){
+      boxWidth = 14;
+      setBoxSize(14);
+    }
     setFontSize(fontSize + 2);
     fontSize2 += 2;
 
@@ -275,6 +282,23 @@ const Customer = () => {
   const decreaseFontSize = () => {
     if(fontSize2 < 16){
       return;
+    }
+    if(fontSize2 < 28){
+      boxWidth = 14;
+      setBoxSize(14);
+    }
+
+    if(fontSize2 >= 22){
+      boxWidth = 12;
+      setBoxSize(12);
+    }
+    if(fontSize2 >= 16){
+      boxWidth = 8;
+      setBoxSize(8);
+    }
+    else{
+      boxWidth = 10;
+      setBoxSize(10);
     }
     setFontSize(fontSize -2);
     fontSize2 -= 2;
