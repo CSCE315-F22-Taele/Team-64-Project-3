@@ -135,7 +135,7 @@ const OrderDisplay = ({ order, menu }) => {
  */
 const OrderItem = ({ item }) => {
   return (
-    <p><font size="+2">{item.menuitem + ' $' + item.price}</font></p>
+    <p><font size="+2">{'$' + item.price + " " + item.menuitem}</font></p>
   )
 }
 
@@ -206,20 +206,22 @@ const Server = () => {
         <Card style={checkoutStyle}>
           <Card.Body>
             <Card.Title style={{ textAlign: 'center', color: 'black' }}>
-              <font size="+2">Current Order </font>
+              Current Order
             </Card.Title>
             <Card style={{ height: '90%' }}>
               <Card.Body style={{ height: '1vh' }}>
+                <h2 style={{ textAlign: 'center', color: 'black' }}>Total: ${total.toFixed(2)}</h2>
                 <OrderDisplay order={order} menu={menuTable} />
+                <Button style={{marginLeft: '692px', marginTop: '-1300px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
+                  setOrder([]); setTotal(0.00);}}>Clear Order</Button>
               </Card.Body>
             </Card>
 
-            <Card.Title style={{ textAlign: 'center', color: 'black' }}><font size="+2">Total: ${total.toFixed(2)}</font></Card.Title>
 
-            <Button id="buttonHoverEffect" style={{ backgroundColor: 'rgba(80, 0, 0, .8)', width: '50%', color: 'white' }} onClick={(event) => {
+            <Button style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%', marginTop: '5px'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
               ).then((res) => { setOrder([]); setTotal(0.00); }).catch(err => console.log(err));
-            }}>Checkout</Button>
+            }}>Check Out</Button>
 
           </Card.Body>
         </Card>

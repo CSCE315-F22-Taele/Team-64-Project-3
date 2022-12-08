@@ -70,13 +70,15 @@ const formStyle = {
   width: '100%',
 }
 const menuTableContainer = {
-  height: '15%',
-  width: '40vw',
+  height: '18.5%',
+  width: '42.5vw',
+  paddingRight: '3px',
   overflow: 'auto',
 }
 const inventoryTableContainer = {
-  height: '12%',
-  width: '40vw',
+  height: '13%',
+  width: '42.5vw',
+  paddingRight: '3px',
   overflow: 'auto',
 }
 const reportItemStyle = {
@@ -292,7 +294,7 @@ const Manager = () => {
               <MenuTable menu={menuTable}/>
               
               {/* Add item row */}
-              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
+              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'8px'}}>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
@@ -357,9 +359,9 @@ const Manager = () => {
                       <Form.Control id="inlineFormInputGroup" value={menuIngs} onChange={(event) => menuIngs=event.target.value}/>
                     </InputGroup>
                   </Col>
-                  <Col>
+                  <Col style={{display: 'flex', justifyContent: 'right'}}>
                     <InputGroup className="mb-2">
-                      <button  type="button" class="btn btn-outline-secondary" onClick={(event) => {
+                      <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('http://127.0.0.1:8000/manager/menu', {
                         food_id: menuID,
                         menuitem: menuName,
@@ -472,7 +474,7 @@ const Manager = () => {
                 Inventory Items
               </Card.Title>
               <InventoryTable inventory={inventoryTable}/>
-              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'5px'}}>
+              <Row className="align-items-center" style={{justifyContent: 'center', alignItems: 'center', marginTop:'8px'}}>
               <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>ID:</small></InputGroup.Text>

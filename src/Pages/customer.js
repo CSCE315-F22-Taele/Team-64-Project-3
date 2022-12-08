@@ -98,16 +98,15 @@ const glassPane = {
 
 const googleMaps = {
   
-  margin: '40vh auto',
+  margin: '25vh auto',
   
   position: 'relative',
   padding:'20px',
   
-  
   backgroundColor: 'rgba(90, 90, 90, .15)',
   backdropFilter: 'blur(5px)',
-  height: '40vh',
-  width: '40vw',
+  height: '70vh',
+  width: '70vw',
   overflow: 'hidden',
   borderRadius: '20px',
 
@@ -222,7 +221,7 @@ const OrderItem = ({item}) => {
     translate(name, setNametranslated);
   }, [])
   return (
-    <p>{nameTranslated + ' $' + item.price}</p>
+    <p><font size="+2">{'$' + item.price + " " + nameTranslated}</font></p>
   )
 }
 
@@ -349,21 +348,20 @@ const Customer = () => {
             </Card.Title>
             <Card style={{height: '90%'}}>
               <Card.Body style={{height:'1vh'}}>
-                <h2 style={{textAlign: 'center', color: 'black'}}>
-                  <TranslateText text={'Total'}></TranslateText>
-                  ${total.toFixed(2)}</h2>
+                <div style={{textAlign: 'center'}}>
+                <h2 style={{textAlign: 'center', color: 'black', display: 'inline-flex'}}>
+                  <TranslateText text={'Total'}></TranslateText> : ${total.toFixed(2)}</h2>
+                </div>
                 <OrderDisplay order={order} menu={menuTable}/>
+                <Button style={{marginLeft: '692px', marginTop: '-1300px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
+                  setOrder([]); setTotal(0.00);}}><TranslateText text={'Clear Order'}></TranslateText></Button>
               </Card.Body>
             </Card>
-            <Button id="buttonHoverEffect" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%'}} onClick={(event) => {
+            <Button  style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%', marginTop: '5px'}} onClick={(event) => {
               axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
-              ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));
-              }}>
-                <TranslateText text={'Checkout'}></TranslateText>
+              ).then((res) => {setOrder([]); setTotal(0.00);}).catch(err => console.log(err));}}>
+                <TranslateText text={'Check Out'}></TranslateText>
                 </Button>
-            <Button onClick={(event) => {
-              setOrder([]); setTotal(0.00);
-            }}>Clear</Button>
           </Card.Body>
         </Card>
 
