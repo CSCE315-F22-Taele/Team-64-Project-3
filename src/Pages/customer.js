@@ -353,7 +353,7 @@ const Customer = () => {
                   <TranslateText text={'Total'}></TranslateText> : ${total.toFixed(2)}</h2>
                 </div>
                 <OrderDisplay order={order} menu={menuTable}/>
-                <Button style={{marginLeft: '692px', marginTop: '-1300px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
+                <Button style={{marginLeft: '695px', marginTop: '-1270px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
                   setOrder([]); setTotal(0.00);}}><TranslateText text={'Clear Order'}></TranslateText></Button>
               </Card.Body>
             </Card>

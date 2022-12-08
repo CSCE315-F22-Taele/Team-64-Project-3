@@ -274,6 +274,7 @@ const App = () => {
 
                     <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton" onClick={useGoogleLogin({
                       onSuccess: tokenResponse => responseGoogle(tokenResponse),
+                      // onFailure: navigateToCustomer()
                     })}>
                       <i class="fab fa-google"></i>
                     </button>
