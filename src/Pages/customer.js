@@ -28,7 +28,7 @@ const translate = (inputText, setFunc) => {
   
   
   let fromLang = 'en';
-  let toLang = 'de';
+  let toLang = 'en';
   const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
@@ -423,7 +423,7 @@ const Customer = () => {
                   <TranslateText text={'Total'}></TranslateText> : ${total.toFixed(2)}</h2>
                 </div>
                 <OrderDisplay order={order} menu={menuTable}/>
-                <Button style={{marginLeft: '690px', marginTop: '-1300px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
+                <Button style={{marginLeft: '695px', marginTop: '-1270px', width: '70px', height: '60px', backgroundColor: 'rgba(80, 0, 0, .8)'}} onClick={(event) => {
                   setOrder([]); setTotal(0.00);}}><TranslateText text={'Clear Order'}></TranslateText></Button>
               </Card.Body>
             </Card>
