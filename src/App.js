@@ -12,6 +12,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 const picture = new URL("./Resources/KyleField.jpg", import.meta.url)
 
+let fromLangdef = 'en';
+let toLangdef = 'en';
 
 // const revsLogo = new URL("./Resources/whiteLogo.png", import.meta.url)
 const revsLogo = new URL("./Resources/yellowLogo.png", import.meta.url)
@@ -52,62 +54,62 @@ const whitePane = {
 
 }
 
-//Translate Component
-/**
- * @param inputText text to be translated 
- * @param setFunc function to get api call for google translate
- * @exception Exception if there was error in translation request
- */
-const translate = (inputText, setFunc) => {
-  let fromLang = 'en';
-  let toLang = 'en';
-  const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
-  let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-  url += '&q=' + encodeURI(inputText);
-  url += `&source=${fromLang}`;
-  url += `&target=${toLang}`;
-
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
-  })
-    .then(res => res.json())
-    .then((response) => {
-      setFunc(response.data.translations[0].translatedText);
-      // return response.data.translations[0].translatedText;
-    })
-    .catch(error => {
-      console.log("There was an error with the translation request: ", error);
-    }
-    );
-}
-/**
- * @param text the text that is going to be translated
- * @return translated text
- */
-const TranslateText = ({ text }) => {
-  const [nameTranslated, setNametranslated] = useState(text);
-  useEffect(() => {
-    translate(text, setNametranslated);
-  }, [])
-
-  return (
-    <div>
-      {nameTranslated}
-    </div>
-  )
-}
 
 
 /**
  * @return full website GUI  
- */
+*/
 const App = () => {
+  //Translate Component
+  /**
+   * @param inputText text to be translated 
+   * @param setFunc function to get api call for google translate
+   * @exception Exception if there was error in translation request
+   */
+  const translate = (inputText, setFunc) => {
+    let fromLang = fromLangdef;
+    let toLang = toLangdef;
+    const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
+    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+    url += '&q=' + encodeURI(inputText);
+    url += `&source=${fromLang}`;
+    url += `&target=${toLang}`;
+  
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then((response) => {
+        setFunc(response.data.translations[0].translatedText);
+        // return response.data.translations[0].translatedText;
+      })
+      .catch(error => {
+        console.log("There was an error with the translation request: ", error);
+      }
+      );
+  }
+  /**
+   * @param text the text that is going to be translated
+   * @return translated text
+   */
+  const TranslateText = ({ text }) => {
+    const [nameTranslated, setNametranslated] = useState(text);
+    useEffect(() => {
+      translate(text, setNametranslated);
+    }, [])
+  
+    return (
+      <div>
+        {nameTranslated}
+      </div>
+    )
+  }
   let navigate = useNavigate();
-
+  
   const navigateToManager = () => {
     navigate("/manager");
   }
@@ -239,6 +241,7 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [key, setKey] = useState("");
+  const [Langvar, setLangvar] = useState(toLangdef);
 
   return (
     <body>
@@ -345,7 +348,10 @@ const App = () => {
       </section>
 
       <div style={{ position: 'absolute', left: '20px', bottom: '20px' }}>
-        <Form.Select aria-label="Default select example" style={{ textAlign: 'center' }} >
+        <Form.Select aria-label="Default select" style={{ textAlign: 'center' }} onChange={(event) => {
+        toLangdef = event.target.value;
+        setLangvar(event.target.value);
+      }} >
           <option value={"en"}>English</option>
           <option value={"es"}>Español</option>
           <option value={"de"}>Deutsch</option>

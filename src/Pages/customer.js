@@ -282,7 +282,7 @@ const Customer = () => {
     setFontSize(fontSize + 2);
     fontSize2 += 2;
 
-    console.log(fontSize);
+    // console.log(fontSize);
   }
   
   const decreaseFontSize = () => {
@@ -308,7 +308,7 @@ const Customer = () => {
     }
     setFontSize(fontSize -2);
     fontSize2 -= 2;
-    console.log(fontSize);
+    // console.log(fontSize);
   }
   // For google maps animation
   const observer = new IntersectionObserver((entries) => {
