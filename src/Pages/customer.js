@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import { useRef, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
-import { createGlobalstate, useGlobalState } from 'state-pool';
+import Form from 'react-bootstrap/Form';
 
 import './hover.css';
 import './customer.css';
@@ -15,8 +15,8 @@ import './scrollbar.css';
 let fontSize2 = 18;
 let boxWidth = 10;
 
-let fromLang = 'en';
-let toLang = 'en';
+let fromLangdef = 'en';
+let toLangdef = 'en';
 
 /**
  * @param inputText text to be translated 
@@ -24,11 +24,11 @@ let toLang = 'en';
  * @exception Exception if there was error in translation request
  */
 
-const translate = (inputText, setFunc) => {
+ const translate = (inputText, setFunc) => {
   
   
-  let fromLang = 'en';
-  let toLang = 'en';
+  let fromLang = fromLangdef;
+  let toLang = toLangdef;
   const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
   let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
   url += '&q=' + encodeURI(inputText);
@@ -163,50 +163,7 @@ const orderItemStyle = {
   overflow: 'auto',
 }
 
-/**
- * @param menu used to hold the menu items
- * @param order used to hold the order 
- * @param setOrder used to hold the order made
- * @param setTotal used to hold the total of the order
- * @return grid of the menu items and order
- */
 
-
-const MenuGrid = ({menu, order, setOrder, setTotal}) => {
-  return (
-    <div style={gridContainer}>
-      {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order} 
-        setOrder={setOrder} setTotal={setTotal} key={index}/>)}
-    </div>
-  )
-}
-
-/**
- * @param name used to hold the name of the menu items
- * @param id used to hold the id of the menu items 
- * @param price used to hold the price of the menu items 
- * @param setOrder used to hold the order made
- * @param setTotal used to hold the total of the order
- * @return buttons for the menu items and their elements
- */
-
-const MenuElement = ({name, id, price, setOrder, setTotal}) => {
-// const [fontSize, setFontSize] = useGlobalState(count);
-// const [fontSize, setFontSize] = useState(18);
-
-  const [nameTranslated, setNametranslated] = useState(name);
-  useEffect(() => {
-    translate(name, setNametranslated);
-  }, [])
-  // console.log(fontSize2);
-
-  let output = {nameTranslated}.nameTranslated;
-  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: `${boxWidth}vw`, height: '10vw', fontSize: `${fontSize2}px`}} 
-    onClick={(event) => { setOrder(current => [...current, id]);
-      setTotal(current => current + parseFloat(price));
-      }}>{output}</Button>;
-
-}
 /**
  * @param order used to hold the order
  * @param menu used to hold the name of the menu items
@@ -266,6 +223,105 @@ const Customer = () => {
   const [total, setTotal] = useState(0.0);
   const [fontSize, setFontSize] = useState(fontSize2);
   const [boxSize, setBoxSize] = useState(boxWidth);
+  const [Langvar, setLangvar] = useState(toLangdef);
+
+  /**
+ * @param menu used to hold the menu items
+ * @param order used to hold the order 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return grid of the menu items and order
+ */
+
+
+const MenuGrid = ({menu, order, setOrder, setTotal}) => {
+  return (
+    <div style={gridContainer}>
+      {menu.map((item, index) => <MenuElement name={item.menuitem} id={item.food_id} price={item.price} order={order} 
+        setOrder={setOrder} setTotal={setTotal} key={index}/>)}
+    </div>
+  )
+}
+
+/**
+ * @param name used to hold the name of the menu items
+ * @param id used to hold the id of the menu items 
+ * @param price used to hold the price of the menu items 
+ * @param setOrder used to hold the order made
+ * @param setTotal used to hold the total of the order
+ * @return buttons for the menu items and their elements
+ */
+
+const MenuElement = ({name, id, price, setOrder, setTotal}) => {
+// const [fontSize, setFontSize] = useGlobalState(count);
+// const [fontSize, setFontSize] = useState(18);
+
+  const [nameTranslated, setNametranslated] = useState(name);
+  useEffect(() => {
+    translate(name, setNametranslated);
+  }, [])
+  // console.log(fontSize2);
+
+  let output = {nameTranslated}.nameTranslated;
+  return <Button id="buttonHoverEffect" class="MenuItemButton" style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: `${boxWidth}vw`, height: '10vw', fontSize: `${fontSize2}px`}} 
+    onClick={(event) => { setOrder(current => [...current, id]);
+      setTotal(current => current + parseFloat(price));
+      }}>{output}</Button>;
+
+}
+
+  /**
+ * @param inputText text to be translated 
+ * @param setFunc function to get api call for google translate
+ * @exception Exception if there was error in translation request
+ */
+
+const translate = (inputText, setFunc) => {
+  
+  
+  let fromLang = fromLangdef;
+  let toLang = toLangdef;
+  const API_KEY = "AIzaSyDXQjbR4ECpwLWWOlU-9dsQdbQumj_J2S4";
+  let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+  url += '&q=' + encodeURI(inputText);
+  url += `&source=${fromLang}`;
+  url += `&target=${toLang}`; 
+  
+  fetch(url, { 
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then((response) => {
+    setFunc(response.data.translations[0].translatedText);
+    // return response.data.translations[0].translatedText;
+  })
+  .catch(error => {
+    console.log("There was an error with the translation request: ", error);
+  }
+  );
+}
+
+/**
+ * @param text the text that is going to be translated
+ * @return translated text
+ */
+
+const TranslateText = ({text}) => {
+  const [nameTranslated, setNametranslated] = useState(text);
+  useEffect(() => {
+    translate(text, setNametranslated);
+  }, [])
+
+  return (
+    <div>
+      {nameTranslated}
+    </div>
+  )
+}
   
   const increaseFontSize = () => {
     if(fontSize2 > 32){
@@ -381,6 +437,8 @@ const Customer = () => {
     }, [])
 
     
+
+    
   
 
 
@@ -434,7 +492,24 @@ const Customer = () => {
                 </Button>
           </Card.Body>
         </Card>
+      </div>
 
+      <div style={{ position: 'absolute', left: '5px', bottom: '5px' }}>
+        <Form.Select aria-label="Default select" style={{ textAlign: 'center' }} onChange={(event) => {
+        toLangdef = event.target.value;
+        setLangvar(event.target.value);
+      }} >
+          <option value={"en"}>English</option>
+          <option value={"es"}>Español</option>
+          <option value={"de"}>Deutsch</option>
+          <option value={"fr"}>Français</option>
+          <option value={"ar"}>عربي</option>
+          <option value={"zh-CN"}>中文简体</option>
+          <option value={"ko"}>	한국어</option>
+          <option value={"hi"}>	हिन्दी</option>
+          <option value={"ru"}>Русский</option>
+          <option value={"pt"}>Português</option>
+        </Form.Select>
       </div>
       
       <div style={googleMaps} class='hidden' ref={myRef}>
@@ -449,6 +524,8 @@ const Customer = () => {
           </GoogleMap>
       </div>
     </div>
+
+    
   ) : <></>
 };
 
