@@ -60,6 +60,7 @@ const whitePane = {
  * @return full website GUI  
 */
 const App = () => {
+
   //Translate Component
   /**
    * @param inputText text to be translated 
@@ -118,6 +119,10 @@ const App = () => {
   }
   const navigateToCustomer = () => {
     navigate("/customer");
+  }
+
+  const navigateToLogin = () => {
+    navigate("/?#pills-login")
   }
 
 
@@ -190,7 +195,6 @@ const App = () => {
 * @param password password  of the user inputted
 */
   function loginUser(username, password) {
-    console.log("idk");
     axios.get('http://127.0.0.1:8000/login/user?email=' + username + '&pass=' + password).then((res) => {
       if (res.data === "Valid User") {
         navigateToCustomer();
@@ -260,7 +264,7 @@ const App = () => {
 
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+                <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="?#pills-login" role="tab"
                   aria-controls="pills-login" aria-selected="true" onClick={loginClick} style={{ backgroundColor: 'rgb(80,0,0)' }}><TranslateText text={'Login'}></TranslateText></a>
               </li>
               <li class="nav-item" role="presentation" >
@@ -290,7 +294,8 @@ const App = () => {
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginName"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="loginName" class="form-control" value={username} onChange={(event) =>
-                      setUsername(event.target.value)} />
+                      setUsername(event.target.value)
+                      } />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
@@ -320,7 +325,7 @@ const App = () => {
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerUsername"><TranslateText text={'Username'}></TranslateText></label>
                     <input type="email" id="registerUsername" class="form-control" value={username} onChange={(event) =>
-                      setUsername(event.target.value)} />
+                      {setUsername(event.target.value)}} />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
