@@ -324,8 +324,12 @@ const TranslateText = ({text}) => {
 }
   
   const increaseFontSize = () => {
-    if(fontSize2 > 32){
+    if(fontSize2 > 48){
       return;
+    }
+    if(fontSize2 === 32){
+      boxWidth = 30;
+      setBoxSize(30);
     }
     if(fontSize2 === 22){
       boxWidth = 12;
@@ -338,33 +342,30 @@ const TranslateText = ({text}) => {
     setFontSize(fontSize + 2);
     fontSize2 += 2;
 
-    // console.log(fontSize);
   }
   
   const decreaseFontSize = () => {
     if(fontSize2 < 16){
       return;
     }
-    if(fontSize2 < 28){
-      boxWidth = 14;
-      setBoxSize(14);
+    if(fontSize2 === 40){
+      boxWidth = 30;
+      setBoxSize(30);
     }
 
-    if(fontSize2 >= 22){
+    if(fontSize2 === 30){
       boxWidth = 12;
       setBoxSize(12);
     }
-    if(fontSize2 >= 16){
-      boxWidth = 8;
-      setBoxSize(8);
-    }
-    else{
+
+    if(fontSize2 === 22){
       boxWidth = 10;
       setBoxSize(10);
     }
-    setFontSize(fontSize -2);
+
+    setFontSize(fontSize - 2);
     fontSize2 -= 2;
-    // console.log(fontSize);
+
   }
   // For google maps animation
   const observer = new IntersectionObserver((entries) => {
