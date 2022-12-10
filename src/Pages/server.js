@@ -7,7 +7,10 @@ import './hover.css';
 import './hover.css';
 import './scrollbar.css';
 
-const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
+const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
+const logo = new URL("../Resources/yellowLink.jpg", import.meta.url);
+
+
 
 const myStyle = {
   height: '100vh',
@@ -150,7 +153,7 @@ const Server = () => {
   const [total, setTotal] = useState(0.0);
 
   useEffect(() => {
-    axios('http://127.0.0.1:8000/manager/menu')
+    axios('https://revsgrill.up.railway.app/manager/menu')
       .then(res => setMenuTable(res.data))
       .catch(err => console.log(err))
   }, []);
@@ -185,6 +188,9 @@ const Server = () => {
   return (
     <div>
       <img src={picture} style={myStyle} alt='Kyle Field' />
+      <div style={{position: 'absolute', zIndex: '2'}}>
+      <a href='https://revsgrill.onrender.com/?#pills-login'><img src={logo} style={{marginLeft: '10px', height:'60px', width:'60px', borderRadius:'25%'}} alt='Go Home' /></a>
+    </div>
       <div style={glassPane}>
 
         <Card style={inventoryContainerStyle}>
@@ -219,7 +225,7 @@ const Server = () => {
 
 
             <Button style={{backgroundColor: 'rgba(80, 0, 0, .8)', color: 'white', width: '100%', marginTop: '5px'}} onClick={(event) => {
-              axios.post('http://127.0.0.1:8000/server/placeorder', createJSON()
+              axios.post('https://revsgrill.up.railway.app/server/placeorder', createJSON()
               ).then((res) => { setOrder([]); setTotal(0.00); }).catch(err => console.log(err));
             }}>Check Out</Button>
 

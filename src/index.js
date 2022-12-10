@@ -13,10 +13,10 @@ ReactDOM.render(
   <BrowserRouter>
     {/* <App /> */}
     <Routes>
-      <Route path="/" element={<GoogleOAuthProvider clientId={googleClientId}><App /></GoogleOAuthProvider>}/>
-      <Route path="manager" element={<Manager />}/>
-      <Route path="server" element={<Server />}/>
-      <Route path="customer" element={<Customer />}/>
+      <Route exact path="/" element={<GoogleOAuthProvider clientId={googleClientId}><App /></GoogleOAuthProvider>}/>
+      <Route path="/manager" element={<Manager />}/>
+      <Route path="/server" element={<Server />}/>
+      <Route path="/customer" element={<Customer />}/>
     </Routes>
   </BrowserRouter>,
   // <App />,
@@ -24,4 +24,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-
+  

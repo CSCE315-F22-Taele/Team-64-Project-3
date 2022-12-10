@@ -172,7 +172,7 @@ const App = () => {
  * @param key given value of manager side or server side
  */
   function createUser(username, password, key) {
-    axios.post('http://127.0.0.1:8000/login/user', {
+    axios.post('https://revsgrill.up.railway.app/login/user', {
       email: username,
       password: password,
       is_auth: false,
@@ -182,7 +182,7 @@ const App = () => {
       last_name: "None",
     }).then((res) => {
       if (res.data === "Added New User Successfully!") {
-        //navigateToCustomer();
+        navigateToLogin();
       } else {
         alert("Failed to create account.")
         //navigateToCustomer();
@@ -195,7 +195,7 @@ const App = () => {
 * @param password password  of the user inputted
 */
   function loginUser(username, password) {
-    axios.get('http://127.0.0.1:8000/login/user?email=' + username + '&pass=' + password).then((res) => {
+    axios.get('https://revsgrill.up.railway.app/login/user?email=' + username + '&pass=' + password).then((res) => {
       if (res.data === "Valid User") {
         navigateToCustomer();
       } else if (res.data === "Valid Manager") {
@@ -218,7 +218,7 @@ const App = () => {
         "Authorization": `Bearer ${accessToken}`
       }
     }).then((res) => {
-      axios.post('http://127.0.0.1:8000/login/user', {
+      axios.post('https://revsgrill.up.railway.app/login/user', {
         email: res.data.email,
         first_name: res.data.given_name,
         last_name: res.data.family_name,
@@ -279,7 +279,7 @@ const App = () => {
                   <div class="text-center mt-4">
                     <p><TranslateText text={'Sign in with:'}></TranslateText></p>
 
-                    <button type="button" class="btn btn-link btn-floating mx-1" id="googleButton" onClick={useGoogleLogin({
+                    <button type="button" aria-label="Sign in with Google" class="btn btn-link btn-floating mx-1" id="googleButton" onClick={useGoogleLogin({
                       onSuccess: tokenResponse => responseGoogle(tokenResponse),
                       // onFailure: navigateToCustomer()
                     })}>
@@ -293,14 +293,14 @@ const App = () => {
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginName"><TranslateText text={'Username'}></TranslateText></label>
-                    <input type="email" id="loginName" class="form-control" value={username} onChange={(event) =>
+                    <input type="email" id="loginName" class="form-control" style={{display:'flex', textAlign:'Center'}} value={username} onChange={(event) =>
                       setUsername(event.target.value)
                       } />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="loginPassword"><TranslateText text={'Password'}></TranslateText></label>
-                    <input type="password" id="loginPassword" class="form-control" value={password} onChange={(event) =>
+                    <input type="password" id="loginPassword" style={{display:'flex', textAlign:'Center'}} class="form-control" value={password} onChange={(event) =>
                       setPassword(event.target.value)} />
                   </div>
 
@@ -314,23 +314,16 @@ const App = () => {
                   <div class="text-center mt-4">
                     <p><TranslateText text={'Sign Up With:'}></TranslateText></p>
 
-                    <button type="button" class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-google"></i>
-                    </button>
                   </div>
-
-                  <p class="text-center mt-1"><TranslateText text={'Or'}></TranslateText></p>
-
-
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerUsername"><TranslateText text={'Username'}></TranslateText></label>
-                    <input type="email" id="registerUsername" class="form-control" value={username} onChange={(event) =>
+                    <input type="email" id="registerUsername" style={{display:'flex', textAlign:'Center'}} class="form-control" value={username} onChange={(event) =>
                       {setUsername(event.target.value)}} />
                   </div>
 
                   <div class="form-outline mb-1 mx-5">
                     <label class="form-label" for="registerPassword"><TranslateText text={'Password'}></TranslateText></label>
-                    <input type="password" id="registerPassword" class="form-control" value={password} onChange={(event) =>
+                    <input type="password" id="registerPassword" style={{display:'flex', textAlign:'Center'}} class="form-control" value={password} onChange={(event) =>
                       setPassword(event.target.value)} />
                   </div>
 

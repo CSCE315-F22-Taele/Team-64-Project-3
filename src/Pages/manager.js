@@ -8,7 +8,9 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 import axios from 'axios';
-const picture = new URL("../Resources/KyleField.jpg", import.meta.url)
+const picture = new URL("../Resources/KyleField.jpg", import.meta.url);
+const logo = new URL("../Resources/yellowLink.jpg", import.meta.url);
+
 
 //Style for the Kyle Field BG
 const backgroundStyle = {
@@ -252,14 +254,14 @@ const Manager = () => {
 
   var invID, invName, invCount, invCap, invCode;
 
-  var reportString = 'http://127.0.0.1:8000/manager/'+reportType+'?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"';
+  var reportString = 'https://revsgrill.up.railway.app/manager/'+reportType+'?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"';
 
   function updateMenu(){
-    axios.get('http://127.0.0.1:8000/manager/menu').then(res => setMenuTable(res.data));
+    axios.get('https://revsgrill.up.railway.app/manager/menu').then(res => setMenuTable(res.data));
   }
 
   function updateInventory(){
-    axios.get('http://127.0.0.1:8000/manager/inventory').then(res => setInventoryTable(res.data));
+    axios.get('https://revsgrill.up.railway.app/manager/inventory').then(res => setInventoryTable(res.data));
   }
 
   /**
@@ -267,7 +269,7 @@ const Manager = () => {
    */
 
   useEffect(() => {
-    axios('http://127.0.0.1:8000/manager/menu')
+    axios('https://revsgrill.up.railway.app/manager/menu')
       .then(res => setMenuTable(res.data))
       .catch(err => console.log(err))
   }, []);
@@ -277,7 +279,7 @@ const Manager = () => {
    */
 
   useEffect(() => {
-    axios('http://127.0.0.1:8000/manager/inventory')
+    axios('https://revsgrill.up.railway.app/manager/inventory')
       .then(res => setInventoryTable(res.data))
       .catch(err => console.log(err))
   }, []);
@@ -285,6 +287,9 @@ const Manager = () => {
   return (
     <div>
       <img src={picture} style={backgroundStyle} alt='Kyle Field'/>
+      <div style={{position: 'absolute', zIndex: '2'}}>
+      <a href='https://revsgrill.onrender.com/?#pills-login'><img src={logo} style={{marginLeft: '10px', height:'60px', width:'60px', borderRadius:'25%'}} alt='Go Home' /></a>
+    </div>
         <div style={glassPane}>
           <Card style={menuItemsStyle}>
             <Card.Body>
@@ -322,7 +327,7 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.post('http://127.0.0.1:8000/manager/menu', {
+                      axios.post('https://revsgrill.up.railway.app/manager/menu', {
                         menuitem: menuName,
                         price: menuPrice,
                         ingredients: menuIngs
@@ -362,7 +367,7 @@ const Manager = () => {
                   <Col style={{display: 'flex', justifyContent: 'right'}}>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.put('http://127.0.0.1:8000/manager/menu', {
+                      axios.put('https://revsgrill.up.railway.app/manager/menu', {
                         food_id: menuID,
                         menuitem: menuName,
                         price: menuPrice,
@@ -385,7 +390,7 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('http://127.0.0.1:8000/manager/menu/' + menuID).then((res) => updateMenu()).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/menu/' + menuID).then((res) => updateMenu()).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
@@ -508,7 +513,7 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.post('http://127.0.0.1:8000/manager/inventory', {
+                      axios.post('https://revsgrill.up.railway.app/manager/inventory', {
                         itemname: invName,
                         itemcount: invCount,
                         itemfcount: invCap,
@@ -555,7 +560,7 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.put('http://127.0.0.1:8000/manager/inventory', {
+                      axios.put('https://revsgrill.up.railway.app/manager/inventory', {
                         item_id: invID,
                         itemname: invName,
                         itemcount: invCount,
@@ -579,7 +584,7 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('http://127.0.0.1:8000/manager/inventory/' + invID).then((res) => updateInventory()).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/inventory/' + invID).then((res) => updateInventory()).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
