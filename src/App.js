@@ -121,11 +121,6 @@ const App = () => {
     navigate("/customer");
   }
 
-  const navigateToLogin = () => {
-    navigate("/?#pills-login")
-  }
-
-
   /**
    * @param event action event, the button that got pressed
    */
@@ -182,7 +177,7 @@ const App = () => {
       last_name: "None",
     }).then((res) => {
       if (res.data === "Added New User Successfully!") {
-        navigateToLogin();
+        window.location.reload(false);
       } else {
         alert("Failed to create account.")
         //navigateToCustomer();
