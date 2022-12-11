@@ -250,9 +250,36 @@ const Manager = () => {
   const [endTime, setEndTime] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  var menuID, menuName, menuPrice, menuIngs;
 
-  var invID, invName, invCount, invCap, invCode;
+  const [menuIDAdd, setMenuIDAdd] = useState("");
+  const [menuNameAdd, setMenuNameAdd] = useState("");
+  const [menuPriceAdd, setMenuPriceAdd] = useState("");
+  const [menuIngsAdd, setMenuIngsAdd] = useState("");
+
+  const [menuIDEdit, setMenuIDEdit] = useState("");
+  const [menuNameEdit, setMenuNameEdit] = useState("");
+  const [menuPriceEdit, setMenuPriceEdit] = useState("");
+  const [menuIngsEdit, setMenuIngsEdit] = useState("");
+
+  const [menuIDRemove, setMenuIDRemove] = useState("");
+
+  const [invIDAdd, setInvIDAdd] = useState("");
+  const [invNameAdd, setInvNameAdd] = useState("");
+  const [invCountAdd, setInvCountAdd] = useState("");
+  const [invCapAdd, setInvCapAdd] = useState("");
+  const [invCodeAdd, setInvCodeAdd] = useState("");
+
+  const [invIDEdit, setInvIDEdit] = useState("");
+  const [invNameEdit, setInvNameEdit] = useState("");
+  const [invCountEdit, setInvCountEdit] = useState("");
+  const [invCapEdit, setInvCapEdit] = useState("");
+  const [invCodeEdit, setInvCodeEdit] = useState("");
+
+
+  const [invIDRemove, setInvIDRemove] = useState("");
+  //var menuID, menuName, menuPrice, menuIngs;
+
+  //var invID, invName, invCount, invCap, invCode;
 
   var reportString = 'https://revsgrill.up.railway.app/manager/'+reportType+'?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"';
 
@@ -303,36 +330,35 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuID} onChange={(event) => menuID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuIDAdd} onChange={(event) => setMenuIDAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Item name:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuName} onChange={(event) => menuName=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuNameAdd} onChange={(event) => setMenuNameAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Price:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuPrice} onChange={(event) => menuPrice=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuPriceAdd} onChange={(event) => setMenuPriceAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Ingredients:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuIngs} onChange={(event) => menuIngs=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuIngsAdd} onChange={(event) => setMenuIngsAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('https://revsgrill.up.railway.app/manager/menu', {
-                        menuitem: menuName,
-                        price: menuPrice,
-                        ingredients: menuIngs
-                      }).then((res) => updateMenu()).catch(err => console.log(err));
-                      window.location.reload(false);
+                        menuitem: menuNameAdd,
+                        price: menuPriceAdd,
+                        ingredients: menuIngsAdd
+                      }).then((res) => {updateMenu(); setMenuIDAdd(""); setMenuIngsAdd(""); setMenuNameAdd(""); setMenuPriceAdd("")}).catch(err => console.log(err));
                       }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
@@ -343,37 +369,36 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroups" value={menuID} onChange={(event) => menuID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroups" value={menuIDEdit} onChange={(event) => setMenuIDEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Item name:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuName} onChange={(event) => menuName=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuNameEdit} onChange={(event) => setMenuNameEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Price:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuPrice} onChange={(event) => menuPrice=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuPriceEdit} onChange={(event) => setMenuPriceEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Ingredients:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuIngs} onChange={(event) => menuIngs=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuIngsEdit} onChange={(event) => setMenuIngsEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col style={{display: 'flex', justifyContent: 'right'}}>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('https://revsgrill.up.railway.app/manager/menu', {
-                        food_id: menuID,
-                        menuitem: menuName,
-                        price: menuPrice,
-                        ingredients: menuIngs
-                      }).then((res) => updateMenu()).catch(err => console.log(err));
-                      window.location.reload(false);
+                        food_id: menuIDEdit,
+                        menuitem: menuNameEdit,
+                        price: menuPriceEdit,
+                        ingredients: menuIngsEdit
+                      }).then((res) => {updateMenu(); setMenuIDEdit(""); setMenuIngsEdit(""); setMenuNameEdit(""); setMenuPriceEdit("");}).catch(err => console.log(err));
                       }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
@@ -384,13 +409,13 @@ const Manager = () => {
                   <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={menuID} onChange={(event) => menuID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={menuIDRemove} onChange={(event) => setMenuIDRemove(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('https://revsgrill.up.railway.app/manager/menu/' + menuID).then((res) => updateMenu()).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/menu/' + menuIDRemove).then((res) => {updateMenu(); setMenuIDRemove("");}).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
@@ -417,7 +442,7 @@ const Manager = () => {
                   <Col xs="100%">
                     <Form.Select aria-label="Default select example" style={{textAlign: 'center'}} 
                       value={reportType} 
-                      onChange={(event) => setReportType(event.target.value)}>
+                      onChange={(event) => {setReportType(event.target.value); setData([]);}}>
                           <option value={"salesreport"}>Sales Report</option>
                           <option value={"restockreport"}>Restock Report</option>
                           <option value={"excessreport"}>Excess Report</option>
@@ -453,7 +478,6 @@ const Manager = () => {
                     <button  className="mb-2" type="button" class="btn btn-outline-secondary"onClick={(event) => {
                       setLoading(true);
                       axios.get(reportString).then((res) => {
-                        console.log(res.data)
                         if(res.data === "Invalid date/time(s) provided."){
                           setLoading(false)
                         }
@@ -483,43 +507,42 @@ const Manager = () => {
               <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invIDAdd} onChange={(event) => setInvIDAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Name:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invName} onChange={(event) => invName=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invNameAdd} onChange={(event) => setInvNameAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Count:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCount} onChange={(event) => invCount=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCountAdd} onChange={(event) => setInvCountAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Cap:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCap} onChange={(event) => invCap=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCapAdd} onChange={(event) => setInvCapAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Code:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCode} onChange={(event) => invCode=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCodeAdd} onChange={(event) => setInvCodeAdd(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.post('https://revsgrill.up.railway.app/manager/inventory', {
-                        itemname: invName,
-                        itemcount: invCount,
-                        itemfcount: invCap,
-                        itemcode: invCode
-                      }).then((res) => updateInventory()).catch(err => console.log(err));
-                      window.location.reload(false);
+                        itemname: invNameAdd,
+                        itemcount: invCountAdd,
+                        itemfcount: invCapAdd,
+                        itemcode: invCodeAdd
+                      }).then((res) => {updateInventory(); setInvCapAdd(""); setInvCodeAdd(""); setInvCountAdd(""); setInvIDAdd(""); setInvNameAdd("")}).catch(err => console.log(err));
                       }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
@@ -530,44 +553,43 @@ const Manager = () => {
                   <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invIDEdit} onChange={(event) => setInvIDEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Name:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invName} onChange={(event) => invName=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invNameEdit} onChange={(event) => setInvNameEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Count:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCount} onChange={(event) => invCount=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCountEdit} onChange={(event) => setInvCountEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Cap:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCap} onChange={(event) => invCap=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCapEdit} onChange={(event) => setInvCapEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Code:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invCode} onChange={(event) => invCode=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invCodeEdit} onChange={(event) => setInvCodeEdit(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
                       axios.put('https://revsgrill.up.railway.app/manager/inventory', {
-                        item_id: invID,
-                        itemname: invName,
-                        itemcount: invCount,
-                        itemfcount: invCap,
-                        itemcode: invCode
-                      }).then((res) => updateInventory()).catch(err => console.log(err));
-                      window.location.reload(false);
+                        item_id: invIDEdit,
+                        itemname: invNameEdit,
+                        itemcount: invCountEdit,
+                        itemfcount: invCapEdit,
+                        itemcode: invCodeEdit
+                      }).then((res) => {updateInventory(); setInvCapEdit(""); setInvCodeEdit(""); setInvCountEdit(""); setInvIDEdit(""); setInvNameEdit("")}).catch(err => console.log(err));
                       }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
@@ -578,13 +600,13 @@ const Manager = () => {
                   <Col >
                     <InputGroup className="mb-2">
                       <InputGroup.Text ><small>Food ID:</small></InputGroup.Text>
-                      <Form.Control id="inlineFormInputGroup" value={invID} onChange={(event) => invID=event.target.value}/>
+                      <Form.Control id="inlineFormInputGroup" value={invIDRemove} onChange={(event) => setInvIDRemove(event.target.value)}/>
                     </InputGroup>
                   </Col>
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('https://revsgrill.up.railway.app/manager/inventory/' + invID).then((res) => updateInventory()).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/inventory/' + invIDRemove).then((res) => {updateInventory(); setInvIDRemove("")}).catch(err => console.log(err));
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
