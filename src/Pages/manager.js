@@ -277,9 +277,6 @@ const Manager = () => {
 
 
   const [invIDRemove, setInvIDRemove] = useState("");
-  //var menuID, menuName, menuPrice, menuIngs;
-
-  //var invID, invName, invCount, invCap, invCode;
 
   var reportString = 'https://revsgrill.up.railway.app/manager/'+reportType+'?start='+'"'+startTime+'"'+'&end='+'"'+endTime+'"';
 
@@ -358,7 +355,8 @@ const Manager = () => {
                         menuitem: menuNameAdd,
                         price: menuPriceAdd,
                         ingredients: menuIngsAdd
-                      }).then((res) => {updateMenu(); setMenuIDAdd(""); setMenuIngsAdd(""); setMenuNameAdd(""); setMenuPriceAdd("")}).catch(err => console.log(err));
+                      }).then((res) => {updateMenu(); setMenuIDAdd(""); setMenuIngsAdd(""); setMenuNameAdd(""); setMenuPriceAdd("")})
+                      .catch(err => {alert("Error processing request."); setMenuIDAdd(""); setMenuIngsAdd(""); setMenuNameAdd(""); setMenuPriceAdd("")});
                       }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
@@ -398,7 +396,8 @@ const Manager = () => {
                         menuitem: menuNameEdit,
                         price: menuPriceEdit,
                         ingredients: menuIngsEdit
-                      }).then((res) => {updateMenu(); setMenuIDEdit(""); setMenuIngsEdit(""); setMenuNameEdit(""); setMenuPriceEdit("");}).catch(err => console.log(err));
+                      }).then((res) => {updateMenu(); setMenuIDEdit(""); setMenuIngsEdit(""); setMenuNameEdit(""); setMenuPriceEdit("");})
+                      .catch(err => {alert("Error processing request."); setMenuIDEdit(""); setMenuIngsEdit(""); setMenuNameEdit(""); setMenuPriceEdit("");});
                       }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
@@ -415,7 +414,8 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('https://revsgrill.up.railway.app/manager/menu/' + menuIDRemove).then((res) => {updateMenu(); setMenuIDRemove("");}).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/menu/' + menuIDRemove).then((res) => {updateMenu(); setMenuIDRemove("");})
+                      .catch(err => {alert("Error processing request."); setMenuIDRemove("");});
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
@@ -542,7 +542,8 @@ const Manager = () => {
                         itemcount: invCountAdd,
                         itemfcount: invCapAdd,
                         itemcode: invCodeAdd
-                      }).then((res) => {updateInventory(); setInvCapAdd(""); setInvCodeAdd(""); setInvCountAdd(""); setInvIDAdd(""); setInvNameAdd("")}).catch(err => console.log(err));
+                      }).then((res) => {updateInventory(); setInvCapAdd(""); setInvCodeAdd(""); setInvCountAdd(""); setInvIDAdd(""); setInvNameAdd("")})
+                      .catch(err => {alert("Error processing request."); setInvCapAdd(""); setInvCodeAdd(""); setInvCountAdd(""); setInvIDAdd(""); setInvNameAdd("")});
                       }}><small>Add item</small></button>
                     </InputGroup>
                   </Col>
@@ -589,7 +590,8 @@ const Manager = () => {
                         itemcount: invCountEdit,
                         itemfcount: invCapEdit,
                         itemcode: invCodeEdit
-                      }).then((res) => {updateInventory(); setInvCapEdit(""); setInvCodeEdit(""); setInvCountEdit(""); setInvIDEdit(""); setInvNameEdit("")}).catch(err => console.log(err));
+                      }).then((res) => {updateInventory(); setInvCapEdit(""); setInvCodeEdit(""); setInvCountEdit(""); setInvIDEdit(""); setInvNameEdit("")})
+                      .catch(err => {alert("Error processing request."); setInvCapEdit(""); setInvCodeEdit(""); setInvCountEdit(""); setInvIDEdit(""); setInvNameEdit("")});
                       }}><small>Edit Item</small></button>
                     </InputGroup>
                   </Col>
@@ -606,7 +608,8 @@ const Manager = () => {
                   <Col>
                     <InputGroup className="mb-2">
                       <button type="button" class="btn btn-outline-secondary" onClick={(event) => {
-                      axios.delete('https://revsgrill.up.railway.app/manager/inventory/' + invIDRemove).then((res) => {updateInventory(); setInvIDRemove("")}).catch(err => console.log(err));
+                      axios.delete('https://revsgrill.up.railway.app/manager/inventory/' + invIDRemove).then((res) => {updateInventory(); setInvIDRemove("")})
+                      .catch(err => {alert("Error processing request."); setInvIDRemove("")});
                       }}><small>Remove item</small></button>
                     </InputGroup>
                   </Col>
